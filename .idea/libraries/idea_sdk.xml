@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="idea-sdk">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/annotations.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/util.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

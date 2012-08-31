@@ -1,0 +1,14 @@
+Some parts of library from
+
+   =========================================================================
+   ==  NOTICE file corresponding to the section 4 d of                    ==
+   ==  the Apache License, Version 2.0,                                   ==
+   ==  in this case for the Kotlin Compiler distribution.                 ==
+   =========================================================================
+
+   Kotlin Compiler
+   Copyright 2010-2012 JetBrains s.r.o and respective authors and developers
+
+annotations.jar/util.jar is from Intellij IDEA Community Edition build
+
+base source from object-web asm
