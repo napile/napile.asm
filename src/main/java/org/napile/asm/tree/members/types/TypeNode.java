@@ -16,13 +16,41 @@
 
 package org.napile.asm.tree.members.types;
 
-import org.napile.asm.tree.members.AsmNode;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.napile.asm.tree.members.AnnotableNode;
+import org.napile.asmNew.visitors.AsmVisitor;
 
 /**
  * @author VISTALL
  * @date 0:18/14.08.12
  */
-public interface TypeNode extends AsmNode
+public class TypeNode extends AnnotableNode<TypeNode>
 {
-	boolean isNullable();
+	public final boolean nullable;
+	@NotNull
+	public final TypeConstructorNode typeConstructorNode;
+
+	public List<TypeNode> arguments = new ArrayList<TypeNode>(0);
+
+	public TypeNode(boolean nullable, @NotNull TypeConstructorNode typeConstructorNode)
+	{
+		this.nullable = nullable;
+		this.typeConstructorNode = typeConstructorNode;
+	}
+
+	@NotNull
+	public TypeNode visitArgument(@NotNull TypeNode typeNode)
+	{
+		arguments.add(typeNode);
+		return this;
+	}
+
+	@Override
+	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
+	{
+		visitor.visitTypeNode(this, arg);
+	}
 }

@@ -35,10 +35,6 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.AnnotationVisitor;
 import org.napile.asm.Attribute;
-import org.napile.asm.FieldVisitor;
-import org.napile.asm.MethodVisitor;
-import org.napile.asm.Opcodes;
-import org.napile.asm.tree.InnerClassNode;
 import org.napile.asm.tree.OldAnnotationNode;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asmNew.Modifier;
@@ -51,31 +47,13 @@ import org.napile.compiler.lang.resolve.name.FqName;
  * @author Eric Bruneton
  * @author VISTALL
  */
-public class ClassNode implements AsmNode
+public class ClassNode extends AbstractMemberNode<ClassNode>
 {
-	/**
-	 * The class's access flags (see {@link org.napile.asm.Opcodes}). This
-	 * field also indicates if the class is deprecated.
-	 */
-	@NotNull
-	public Modifier[] modifiers = Modifier.EMPTY;
-
 	/**
 	 * The internal name of the class (see
 	 * {@link org.napile.asm.Type#getInternalName() getInternalName}).
 	 */
-	public FqName name;
-
-	/**
-	 * The signature of the class. Mayt be <tt>null</tt>.
-	 */
-	public String signature;
-
-	/**
-	 * The internal of name of the super classes
-	 */
-	@NotNull
-	public final List<ClassTypeNode> supers = new ArrayList<ClassTypeNode>(1);
+	public final FqName name;
 
 	/**
 	 * The name of the source file from which this class was compiled. May be
@@ -133,55 +111,33 @@ public class ClassNode implements AsmNode
 	 */
 	public List<Attribute> attrs;
 
-	/**
-	 * Informations about the inner classes of this class. This list is a list
-	 * of {@link org.napile.asm.tree.InnerClassNode} objects.
-	 *
-	 * @associates InnerClassNode
-	 */
-	public final List<InnerClassNode> innerClasses = new ArrayList<InnerClassNode>(0);
+	@NotNull
+	public List<AbstractMemberNode> members = new ArrayList<AbstractMemberNode>();
 
-	/**
-	 * The fields of this class. This list is a list of {@link org.napile.asm.tree.members.FieldNode}
-	 * objects.
-	 *
-	 * @associates FieldNode
-	 */
-	public final List<FieldNode> fields = new ArrayList<FieldNode>(0);
+	@NotNull
+	public final List<ClassTypeNode> supers = new ArrayList<ClassTypeNode>(1);
 
-	/**
-	 * The methods of this class. This list is a list of {@link org.napile.asm.tree.members.MethodNode}
-	 * objects.
-	 *
-	 * @associates MethodNode
-	 */
-	public final List<MethodNode> methods = new ArrayList<MethodNode>(0);
-
-	/**
-	 * Constructs a new {@link ClassNode}. <i>Subclasses must not use this
-	 * constructor</i>. Instead, they must use the {@link #ClassNode(int)}
-	 * version.
-	 */
-	public ClassNode()
+	public ClassNode(@NotNull Modifier[] modifiers, @NotNull FqName fqName)
 	{
-		//
+		super(modifiers);
+
+		this.name = fqName;
 	}
 
-	public void visit(@NotNull final Modifier[] access, @NotNull final String name, final String signature)
+	public ClassNode visitSuper(@NotNull String s)
 	{
-		visit(access, new FqName(name), signature);
+		return visitSuper(new ClassTypeNode(new FqName(s)));
 	}
 
-	public void visit(@NotNull final Modifier[] access, @NotNull final FqName name, final String signature)
+	public ClassNode visitSuper(@NotNull FqName fqName)
 	{
-		this.modifiers = access;
-		this.name = name;
-		this.signature = signature;
+		return visitSuper(new ClassTypeNode(fqName));
 	}
 
-	public void visitSuper(@NotNull ClassTypeNode typeNode)
+	public ClassNode visitSuper(@NotNull ClassTypeNode typeNode)
 	{
 		supers.add(typeNode);
+		return this;
 	}
 
 	public void visitSource(final String file, final String debug)
@@ -228,26 +184,6 @@ public class ClassNode implements AsmNode
 		attrs.add(attr);
 	}
 
-	public void visitInnerClass(final String name, final String outerName, final String innerName, final int access)
-	{
-		InnerClassNode icn = new InnerClassNode(name, outerName, innerName, access);
-		innerClasses.add(icn);
-	}
-
-	public FieldVisitor visitField(final int access, final String name, final String desc, final String signature, final Object value)
-	{
-		FieldNode fn = new FieldNode(access, name, desc, signature, value);
-		fields.add(fn);
-		return fn;
-	}
-
-	public MethodVisitor visitMethod(final int access, final String name, final String desc, final String signature, final String[] exceptions)
-	{
-		MethodNode mn = new MethodNode(access, name, desc, signature, exceptions);
-		methods.add(mn);
-		return mn;
-	}
-
 	public void visitEnd()
 	{
 	}
@@ -255,19 +191,6 @@ public class ClassNode implements AsmNode
 	// ------------------------------------------------------------------------
 	// Accept method
 	// ------------------------------------------------------------------------
-
-	/**
-	 * Checks that this class node is compatible with the given ASM API version.
-	 * This methods checks that this node, and all its nodes recursively, do not
-	 * contain elements that were introduced in more recent versions of the ASM
-	 * API than the given version.
-	 *
-	 * @param api an ASM API version. Must be one of {@link Opcodes#ASM4}.
-	 */
-	public void check(final int api)
-	{
-		// nothing to do
-	}
 
 	@Override
 	public <T> void accept(@org.jetbrains.annotations.NotNull final AsmVisitor<T> asmVisitor, T a2)

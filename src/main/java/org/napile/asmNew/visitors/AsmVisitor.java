@@ -18,7 +18,12 @@ package org.napile.asmNew.visitors;
 
 import org.napile.asm.tree.members.AnnotationNode;
 import org.napile.asm.tree.members.ClassNode;
+import org.napile.asm.tree.members.MethodNode;
+import org.napile.asm.tree.members.MethodParameterNode;
+import org.napile.asm.tree.members.TypeParameterNode;
 import org.napile.asm.tree.members.types.ClassTypeNode;
+import org.napile.asm.tree.members.types.ThisTypeNode;
+import org.napile.asm.tree.members.types.TypeNode;
 
 /**
  * @author VISTALL
@@ -30,5 +35,15 @@ public interface AsmVisitor<A2>
 
 	void visitClassNode(ClassNode classNode, A2 a2);
 
+	void visitMethodNode(MethodNode methodNode, A2 a2);
+
+	void visitMethodParameterNode(MethodParameterNode methodParameterNode, A2 a2);
+
+	void visitTypeParameter(TypeParameterNode typeParameterNode, A2 a2);
+
+	void visitTypeNode(TypeNode typeNode, A2 a2);
+
 	void visitClassTypeNode(ClassTypeNode classTypeNode, A2 a2);
+
+	void visitThisTypeNode(ThisTypeNode thisTypeNode, A2 a2);
 }

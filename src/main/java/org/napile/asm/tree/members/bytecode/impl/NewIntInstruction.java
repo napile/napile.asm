@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 JetBrains s.r.o.
+ * Copyright 2010-2012 napile.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,27 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members;
+package org.napile.asm.tree.members.bytecode.impl;
 
-import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.visitors.AsmVisitor;
-import org.napile.compiler.lang.resolve.name.FqName;
+import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 
 /**
  * @author VISTALL
- * @date 0:25/14.08.12
+ * @date 22:28/31.08.12
  */
-public class AnnotationNode implements Node
+public class NewIntInstruction implements Instruction
 {
-	private final FqName name;
+	public final int value;
 
-	public AnnotationNode(@NotNull FqName name)
+	public NewIntInstruction(int value)
 	{
-		this.name = name;
+		this.value = value;
 	}
 
 	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
+	public <T> void accept(InstructionVisitor<T> visitor, T a2)
 	{
-		visitor.visitAnnotationNode(this, arg);
-	}
-
-	public FqName getName()
-	{
-		return name;
+		visitor.visitNewInt(this, a2);
 	}
 }

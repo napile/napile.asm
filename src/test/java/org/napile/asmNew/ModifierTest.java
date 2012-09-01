@@ -14,33 +14,19 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members;
+package org.napile.asmNew;
 
-import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.visitors.AsmVisitor;
-import org.napile.compiler.lang.resolve.name.FqName;
+import org.junit.Test;
 
 /**
  * @author VISTALL
- * @date 0:25/14.08.12
+ * @date 23:17/13.08.12
  */
-public class AnnotationNode implements Node
+public class ModifierTest
 {
-	private final FqName name;
-
-	public AnnotationNode(@NotNull FqName name)
+	@Test(expected = IllegalArgumentException.class)
+	public void test()
 	{
-		this.name = name;
-	}
-
-	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
-	{
-		visitor.visitAnnotationNode(this, arg);
-	}
-
-	public FqName getName()
-	{
-		return name;
+		Modifier.list(Modifier.ABSTRACT, Modifier.COVERED, Modifier.HERITABLE);
 	}
 }

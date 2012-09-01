@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 JetBrains s.r.o.
+ * Copyright 2010-2012 napile.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,29 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members;
+package org.napile.asm.tree.members.bytecode;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.visitors.AsmVisitor;
+import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.compiler.lang.resolve.name.FqName;
 
 /**
  * @author VISTALL
- * @date 0:25/14.08.12
+ * @date 22:17/31.08.12
  */
-public class AnnotationNode implements Node
+public class MethodRef
 {
-	private final FqName name;
+	public final FqName method;
+	public final TypeNode returnType;
+	public final List<TypeNode> parameters;
 
-	public AnnotationNode(@NotNull FqName name)
+	public MethodRef(@NotNull FqName method, @NotNull List<TypeNode> parameters, TypeNode returnType)
 	{
-		this.name = name;
-	}
-
-	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
-	{
-		visitor.visitAnnotationNode(this, arg);
-	}
-
-	public FqName getName()
-	{
-		return name;
+		this.method = method;
+		this.returnType = returnType;
+		this.parameters = Collections.unmodifiableList(parameters);
 	}
 }

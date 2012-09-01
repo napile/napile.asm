@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 JetBrains s.r.o.
+ * Copyright 2010-2012 napile.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,14 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members;
+package org.napile.asm.tree.members.types;
 
-import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.visitors.AsmVisitor;
-import org.napile.compiler.lang.resolve.name.FqName;
+import org.napile.asm.tree.members.Node;
 
 /**
  * @author VISTALL
- * @date 0:25/14.08.12
+ * @date 19:08/31.08.12
  */
-public class AnnotationNode implements Node
+public interface TypeConstructorNode extends Node
 {
-	private final FqName name;
-
-	public AnnotationNode(@NotNull FqName name)
-	{
-		this.name = name;
-	}
-
-	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
-	{
-		visitor.visitAnnotationNode(this, arg);
-	}
-
-	public FqName getName()
-	{
-		return name;
-	}
 }

@@ -31,72 +31,51 @@
 package org.napile.asm.tree.members;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
 import org.napile.asm.AnnotationVisitor;
 import org.napile.asm.Attribute;
-import org.napile.asm.ClassVisitor;
 import org.napile.asm.Handle;
 import org.napile.asm.Label;
 import org.napile.asm.MethodVisitor;
 import org.napile.asm.Opcodes;
 import org.napile.asm.Type;
 import org.napile.asm.tree.*;
+import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.types.TypeNode;
+import org.napile.asmNew.Modifier;
+import org.napile.asmNew.visitors.AsmVisitor;
+import com.intellij.util.ArrayUtil;
 
 /**
  * A node that represents a method.
  *
  * @author Eric Bruneton
  */
-public class MethodNode extends MethodVisitor
+public class MethodNode extends AbstractMemberNode<MethodNode>
 {
-
-	/**
-	 * The method's access flags (see {@link org.napile.asm.Opcodes}). This field also
-	 * indicates if the method is synthetic and/or deprecated.
-	 */
-	public int access;
-
 	/**
 	 * The method's name.
 	 */
 	public String name;
 
 	/**
-	 * The method's descriptor (see {@link Type}).
+	 * Return type of method
 	 */
-	public String desc;
+	public TypeNode returnType;
 
 	/**
-	 * The method's signature. May be <tt>null</tt>.
+	 * Parameters of method
 	 */
-	public String signature;
+	@NotNull
+	public List<MethodParameterNode> parameters = new ArrayList<MethodParameterNode>(0);
 
 	/**
-	 * The internal names of the method's exception classes (see
-	 * {@link Type#getInternalName() getInternalName}). This list is a list of
-	 * {@link String} objects.
+	 * Code instruction
 	 */
-	public List<String> exceptions;
-
-	/**
-	 * The runtime visible annotations of this method. This list is a list of
-	 * {@link org.napile.asm.tree.OldAnnotationNode} objects. May be <tt>null</tt>.
-	 *
-	 * @associates OldAnnotationNode
-	 * @label visible
-	 */
-	public List<OldAnnotationNode> visibleAnnotations;
-
-	/**
-	 * The runtime invisible annotations of this method. This list is a list of
-	 * {@link org.napile.asm.tree.OldAnnotationNode} objects. May be <tt>null</tt>.
-	 *
-	 * @associates OldAnnotationNode
-	 * @label invisible
-	 */
-	public List<OldAnnotationNode> invisibleAnnotations;
+	@NotNull
+	public List<Instruction> instructions = new ArrayList<Instruction>(0);
 
 	/**
 	 * The non standard attributes of this method. This list is a list of
@@ -116,23 +95,6 @@ public class MethodNode extends MethodVisitor
 	 */
 	public Object annotationDefault;
 
-	/**
-	 * The runtime visible parameter annotations of this method. These lists are
-	 * lists of {@link org.napile.asm.tree.OldAnnotationNode} objects. May be <tt>null</tt>.
-	 *
-	 * @associates OldAnnotationNode
-	 * @label invisible parameters
-	 */
-	public List<OldAnnotationNode>[] visibleParameterAnnotations;
-
-	/**
-	 * The runtime invisible parameter annotations of this method. These lists
-	 * are lists of {@link org.napile.asm.tree.OldAnnotationNode} objects. May be <tt>null</tt>.
-	 *
-	 * @associates OldAnnotationNode
-	 * @label visible parameters
-	 */
-	public List<OldAnnotationNode>[] invisibleParameterAnnotations;
 
 	/**
 	 * The instructions of this method. This list is a list of
@@ -141,7 +103,7 @@ public class MethodNode extends MethodVisitor
 	 * @associates AbstractInsnNode
 	 * @label instructions
 	 */
-	public InsnList instructions;
+	public InsnList instructions0;
 
 	/**
 	 * The try catch blocks of this method. This list is a list of
@@ -175,88 +137,26 @@ public class MethodNode extends MethodVisitor
 	private boolean visited;
 
 	/**
-	 * Constructs an uninitialized {@link MethodNode}. <i>Subclasses must not
-	 * use this constructor</i>. Instead, they must use the
-	 * {@link #MethodNode(int)} version.
-	 */
-	public MethodNode()
-	{
-		this(Opcodes.ASM4);
-	}
-
-	/**
-	 * Constructs an uninitialized {@link MethodNode}.
-	 *
-	 * @param api the ASM API version implemented by this visitor. Must be one
-	 *            of {@link Opcodes#ASM4}.
-	 */
-	public MethodNode(final int api)
-	{
-		super(api);
-		this.instructions = new InsnList();
-	}
-
-	/**
-	 * Constructs a new {@link MethodNode}. <i>Subclasses must not use this
-	 * constructor</i>. Instead, they must use the
-	 * {@link #MethodNode(int, int, String, String, String, String[])} version.
-	 *
-	 * @param access     the method's access flags (see {@link Opcodes}). This
-	 *                   parameter also indicates if the method is synthetic and/or
-	 *                   deprecated.
-	 * @param name       the method's name.
-	 * @param desc       the method's descriptor (see {@link Type}).
-	 * @param signature  the method's signature. May be <tt>null</tt>.
-	 * @param exceptions the internal names of the method's exception classes
-	 *                   (see {@link Type#getInternalName() getInternalName}). May be
-	 *                   <tt>null</tt>.
-	 */
-	public MethodNode(final int access, final String name, final String desc, final String signature, final String[] exceptions)
-	{
-		this(Opcodes.ASM4, access, name, desc, signature, exceptions);
-	}
-
-	/**
 	 * Constructs a new {@link MethodNode}.
 	 *
-	 * @param api        the ASM API version implemented by this visitor. Must be one
-	 *                   of {@link Opcodes#ASM4}.
-	 * @param access     the method's access flags (see {@link Opcodes}). This
-	 *                   parameter also indicates if the method is synthetic and/or
-	 *                   deprecated.
-	 * @param name       the method's name.
-	 * @param desc       the method's descriptor (see {@link Type}).
-	 * @param signature  the method's signature. May be <tt>null</tt>.
-	 * @param exceptions the internal names of the method's exception classes
-	 *                   (see {@link Type#getInternalName() getInternalName}). May be
-	 *                   <tt>null</tt>.
+	 * @param name       the method's nam
+	 *  (see {@link org.napile.asm.Type#getInternalName() getInternalName}). May be
 	 */
-	public MethodNode(final int api, final int access, final String name, final String desc, final String signature, final String[] exceptions)
+	public MethodNode(@NotNull final Modifier[] modifiers, @NotNull String name)
 	{
-		super(api);
-		this.access = access;
+		super(modifiers);
 		this.name = name;
-		this.desc = desc;
-		this.signature = signature;
-		this.exceptions = new ArrayList<String>(exceptions == null ? 0 : exceptions.length);
-		boolean isAbstract = (access & Opcodes.ACC_ABSTRACT) != 0;
-		if(!isAbstract)
-		{
+
+		if(!ArrayUtil.contains(modifiers, Modifier.ABSTRACT))
 			this.localVariables = new ArrayList<LocalVariableNode>(5);
-		}
 		this.tryCatchBlocks = new ArrayList<TryCatchBlockNode>();
-		if(exceptions != null)
-		{
-			this.exceptions.addAll(Arrays.asList(exceptions));
-		}
-		this.instructions = new InsnList();
+
+		this.instructions0 = new InsnList();
 	}
 
 	// ------------------------------------------------------------------------
 	// Implementation of the MethodVisitor abstract class
 	// ------------------------------------------------------------------------
-
-	@Override
 	public AnnotationVisitor visitAnnotationDefault()
 	{
 		return new OldAnnotationNode(new ArrayList<Object>(0)
@@ -270,63 +170,6 @@ public class MethodNode extends MethodVisitor
 		});
 	}
 
-	@Override
-	public AnnotationVisitor visitAnnotation(final String desc, final boolean visible)
-	{
-		OldAnnotationNode an = new OldAnnotationNode(desc);
-		if(visible)
-		{
-			if(visibleAnnotations == null)
-			{
-				visibleAnnotations = new ArrayList<OldAnnotationNode>(1);
-			}
-			visibleAnnotations.add(an);
-		}
-		else
-		{
-			if(invisibleAnnotations == null)
-			{
-				invisibleAnnotations = new ArrayList<OldAnnotationNode>(1);
-			}
-			invisibleAnnotations.add(an);
-		}
-		return an;
-	}
-
-	@Override
-	public AnnotationVisitor visitParameterAnnotation(final int parameter, final String desc, final boolean visible)
-	{
-		OldAnnotationNode an = new OldAnnotationNode(desc);
-		if(visible)
-		{
-			if(visibleParameterAnnotations == null)
-			{
-				int params = Type.getArgumentTypes(this.desc).length;
-				visibleParameterAnnotations = (List<OldAnnotationNode>[]) new List<?>[params];
-			}
-			if(visibleParameterAnnotations[parameter] == null)
-			{
-				visibleParameterAnnotations[parameter] = new ArrayList<OldAnnotationNode>(1);
-			}
-			visibleParameterAnnotations[parameter].add(an);
-		}
-		else
-		{
-			if(invisibleParameterAnnotations == null)
-			{
-				int params = Type.getArgumentTypes(this.desc).length;
-				invisibleParameterAnnotations = (List<OldAnnotationNode>[]) new List<?>[params];
-			}
-			if(invisibleParameterAnnotations[parameter] == null)
-			{
-				invisibleParameterAnnotations[parameter] = new ArrayList<OldAnnotationNode>(1);
-			}
-			invisibleParameterAnnotations[parameter].add(an);
-		}
-		return an;
-	}
-
-	@Override
 	public void visitAttribute(final Attribute attr)
 	{
 		if(attrs == null)
@@ -336,127 +179,106 @@ public class MethodNode extends MethodVisitor
 		attrs.add(attr);
 	}
 
-	@Override
 	public void visitCode()
 	{
 	}
 
-	@Override
 	public void visitFrame(final int type, final int nLocal, final Object[] local, final int nStack, final Object[] stack)
 	{
-		instructions.add(new FrameNode(type, nLocal, local == null ? null : getLabelNodes(local), nStack, stack == null ? null : getLabelNodes(stack)));
+		instructions0.add(new FrameNode(type, nLocal, local == null ? null : getLabelNodes(local), nStack, stack == null ? null : getLabelNodes(stack)));
 	}
 
-	@Override
 	public void visitInsn(final int opcode)
 	{
-		instructions.add(new InsnNode(opcode));
+		instructions0.add(new InsnNode(opcode));
 	}
 
-	@Override
 	public void visitIntInsn(final int opcode, final int operand)
 	{
-		instructions.add(new IntInsnNode(opcode, operand));
+		instructions0.add(new IntInsnNode(opcode, operand));
 	}
 
-	@Override
 	public void visitVarInsn(final int opcode, final int var)
 	{
-		instructions.add(new VarInsnNode(opcode, var));
+		instructions0.add(new VarInsnNode(opcode, var));
 	}
 
-	@Override
 	public void visitTypeInsn(final int opcode, final String type)
 	{
-		instructions.add(new TypeInsnNode(opcode, type));
+		instructions0.add(new TypeInsnNode(opcode, type));
 	}
 
-	@Override
 	public void visitFieldInsn(final int opcode, final String owner, final String name, final String desc)
 	{
-		instructions.add(new FieldInsnNode(opcode, owner, name, desc));
+		instructions0.add(new FieldInsnNode(opcode, owner, name, desc));
 	}
 
-	@Override
 	public void visitMethodInsn(final int opcode, final String owner, final String name, final String desc)
 	{
-		instructions.add(new MethodInsnNode(opcode, owner, name, desc));
+		instructions0.add(new MethodInsnNode(opcode, owner, name, desc));
 	}
 
-	@Override
 	public void visitInvokeDynamicInsn(String name, String desc, Handle bsm, Object... bsmArgs)
 	{
-		instructions.add(new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs));
+		instructions0.add(new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs));
 	}
 
-	@Override
 	public void visitJumpInsn(final int opcode, final Label label)
 	{
-		instructions.add(new JumpInsnNode(opcode, getLabelNode(label)));
+		instructions0.add(new JumpInsnNode(opcode, getLabelNode(label)));
 	}
 
-	@Override
 	public void visitLabel(final Label label)
 	{
-		instructions.add(getLabelNode(label));
+		instructions0.add(getLabelNode(label));
 	}
 
-	@Override
 	public void visitLdcInsn(final Object cst)
 	{
-		instructions.add(new LdcInsnNode(cst));
+		instructions0.add(new LdcInsnNode(cst));
 	}
 
-	@Override
 	public void visitIincInsn(final int var, final int increment)
 	{
-		instructions.add(new IincInsnNode(var, increment));
+		instructions0.add(new IincInsnNode(var, increment));
 	}
 
-	@Override
 	public void visitTableSwitchInsn(final int min, final int max, final Label dflt, final Label... labels)
 	{
-		instructions.add(new TableSwitchInsnNode(min, max, getLabelNode(dflt), getLabelNodes(labels)));
+		instructions0.add(new TableSwitchInsnNode(min, max, getLabelNode(dflt), getLabelNodes(labels)));
 	}
 
-	@Override
 	public void visitLookupSwitchInsn(final Label dflt, final int[] keys, final Label[] labels)
 	{
-		instructions.add(new LookupSwitchInsnNode(getLabelNode(dflt), keys, getLabelNodes(labels)));
+		instructions0.add(new LookupSwitchInsnNode(getLabelNode(dflt), keys, getLabelNodes(labels)));
 	}
 
-	@Override
 	public void visitMultiANewArrayInsn(final String desc, final int dims)
 	{
-		instructions.add(new MultiANewArrayInsnNode(desc, dims));
+		instructions0.add(new MultiANewArrayInsnNode(desc, dims));
 	}
 
-	@Override
 	public void visitTryCatchBlock(final Label start, final Label end, final Label handler, final String type)
 	{
 		tryCatchBlocks.add(new TryCatchBlockNode(getLabelNode(start), getLabelNode(end), getLabelNode(handler), type));
 	}
 
-	@Override
 	public void visitLocalVariable(final String name, final String desc, final String signature, final Label start, final Label end, final int index)
 	{
 		localVariables.add(new LocalVariableNode(name, desc, signature, getLabelNode(start), getLabelNode(end), index));
 	}
 
-	@Override
 	public void visitLineNumber(final int line, final Label start)
 	{
-		instructions.add(new LineNumberNode(line, getLabelNode(start)));
+		instructions0.add(new LineNumberNode(line, getLabelNode(start)));
 	}
 
-	@Override
 	public void visitMaxs(final int maxStack, final int maxLocals)
 	{
 		this.maxStack = maxStack;
 		this.maxLocals = maxLocals;
 	}
 
-	@Override
 	public void visitEnd()
 	{
 	}
@@ -521,21 +343,6 @@ public class MethodNode extends MethodVisitor
 		// nothing to do
 	}
 
-	/**
-	 * Makes the given class visitor visit this method.
-	 *
-	 * @param cv a class visitor.
-	 */
-	public void accept(final ClassVisitor cv)
-	{
-		String[] exceptions = new String[this.exceptions.size()];
-		this.exceptions.toArray(exceptions);
-		MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-		if(mv != null)
-		{
-			accept(mv);
-		}
-	}
 
 	/**
 	 * Makes the given method visitor visit this method.
@@ -555,49 +362,10 @@ public class MethodNode extends MethodVisitor
 				av.visitEnd();
 			}
 		}
-		n = visibleAnnotations == null ? 0 : visibleAnnotations.size();
-		for(i = 0; i < n; ++i)
-		{
-			OldAnnotationNode an = visibleAnnotations.get(i);
-			an.accept(mv.visitAnnotation(an.desc, true));
-		}
-		n = invisibleAnnotations == null ? 0 : invisibleAnnotations.size();
-		for(i = 0; i < n; ++i)
-		{
-			OldAnnotationNode an = invisibleAnnotations.get(i);
-			an.accept(mv.visitAnnotation(an.desc, false));
-		}
-		n = visibleParameterAnnotations == null ? 0 : visibleParameterAnnotations.length;
-		for(i = 0; i < n; ++i)
-		{
-			List<?> l = visibleParameterAnnotations[i];
-			if(l == null)
-			{
-				continue;
-			}
-			for(j = 0; j < l.size(); ++j)
-			{
-				OldAnnotationNode an = (OldAnnotationNode) l.get(j);
-				an.accept(mv.visitParameterAnnotation(i, an.desc, true));
-			}
-		}
-		n = invisibleParameterAnnotations == null ? 0 : invisibleParameterAnnotations.length;
-		for(i = 0; i < n; ++i)
-		{
-			List<?> l = invisibleParameterAnnotations[i];
-			if(l == null)
-			{
-				continue;
-			}
-			for(j = 0; j < l.size(); ++j)
-			{
-				OldAnnotationNode an = (OldAnnotationNode) l.get(j);
-				an.accept(mv.visitParameterAnnotation(i, an.desc, false));
-			}
-		}
+
 		if(visited)
 		{
-			instructions.resetLabels();
+			instructions0.resetLabels();
 		}
 		n = attrs == null ? 0 : attrs.size();
 		for(i = 0; i < n; ++i)
@@ -605,7 +373,7 @@ public class MethodNode extends MethodVisitor
 			mv.visitAttribute(attrs.get(i));
 		}
 		// visits the method's code
-		if(instructions.size() > 0)
+		if(instructions0.size() > 0)
 		{
 			mv.visitCode();
 			// visits try catch blocks
@@ -615,7 +383,7 @@ public class MethodNode extends MethodVisitor
 				tryCatchBlocks.get(i).accept(mv);
 			}
 			// visits instructions
-			instructions.accept(mv);
+			instructions0.accept(mv);
 			// visits local variables
 			n = localVariables == null ? 0 : localVariables.size();
 			for(i = 0; i < n; ++i)
@@ -627,5 +395,11 @@ public class MethodNode extends MethodVisitor
 			visited = true;
 		}
 		mv.visitEnd();
+	}
+
+	@Override
+	public <T> void accept(@org.jetbrains.annotations.NotNull final AsmVisitor<T> asmVisitor, T a2)
+	{
+		asmVisitor.visitMethodNode(this, a2);
 	}
 }

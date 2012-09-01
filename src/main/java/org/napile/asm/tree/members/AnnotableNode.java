@@ -23,7 +23,7 @@ import java.util.List;
  * @author VISTALL
  * @date 0:30/14.08.12
  */
-public abstract class AnnotableNode<T extends AnnotableNode<?>> implements AsmNode
+public abstract class AnnotableNode<T extends AnnotableNode<?>> implements Node
 {
 	private final List<AnnotationNode> annotations = new ArrayList<AnnotationNode>(0);
 

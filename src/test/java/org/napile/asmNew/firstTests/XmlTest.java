@@ -14,33 +14,26 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members;
+package org.napile.asmNew.firstTests;
 
-import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.visitors.AsmVisitor;
-import org.napile.compiler.lang.resolve.name.FqName;
+import java.util.List;
+
+import org.napile.asmNew.AsmBuilder;
+import org.napile.asmNew.writters.BytecodeToXmlTextWriter;
 
 /**
  * @author VISTALL
- * @date 0:25/14.08.12
+ * @date 22:46/13.08.12
  */
-public class AnnotationNode implements Node
+public class XmlTest
 {
-	private final FqName name;
-
-	public AnnotationNode(@NotNull FqName name)
+	public static void main(String... arg)
 	{
-		this.name = name;
-	}
+		AsmBuilder builder = NodeUtil.createTestNode();
 
-	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
-	{
-		visitor.visitAnnotationNode(this, arg);
-	}
+		List<String> result = builder.getResult(new BytecodeToXmlTextWriter());
 
-	public FqName getName()
-	{
-		return name;
+		for(String s : result)
+			System.out.println(s);
 	}
 }

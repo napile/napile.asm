@@ -16,11 +16,7 @@
 
 package org.napile.asm.tree.members.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.AnnotableNode;
 import org.napile.asmNew.visitors.AsmVisitor;
 import org.napile.compiler.lang.resolve.name.FqName;
 
@@ -28,28 +24,13 @@ import org.napile.compiler.lang.resolve.name.FqName;
  * @author VISTALL
  * @date 0:07/14.08.12
  */
-public class ClassTypeNode extends AnnotableNode<ClassTypeNode> implements TypeNode
+public class ClassTypeNode implements TypeConstructorNode
 {
-	private final List<TypeNode> typeParameters = new ArrayList<TypeNode>(0);
 	private final FqName className;
-	private final boolean nullable;
 
 	public ClassTypeNode(@NotNull FqName className)
 	{
-		this(className, false);
-	}
-
-	public ClassTypeNode(@NotNull FqName className, boolean nullable)
-	{
-		this.nullable = nullable;
 		this.className = className;
-	}
-
-	@NotNull
-	public ClassTypeNode addTypeParameter(@NotNull TypeNode typeNode)
-	{
-		typeParameters.add(typeNode);
-		return this;
 	}
 
 	@NotNull
@@ -58,21 +39,9 @@ public class ClassTypeNode extends AnnotableNode<ClassTypeNode> implements TypeN
 		return className;
 	}
 
-	@NotNull
-	public List<TypeNode> getTypeParameters()
-	{
-		return typeParameters;
-	}
-
 	@Override
 	public <T> void accept(@org.jetbrains.annotations.NotNull AsmVisitor<T> visitor, T a2)
 	{
 		visitor.visitClassTypeNode(this, a2);
-	}
-
-	@Override
-	public boolean isNullable()
-	{
-		return nullable;
 	}
 }
