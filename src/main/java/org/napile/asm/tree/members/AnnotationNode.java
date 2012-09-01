@@ -43,4 +43,18 @@ public class AnnotationNode implements Node
 	{
 		return name;
 	}
+
+	@Override
+	public String toString()
+	{
+		return getName().toString(); //TODO [VISTALL] arguments
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o == null || o.getClass() != AnnotationNode.class)
+			return false;
+		return toString().equals(o.toString()); //TODO [VISTALL] arguments
+	}
 }

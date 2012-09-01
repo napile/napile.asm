@@ -55,7 +55,7 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 
 		addMemberElements(element, classNode);
 
-		ifNotEmptyAdd(classNode.getAnnotations(), "annotations", element);
+		ifNotEmptyAdd(classNode.annotations, "annotations", element);
 
 		ifNotEmptyAdd(classNode.supers, "extends", element);
 
@@ -71,7 +71,7 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 
 		addMemberElements(temp, methodNode);
 
-		ifNotEmptyAdd(methodNode.getAnnotations(), "annotations", temp);
+		ifNotEmptyAdd(methodNode.annotations, "annotations", temp);
 
 		if(methodNode.returnType != null)
 			methodNode.returnType.accept(this, temp.addElement("return_type"));
@@ -94,7 +94,7 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 
 		addMemberElements(temp, methodParameterNode);
 
-		ifNotEmptyAdd(methodParameterNode.getAnnotations(), "annotations", element);
+		ifNotEmptyAdd(methodParameterNode.annotations, "annotations", element);
 
 		methodParameterNode.typeNode.accept(this, temp);
 	}
@@ -114,7 +114,7 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 		final Element element = a2.addElement("type");
 		element.addAttribute("nullable", String.valueOf(typeNode.nullable));
 
-		ifNotEmptyAdd(typeNode.getAnnotations(), "annotations", element);
+		ifNotEmptyAdd(typeNode.annotations, "annotations", element);
 
 		typeNode.typeConstructorNode.accept(this, element);
 

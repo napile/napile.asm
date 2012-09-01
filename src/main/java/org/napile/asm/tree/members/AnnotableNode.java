@@ -25,17 +25,12 @@ import java.util.List;
  */
 public abstract class AnnotableNode<T extends AnnotableNode<?>> implements Node
 {
-	private final List<AnnotationNode> annotations = new ArrayList<AnnotationNode>(0);
+	public final List<AnnotationNode> annotations = new ArrayList<AnnotationNode>(0);
 
 	@SuppressWarnings("unchecked")
-	public T addAnnotation(AnnotationNode annotationNode)
+	public T visitAnnotation(AnnotationNode annotationNode)
 	{
 		annotations.add(annotationNode);
 		return (T) this;
-	}
-
-	public List<AnnotationNode> getAnnotations()
-	{
-		return annotations;
 	}
 }

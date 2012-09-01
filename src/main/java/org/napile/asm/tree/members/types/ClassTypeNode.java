@@ -40,8 +40,23 @@ public class ClassTypeNode implements TypeConstructorNode
 	}
 
 	@Override
-	public <T> void accept(@org.jetbrains.annotations.NotNull AsmVisitor<T> visitor, T a2)
+	public <T> void accept(@NotNull AsmVisitor<T> visitor, T a2)
 	{
 		visitor.visitClassTypeNode(this, a2);
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o == null || o.getClass() != ClassTypeNode.class)
+			return false;
+
+		return className.toString().equals(o.toString());
+	}
+
+	@Override
+	public String toString()
+	{
+		return className.toString();
 	}
 }

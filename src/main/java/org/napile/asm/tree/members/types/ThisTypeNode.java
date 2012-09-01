@@ -14,4 +14,16 @@ public class ThisTypeNode implements TypeConstructorNode
 	{
 		visitor.visitThisTypeNode(this, arg);
 	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		return o instanceof ThisTypeNode;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "this";
+	}
 }
