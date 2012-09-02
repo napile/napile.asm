@@ -46,6 +46,7 @@ public class NodeUtil
 		asmBuilder.visitMethodParameter(true, "arg", asmBuilder.createTypeOfClass("napile.lang.Array").visitArgument(asmBuilder.createTypeOfClass(NapileLangPackage.STRING))) ;
 
 		methodNode.returnType = new TypeNode(false, new ThisTypeNode());
+		methodNode.maxLocals = 2;
 		methodNode.instructions.add(new NewIntInstruction(1234));
 		methodNode.instructions.add(new StoreInstruction(1));
 		methodNode.instructions.add(new LoadInstruction(1));

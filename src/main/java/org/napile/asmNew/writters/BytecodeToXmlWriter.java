@@ -81,6 +81,7 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 		if(methodNode.instructions.size() > 0)
 		{
 			Element parent = temp.addElement("code");
+			parent.addAttribute("max_locals", String.valueOf(methodNode.maxLocals));
 			for(Instruction instruction : methodNode.instructions)
 				instruction.accept(this, parent);
 		}
