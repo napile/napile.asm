@@ -16,12 +16,7 @@ import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
-import org.napile.asm.tree.members.bytecode.impl.DupInstruction;
-import org.napile.asm.tree.members.bytecode.impl.InvokeStaticInstruction;
-import org.napile.asm.tree.members.bytecode.impl.LoadInstruction;
-import org.napile.asm.tree.members.bytecode.impl.NewIntInstruction;
-import org.napile.asm.tree.members.bytecode.impl.ReturnInstruction;
-import org.napile.asm.tree.members.bytecode.impl.StoreInstruction;
+import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -194,9 +189,64 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 	}
 
 	@Override
+	public void visitNew(NewInstruction instruction, Element a)
+	{
+		//TODO [VISTALL]
+	}
+
+	@Override
+	public void visitNewByte(NewByteInstruction instruction, Element a)
+	{
+		Element element = a.addElement("new_byte");
+		element.addAttribute("val", String.valueOf(instruction.value));
+	}
+
+	@Override
+	public void visitNewShort(NewShortInstruction instruction, Element a)
+	{
+		Element element = a.addElement("new_short");
+		element.addAttribute("val", String.valueOf(instruction.value));
+	}
+
+	@Override
 	public void visitNewInt(NewIntInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_int");
+		element.addAttribute("val", String.valueOf(instruction.value));
+	}
+
+	@Override
+	public void visitNewLong(NewLongInstruction instruction, Element a)
+	{
+		Element element = a.addElement("new_long");
+		element.addAttribute("val", String.valueOf(instruction.value));
+	}
+
+	@Override
+	public void visitNewFloat(NewFloatInstruction instruction, Element a)
+	{
+		Element element = a.addElement("new_float");
+		element.addAttribute("val", String.valueOf(instruction.value));
+	}
+
+	@Override
+	public void visitNewDouble(NewDoubleInstruction instruction, Element a)
+	{
+		Element element = a.addElement("new_double");
+		element.addAttribute("val", String.valueOf(instruction.value));
+	}
+
+	@Override
+	public void visitNewChar(NewCharInstruction instruction, Element a)
+	{
+		Element element = a.addElement("new_char");
+		element.addAttribute("val", String.valueOf(instruction.value));
+	}
+
+	@Override
+	public void visitNewString(NewStringInstruction instruction, Element a)
+	{
+		Element element = a.addElement("new_string");
 		element.addAttribute("val", String.valueOf(instruction.value));
 	}
 

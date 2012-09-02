@@ -16,12 +16,7 @@
 
 package org.napile.asm.tree.members.bytecode;
 
-import org.napile.asm.tree.members.bytecode.impl.DupInstruction;
-import org.napile.asm.tree.members.bytecode.impl.InvokeStaticInstruction;
-import org.napile.asm.tree.members.bytecode.impl.LoadInstruction;
-import org.napile.asm.tree.members.bytecode.impl.NewIntInstruction;
-import org.napile.asm.tree.members.bytecode.impl.ReturnInstruction;
-import org.napile.asm.tree.members.bytecode.impl.StoreInstruction;
+import org.napile.asm.tree.members.bytecode.impl.*;
 
 /**
  * @author VISTALL
@@ -35,7 +30,23 @@ public interface InstructionVisitor<T>
 
 	void visitStore(StoreInstruction instruction, T a);
 
+	void visitNew(NewInstruction instruction, T a);
+
+	void visitNewByte(NewByteInstruction instruction, T a);
+
+	void visitNewShort(NewShortInstruction instruction, T a);
+
 	void visitNewInt(NewIntInstruction instruction, T a);
+
+	void visitNewLong(NewLongInstruction instruction, T a);
+
+	void visitNewFloat(NewFloatInstruction instruction, T a);
+
+	void visitNewDouble(NewDoubleInstruction instruction, T a);
+
+	void visitNewChar(NewCharInstruction instruction, T a);
+
+	void visitNewString(NewStringInstruction instruction, T a);
 
 	void visitReturn(ReturnInstruction instruction, T a);
 
