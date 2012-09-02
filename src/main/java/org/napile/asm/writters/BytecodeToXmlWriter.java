@@ -189,9 +189,10 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 	}
 
 	@Override
-	public void visitNew(NewInstruction instruction, Element a)
+	public void visitNewObject(NewObjectInstruction instruction, Element a)
 	{
-		//TODO [VISTALL]
+		Element element = a.addElement("new_object");
+		instruction.value.accept(this, element);
 	}
 
 	@Override

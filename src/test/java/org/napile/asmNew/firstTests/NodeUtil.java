@@ -24,6 +24,7 @@ import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.impl.InvokeStaticInstruction;
 import org.napile.asm.tree.members.bytecode.impl.LoadInstruction;
 import org.napile.asm.tree.members.bytecode.impl.NewIntInstruction;
+import org.napile.asm.tree.members.bytecode.impl.NewObjectInstruction;
 import org.napile.asm.tree.members.bytecode.impl.StoreInstruction;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
@@ -53,6 +54,8 @@ public class NodeUtil
 		methodNode.instructions.add(new StoreInstruction(1));
 		methodNode.instructions.add(new LoadInstruction(1));
 		methodNode.instructions.add(new InvokeStaticInstruction(new MethodRef(new FqName("Console.write"), Collections.singletonList(asmBuilder.createTypeOfClass(NapileLangPackage.INT)), null)));
+
+		methodNode.instructions.add(new NewObjectInstruction(asmBuilder.createTypeOfClass(NapileLangPackage.ANY)));
 
 		VariableNode variableNode = asmBuilder.visitVariable(Modifier.list(Modifier.NATIVE), "myVar");
 		variableNode.returnType = new TypeNode(false, new ClassTypeNode(NapileLangPackage.INT));

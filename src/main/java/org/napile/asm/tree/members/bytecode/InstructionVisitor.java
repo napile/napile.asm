@@ -30,7 +30,7 @@ public interface InstructionVisitor<T>
 
 	void visitStore(StoreInstruction instruction, T a);
 
-	void visitNew(NewInstruction instruction, T a);
+	void visitNewObject(NewObjectInstruction instruction, T a);
 
 	void visitNewByte(NewByteInstruction instruction, T a);
 
