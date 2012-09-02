@@ -16,6 +16,7 @@
 
 package org.napile.asm.tree.members.bytecode.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
@@ -26,9 +27,10 @@ import org.napile.asm.tree.members.bytecode.MethodRef;
  */
 public class InvokeStaticInstruction implements Instruction
 {
+	@NotNull
 	public final MethodRef methodRef;
 
-	public InvokeStaticInstruction(MethodRef methodRef)
+	public InvokeStaticInstruction(@NotNull MethodRef methodRef)
 	{
 		this.methodRef = methodRef;
 	}

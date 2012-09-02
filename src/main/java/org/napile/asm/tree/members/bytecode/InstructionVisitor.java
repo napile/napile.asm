@@ -51,4 +51,8 @@ public interface InstructionVisitor<T>
 	void visitReturn(ReturnInstruction instruction, T a);
 
 	void visitInvokeStatic(InvokeStaticInstruction instruction, T a);
+
+	void visitInvokeSpecial(InvokeSpecialInstruction instruction, T a);
+
+	void visitInvokeVirtual(InvokeVirtualInstruction instruction, T a);
 }

@@ -268,4 +268,28 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 			methodRef.returnType.accept(this, temp.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
 	}
+
+	@Override
+	public void visitInvokeSpecial(InvokeSpecialInstruction instruction, Element a)
+	{
+		Element temp = a.addElement("invoke_special");
+		temp = temp.addElement("method");
+		MethodRef methodRef = instruction.methodRef;
+		temp.addAttribute("name", methodRef.method.toString());
+		if(methodRef.returnType != null)
+			methodRef.returnType.accept(this, temp.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+	}
+
+	@Override
+	public void visitInvokeVirtual(InvokeVirtualInstruction instruction, Element a)
+	{
+		Element temp = a.addElement("invoke_virtual");
+		temp = temp.addElement("method");
+		MethodRef methodRef = instruction.methodRef;
+		temp.addAttribute("name", methodRef.method.toString());
+		if(methodRef.returnType != null)
+			methodRef.returnType.accept(this, temp.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+	}
 }
