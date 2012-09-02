@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.napile.asmNew;
+package org.napile.asm;
 
 /**
  * @author VISTALL
- * @date 23:08/13.08.12
+ * @date 23:32/13.08.12
  */
-public enum ModifierType
+public enum LangVersion
 {
-	ACCESS,
-	EXTENDING,
-	ETC
+	NAPILE_1;
+
+	public static final LangVersion CURRENT = NAPILE_1;
 }

@@ -1,6 +1,6 @@
 // $ANTLR ANTLRVersion> TypeNodeParser.java generatedTimestamp>
 
-package org.napile.asmNew.parsing.type;
+package org.napile.asm.parsing.type;
 
 import java.util.List;
 

@@ -16,16 +16,12 @@
 
 // $ANTLR ANTLRVersion> TypeNodeLexerLexer.java generatedTimestamp>
 
-package org.napile.asmNew.parsing.type;
+package org.napile.asm.parsing.type;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.*;
-import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class TypeNodeLexerLexer extends Lexer {

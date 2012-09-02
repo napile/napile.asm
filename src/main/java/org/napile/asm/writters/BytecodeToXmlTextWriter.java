@@ -1,4 +1,4 @@
-package org.napile.asmNew.writters;
+package org.napile.asm.writters;
 
 import java.io.IOException;
 import java.io.StringWriter;

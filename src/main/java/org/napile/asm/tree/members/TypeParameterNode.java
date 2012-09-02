@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.types.ClassTypeNode;
-import org.napile.asmNew.visitors.AsmVisitor;
 import org.napile.compiler.lang.resolve.name.FqName;
 
 /**
@@ -26,7 +25,7 @@ public class TypeParameterNode extends AnnotableNode<TypeParameterNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
+	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
 	{
 		visitor.visitTypeParameter(this, arg);
 	}

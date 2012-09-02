@@ -1,4 +1,4 @@
-package org.napile.asmNew.util;
+package org.napile.asm.util;
 
 import java.util.Collection;
 import java.util.Iterator;

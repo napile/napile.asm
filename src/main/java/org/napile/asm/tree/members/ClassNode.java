@@ -20,8 +20,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.types.ClassTypeNode;
-import org.napile.asmNew.Modifier;
-import org.napile.asmNew.visitors.AsmVisitor;
+import org.napile.asm.Modifier;
 import org.napile.compiler.lang.resolve.name.FqName;
 
 /**
@@ -69,7 +68,7 @@ public class ClassNode extends AbstractMemberNode<ClassNode>
 	// ------------------------------------------------------------------------
 
 	@Override
-	public <T> void accept(@org.jetbrains.annotations.NotNull final AsmVisitor<T> asmVisitor, T a2)
+	public <T> void accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T> asmVisitor, T a2)
 	{
 		asmVisitor.visitClassNode(this, a2);
 	}

@@ -17,6 +17,7 @@
 package org.napile.asmNew;
 
 import org.junit.Test;
+import org.napile.asm.Modifier;
 
 /**
  * @author VISTALL

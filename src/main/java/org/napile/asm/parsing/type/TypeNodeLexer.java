@@ -1,6 +1,6 @@
 // $ANTLR ANTLRVersion> TypeNodeLexer.java generatedTimestamp>
 
-package org.napile.asmNew.parsing.type;
+package org.napile.asm.parsing.type;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;

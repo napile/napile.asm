@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-package org.napile.asmNew.visitors;
+package org.napile.asm.tree.members;
 
-import org.napile.asm.tree.members.AnnotationNode;
-import org.napile.asm.tree.members.ClassNode;
-import org.napile.asm.tree.members.MethodNode;
-import org.napile.asm.tree.members.MethodParameterNode;
-import org.napile.asm.tree.members.TypeParameterNode;
-import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -30,7 +24,7 @@ import org.napile.asm.tree.members.types.TypeNode;
  * @author VISTALL
  * @date 22:20/13.08.12
  */
-public interface AsmVisitor<A2>
+public interface NodeVisitor<A2>
 {
 	void visitAnnotationNode(AnnotationNode annotationNode, A2 a2);
 

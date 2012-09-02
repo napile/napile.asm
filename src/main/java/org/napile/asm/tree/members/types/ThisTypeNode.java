@@ -1,7 +1,7 @@
 package org.napile.asm.tree.members.types;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.visitors.AsmVisitor;
+import org.napile.asm.tree.members.NodeVisitor;
 
 /**
  * @author VISTALL
@@ -10,7 +10,7 @@ import org.napile.asmNew.visitors.AsmVisitor;
 public class ThisTypeNode implements TypeConstructorNode
 {
 	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
+	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
 	{
 		visitor.visitThisTypeNode(this, arg);
 	}

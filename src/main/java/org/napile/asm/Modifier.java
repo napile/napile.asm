@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.napile.asmNew;
+package org.napile.asm;
 
 import java.util.Arrays;
 import java.util.Comparator;

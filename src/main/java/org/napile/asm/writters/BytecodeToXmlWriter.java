@@ -1,4 +1,4 @@
-package org.napile.asmNew.writters;
+package org.napile.asm.writters;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import org.napile.asm.tree.members.bytecode.impl.StoreInstruction;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asmNew.Modifier;
+import org.napile.asm.Modifier;
 
 /**
  * @author VISTALL

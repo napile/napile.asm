@@ -18,8 +18,7 @@ package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asmNew.Modifier;
-import org.napile.asmNew.visitors.AsmVisitor;
+import org.napile.asm.Modifier;
 
 /**
  * @author VISTALL
@@ -40,7 +39,7 @@ public class MethodParameterNode extends AbstractMemberNode<MethodParameterNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
+	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
 	{
 		visitor.visitMethodParameterNode(this, arg);
 	}

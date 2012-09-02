@@ -17,7 +17,6 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.visitors.AsmVisitor;
 import org.napile.compiler.lang.resolve.name.FqName;
 
 /**
@@ -34,7 +33,7 @@ public class AnnotationNode implements Node
 	}
 
 	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
+	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
 	{
 		visitor.visitAnnotationNode(this, arg);
 	}

@@ -28,8 +28,8 @@ import org.napile.asm.tree.members.bytecode.impl.StoreInstruction;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asmNew.AsmBuilder;
-import org.napile.asmNew.Modifier;
+import org.napile.asm.AsmBuilder;
+import org.napile.asm.Modifier;
 import org.napile.compiler.lang.resolve.name.FqName;
 import org.napile.compiler.lang.rt.NapileLangPackage;
 

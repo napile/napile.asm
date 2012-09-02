@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asmNew.parsing.type.TypeNodeUtil;
+import org.napile.asm.parsing.type.TypeNodeUtil;
 import org.napile.compiler.lang.rt.NapileLangPackage;
 
 /**

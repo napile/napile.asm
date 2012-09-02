@@ -1,5 +1,5 @@
 
-package org.napile.asmNew.parsing.type;
+package org.napile.asm.parsing.type;
 
 import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.Token;

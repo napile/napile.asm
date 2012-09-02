@@ -18,8 +18,8 @@ package org.napile.asmNew.firstTests;
 
 import java.util.List;
 
-import org.napile.asmNew.AsmBuilder;
-import org.napile.asmNew.writters.BytecodeToXmlTextWriter;
+import org.napile.asm.AsmBuilder;
+import org.napile.asm.writters.BytecodeToXmlTextWriter;
 
 /**
  * @author VISTALL

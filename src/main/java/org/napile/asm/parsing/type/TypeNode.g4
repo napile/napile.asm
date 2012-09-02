@@ -2,11 +2,11 @@
 grammar TypeNode;
 
 @lexer::header {
-package org.napile.asmNew.parsing.type;
+package org.napile.asm.parsing.type;
 }
 
 @header {
-package org.napile.asmNew.parsing.type;
+package org.napile.asm.parsing.type;
 }
 
 typeNode: classOrThisType arguments? nulled?;

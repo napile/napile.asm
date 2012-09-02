@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.Modifier;
+import org.napile.asm.Modifier;
 
 /**
  * @author VISTALL

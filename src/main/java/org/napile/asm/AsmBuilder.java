@@ -1,4 +1,4 @@
-package org.napile.asmNew;
+package org.napile.asm;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import org.napile.asm.tree.members.TypeParameterNode;
 import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asmNew.writters.AsmWriter;
+import org.napile.asm.writters.AsmWriter;
 import org.napile.compiler.lang.resolve.name.FqName;
 
 /**

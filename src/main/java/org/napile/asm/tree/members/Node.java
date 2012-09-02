@@ -17,7 +17,6 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asmNew.visitors.AsmVisitor;
 
 /**
  * @author VISTALL
@@ -25,5 +24,5 @@ import org.napile.asmNew.visitors.AsmVisitor;
  */
 public interface Node
 {
-	<T> void accept(@NotNull AsmVisitor<T> visitor, T arg);
+	<T> void accept(@NotNull NodeVisitor<T> visitor, T arg);
 }

@@ -21,8 +21,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asmNew.Modifier;
-import org.napile.asmNew.visitors.AsmVisitor;
+import org.napile.asm.Modifier;
 
 /**
  * A node that represents a method.
@@ -80,7 +79,7 @@ public class MethodNode extends AbstractMemberNode<MethodNode>
 	// Accept method
 	// ------------------------------------------------------------------------
 	@Override
-	public <T> void accept(@org.jetbrains.annotations.NotNull final AsmVisitor<T> asmVisitor, T a2)
+	public <T> void accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T> asmVisitor, T a2)
 	{
 		asmVisitor.visitMethodNode(this, a2);
 	}

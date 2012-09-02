@@ -31,8 +31,7 @@ package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asmNew.Modifier;
-import org.napile.asmNew.visitors.AsmVisitor;
+import org.napile.asm.Modifier;
 
 /**
  * A node that represents a field.
@@ -56,7 +55,7 @@ public class VariableNode extends AbstractMemberNode<VariableNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
+	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
 	{
 		visitor.visitVariableNode(this, arg);
 	}

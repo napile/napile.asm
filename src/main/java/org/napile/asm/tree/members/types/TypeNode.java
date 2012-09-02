@@ -22,8 +22,8 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.AnnotableNode;
 import org.napile.asm.tree.members.AnnotationNode;
-import org.napile.asmNew.util.Comparing2;
-import org.napile.asmNew.visitors.AsmVisitor;
+import org.napile.asm.tree.members.NodeVisitor;
+import org.napile.asm.util.Comparing2;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.Function;
 
@@ -53,7 +53,7 @@ public class TypeNode extends AnnotableNode<TypeNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
+	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
 	{
 		visitor.visitTypeNode(this, arg);
 	}
