@@ -30,6 +30,7 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asmNew.Modifier;
 import org.napile.asmNew.visitors.AsmVisitor;
 
@@ -42,9 +43,16 @@ import org.napile.asmNew.visitors.AsmVisitor;
  */
 public class VariableNode extends AbstractMemberNode<VariableNode>
 {
-	public VariableNode(@NotNull Modifier[] modifiers)
+	@NotNull
+	public final String name;
+
+	@NotNull
+	public TypeNode returnType;
+
+	public VariableNode(@NotNull Modifier[] modifiers, @NotNull String name)
 	{
 		super(modifiers);
+		this.name = name;
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.napile.asm.tree.members.ClassNode;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
+import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asmNew.writters.AsmWriter;
@@ -62,6 +63,19 @@ public class AsmBuilder
 		lastNodes.add(methodNode);
 
 		return methodNode;
+	}
+
+	public VariableNode visitVariable(@NotNull Modifier[] modifiers, @NotNull String name)
+	{
+		ClassNode classNode = get(ClassNode.class, false);
+
+		VariableNode variableNode = new VariableNode(modifiers, name);
+
+		classNode.members.add(variableNode);
+
+		lastNodes.add(variableNode);
+
+		return variableNode;
 	}
 
 	public MethodParameterNode visitMethodParameter(boolean isFinal, @NotNull String name, @NotNull TypeNode type)

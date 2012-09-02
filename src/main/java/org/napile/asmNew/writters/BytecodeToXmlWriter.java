@@ -89,9 +89,16 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 	}
 
 	@Override
-	public void visitVariableNode(VariableNode variableNode, Element arg)
+	public void visitVariableNode(VariableNode variableNode, Element a2)
 	{
+		final Element temp = a2.addElement("variable");
+		temp.addAttribute("name", variableNode.name);
 
+		addMemberElements(temp, variableNode);
+
+		ifNotEmptyAdd(variableNode.annotations, "annotations", temp);
+
+		variableNode.returnType.accept(this, temp.addElement("return_type"));
 	}
 
 	@Override
