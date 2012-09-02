@@ -16,6 +16,7 @@ import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
+import org.napile.asm.tree.members.bytecode.impl.DupInstruction;
 import org.napile.asm.tree.members.bytecode.impl.InvokeStaticInstruction;
 import org.napile.asm.tree.members.bytecode.impl.LoadInstruction;
 import org.napile.asm.tree.members.bytecode.impl.NewIntInstruction;
@@ -171,11 +172,18 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 		ifNotEmptyAdd(m.typeParameters, "type_parameters", parent);
 	}
 
+	//-----------------------------------------------------------------------------
+
 	@Override
 	public void visitLoad(LoadInstruction instruction, Element a)
 	{
 		Element element = a.addElement("load");
 		element.addAttribute("val", String.valueOf(instruction.varIndex));
+	}
+
+	public void visitDup(DupInstruction instruction, Element a)
+	{
+		a.addElement("dup");
 	}
 
 	@Override

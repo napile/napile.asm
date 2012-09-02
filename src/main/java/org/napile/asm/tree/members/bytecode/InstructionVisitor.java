@@ -16,6 +16,7 @@
 
 package org.napile.asm.tree.members.bytecode;
 
+import org.napile.asm.tree.members.bytecode.impl.DupInstruction;
 import org.napile.asm.tree.members.bytecode.impl.InvokeStaticInstruction;
 import org.napile.asm.tree.members.bytecode.impl.LoadInstruction;
 import org.napile.asm.tree.members.bytecode.impl.NewIntInstruction;
@@ -28,6 +29,8 @@ import org.napile.asm.tree.members.bytecode.impl.StoreInstruction;
  */
 public interface InstructionVisitor<T>
 {
+	void visitDup(DupInstruction instruction, T a);
+
 	void visitLoad(LoadInstruction instruction, T a);
 
 	void visitStore(StoreInstruction instruction, T a);
