@@ -16,6 +16,7 @@ import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
+import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
@@ -291,5 +292,25 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 		if(methodRef.returnType != null)
 			methodRef.returnType.accept(this, temp.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+	}
+
+	@Override
+	public void visitPutToVariable(PutToVariableInstruction instruction, Element a)
+	{
+		Element temp = a.addElement("put_to_variable");
+		temp = temp.addElement("variable");
+		VariableRef variableRef = instruction.variableRef;
+		temp.addAttribute("name", variableRef.variable.toString());
+		variableRef.returnType.accept(this, temp);
+	}
+
+	@Override
+	public void visitPutToStaticVariable(PutToStaticVariableInstruction instruction, Element a)
+	{
+		Element temp = a.addElement("put_to_static_variable");
+		temp = temp.addElement("variable");
+		VariableRef variableRef = instruction.variableRef;
+		temp.addAttribute("name", variableRef.variable.toString());
+		variableRef.returnType.accept(this, temp);
 	}
 }

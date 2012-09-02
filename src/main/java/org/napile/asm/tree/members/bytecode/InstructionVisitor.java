@@ -55,4 +55,8 @@ public interface InstructionVisitor<T>
 	void visitInvokeSpecial(InvokeSpecialInstruction instruction, T a);
 
 	void visitInvokeVirtual(InvokeVirtualInstruction instruction, T a);
+
+	void visitPutToVariable(PutToVariableInstruction instruction, T a);
+
+	void visitPutToStaticVariable(PutToStaticVariableInstruction instruction, T a);
 }
