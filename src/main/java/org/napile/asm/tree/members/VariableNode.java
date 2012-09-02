@@ -27,61 +27,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.napile.asm.tree;
+package org.napile.asm.tree.members;
 
-import java.util.Map;
-
-import org.napile.asm.MethodVisitor;
+import org.jetbrains.annotations.NotNull;
+import org.napile.asmNew.Modifier;
+import org.napile.asmNew.visitors.AsmVisitor;
 
 /**
- * A node that represents a line number declaration. These nodes are pseudo
- * instruction nodes in order to be inserted in an instruction list.
+ * A node that represents a field.
  *
- * @author Eric Bruneton
+ * @author VISTALL
+ *
+ * base idea was get from ObjectWeb Asm
  */
-public class LineNumberNode extends AbstractInsnNode
+public class VariableNode extends AbstractMemberNode<VariableNode>
 {
-
-	/**
-	 * A line number. This number refers to the source file from which the class
-	 * was compiled.
-	 */
-	public int line;
-
-	/**
-	 * The first instruction corresponding to this line number.
-	 */
-	public LabelNode start;
-
-	/**
-	 * Constructs a new {@link LineNumberNode}.
-	 *
-	 * @param line  a line number. This number refers to the source file from
-	 *              which the class was compiled.
-	 * @param start the first instruction corresponding to this line number.
-	 */
-	public LineNumberNode(final int line, final LabelNode start)
+	public VariableNode(@NotNull Modifier[] modifiers)
 	{
-		super(-1);
-		this.line = line;
-		this.start = start;
+		super(modifiers);
 	}
 
 	@Override
-	public int getType()
+	public <T> void accept(@NotNull AsmVisitor<T> visitor, T arg)
 	{
-		return LINE;
-	}
-
-	@Override
-	public void accept(final MethodVisitor mv)
-	{
-		mv.visitLineNumber(line, start.getLabel());
-	}
-
-	@Override
-	public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels)
-	{
-		return new LineNumberNode(line, clone(start, labels));
+		visitor.visitVariableNode(this, arg);
 	}
 }

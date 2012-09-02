@@ -11,4 +11,4 @@ Some parts of library from
 
 annotations.jar/util.jar is from Intellij IDEA Community Edition build
 
-base source from object-web asm
+Some sources was based on ObjectWeb ASM, but was rewritten

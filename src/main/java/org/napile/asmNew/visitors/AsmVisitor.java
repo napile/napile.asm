@@ -21,6 +21,7 @@ import org.napile.asm.tree.members.ClassNode;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
+import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -36,6 +37,8 @@ public interface AsmVisitor<A2>
 	void visitClassNode(ClassNode classNode, A2 a2);
 
 	void visitMethodNode(MethodNode methodNode, A2 a2);
+
+	void visitVariableNode(VariableNode variableNode, A2 arg);
 
 	void visitMethodParameterNode(MethodParameterNode methodParameterNode, A2 a2);
 

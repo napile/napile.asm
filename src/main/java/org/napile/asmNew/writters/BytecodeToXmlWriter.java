@@ -12,6 +12,7 @@ import org.napile.asm.tree.members.ClassNode;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
+import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
@@ -85,6 +86,12 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 			for(Instruction instruction : methodNode.instructions)
 				instruction.accept(this, parent);
 		}
+	}
+
+	@Override
+	public void visitVariableNode(VariableNode variableNode, Element arg)
+	{
+
 	}
 
 	@Override
