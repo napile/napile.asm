@@ -22,6 +22,7 @@ import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.Modifier;
+import org.napile.compiler.lang.resolve.name.FqName;
 
 /**
  * @author VISTALL
@@ -29,7 +30,8 @@ import org.napile.asm.Modifier;
  */
 public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> implements InstructionVisitor<Element>
 {
-	protected Document document = null;
+	protected Document document;
+	protected FqName fqName;
 
 	@Override
 	protected void start()
@@ -48,6 +50,8 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 	public void visitClassNode(ClassNode classNode, Element a2)
 	{
 		Element element = document.addElement("class");
+		fqName = classNode.name;
+
 		element.addAttribute("version", String.valueOf(langVersion.ordinal()));
 		element.addAttribute("name", classNode.name.getFqName());
 

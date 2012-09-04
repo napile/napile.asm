@@ -40,7 +40,7 @@ import org.napile.compiler.lang.rt.NapileLangPackage;
  */
 public class NodeUtil
 {
-	static AsmBuilder createTestNode()
+	static AsmBuilder createTestClassNode()
 	{
 		AsmBuilder asmBuilder = new AsmBuilder();
 		asmBuilder.visitClass(Modifier.list(Modifier.ABSTRACT), NapileLangPackage.INT).visitSuper(NapileLangPackage.ANY);

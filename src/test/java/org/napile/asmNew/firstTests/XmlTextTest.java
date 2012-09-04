@@ -25,11 +25,11 @@ import org.napile.asm.writters.BytecodeToXmlTextWriter;
  * @author VISTALL
  * @date 22:46/13.08.12
  */
-public class XmlTest
+public class XmlTextTest
 {
 	public static void main(String... arg)
 	{
-		AsmBuilder builder = NodeUtil.createTestNode();
+		AsmBuilder builder = NodeUtil.createTestClassNode();
 
 		List<String> result = builder.getResult(new BytecodeToXmlTextWriter());
 
