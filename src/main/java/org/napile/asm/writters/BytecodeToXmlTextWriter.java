@@ -15,7 +15,7 @@ public class BytecodeToXmlTextWriter extends BytecodeToXmlWriter<String>
 {
 	@NotNull
 	@Override
-	public String getResult()
+	protected String getResult()
 	{
 		StringWriter stringWriter = new StringWriter();
 		OutputFormat format = OutputFormat.createPrettyPrint();

@@ -13,17 +13,20 @@ public abstract class AsmWriter<T, R> implements NodeVisitor<T>
 {
 	protected LangVersion langVersion;
 
-	public void write(@NotNull LangVersion langVersion, @NotNull ClassNode classNode)
+	@NotNull
+	public R write(@NotNull LangVersion langVersion, @NotNull ClassNode classNode)
 	{
 		start();
 
 		this.langVersion = langVersion;
 
 		classNode.accept(this, null);
+
+		return getResult();
 	}
 
 	protected abstract void start();
 
 	@NotNull
-	public abstract R getResult();
+	protected abstract R getResult();
 }

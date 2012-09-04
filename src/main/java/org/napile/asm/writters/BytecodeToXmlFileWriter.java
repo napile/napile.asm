@@ -26,7 +26,7 @@ public class BytecodeToXmlFileWriter extends BytecodeToXmlWriter<File>
 
 	@NotNull
 	@Override
-	public File getResult()
+	protected File getResult()
 	{
 		File file = null;
 		List<FqName> paths = fqName.path();

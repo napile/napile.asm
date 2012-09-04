@@ -149,11 +149,7 @@ public class AsmBuilder
 	{
 		List<R> result = new ArrayList<R>(classNodes.size());
 		for(ClassNode classNode : classNodes)
-		{
-			writer.write(langVersion, classNode);
-
-			result.add(writer.getResult());
-		}
+			result.add(writer.write(langVersion, classNode));
 		return result;
 	}
 }
