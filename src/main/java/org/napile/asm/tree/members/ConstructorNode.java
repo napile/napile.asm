@@ -13,36 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
-import org.napile.asm.tree.members.types.TypeNode;
 
 /**
- * A node that represents a method.
  * @author VISTALL
- *
- * base idea was get from ObjectWeb Asm
+ * @date 18:23/06.09.12
  */
-public class MethodNode extends LikeMethodNode<MethodNode>
+public class ConstructorNode extends LikeMethodNode<ConstructorNode>
 {
-	/**
-	 * Return type of method
-	 */
-	public TypeNode returnType;
-
-	public MethodNode(@NotNull Modifier[] modifiers, @NotNull String name)
+	public ConstructorNode(@NotNull Modifier[] modifiers, @NotNull String name)
 	{
 		super(modifiers, name);
 	}
 
-	// ------------------------------------------------------------------------
-	// Accept method
-	// ------------------------------------------------------------------------
 	@Override
-	public <T> void accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T> asmVisitor, T a2)
+	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
 	{
-		asmVisitor.visitMethodNode(this, a2);
+		visitor.visitConstructorNode(this, arg);
 	}
 }
