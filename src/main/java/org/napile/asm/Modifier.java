@@ -32,6 +32,9 @@ public enum Modifier
 	HERITABLE(ModifierType.ACCESS),
 	LOCAL(ModifierType.ACCESS),
 
+	ENUM(ModifierType.CLASS_TYPE),
+	RETELL(ModifierType.CLASS_TYPE),
+
 	FINAL(ModifierType.EXTENDING),
 	ABSTRACT(ModifierType.EXTENDING),
 	NATIVE(ModifierType.EXTENDING),
