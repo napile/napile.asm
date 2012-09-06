@@ -30,21 +30,10 @@ import org.napile.asm.tree.members.bytecode.Instruction;
 public abstract class LikeMethodNode<T extends LikeMethodNode<T>> extends AbstractMemberNode<T>
 {
 	/**
-	 * The method's name.
-	 */
-	public String name;
-
-	/**
-	 * Parameters of method
-	 */
-	@NotNull
-	public List<MethodParameterNode> parameters = new ArrayList<MethodParameterNode>(0);
-
-	/**
 	 * Code instruction
 	 */
 	@NotNull
-	public List<Instruction> instructions = new ArrayList<Instruction>(0);
+	public final List<Instruction> instructions = new ArrayList<Instruction>(0);
 
 	/**
 	 * The maximum stack size of this method.
@@ -56,10 +45,9 @@ public abstract class LikeMethodNode<T extends LikeMethodNode<T>> extends Abstra
 	 */
 	public int maxLocals;
 
-	public LikeMethodNode(@NotNull final Modifier[] modifiers, @NotNull String name)
+	public LikeMethodNode(@NotNull final Modifier[] modifiers)
 	{
 		super(modifiers);
-		this.name = name;
 	}
 
 	public void visitMaxs(final int maxStack, final int maxLocals)

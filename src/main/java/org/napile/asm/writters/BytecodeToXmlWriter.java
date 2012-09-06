@@ -5,15 +5,8 @@ import java.util.List;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.napile.asm.tree.members.AbstractMemberNode;
-import org.napile.asm.tree.members.AnnotationNode;
-import org.napile.asm.tree.members.ConstructorNode;
-import org.napile.asm.tree.members.Node;
-import org.napile.asm.tree.members.ClassNode;
-import org.napile.asm.tree.members.MethodNode;
-import org.napile.asm.tree.members.MethodParameterNode;
-import org.napile.asm.tree.members.TypeParameterNode;
-import org.napile.asm.tree.members.VariableNode;
+import org.napile.asm.Modifier;
+import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
@@ -22,7 +15,6 @@ import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asm.Modifier;
 import org.napile.compiler.lang.resolve.name.FqName;
 
 /**
@@ -94,13 +86,26 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 	public void visitConstructorNode(ConstructorNode constructorNode, Element a2)
 	{
 		final Element temp = a2.addElement("constructor");
-		temp.addAttribute("name", constructorNode.name);
 
 		addMemberElements(temp, constructorNode);
 
 		ifNotEmptyAdd(constructorNode.annotations, "annotations", temp);
 
 		ifNotEmptyAdd(constructorNode.parameters, "parameters", temp);
+
+		if(constructorNode.instructions.size() > 0)
+		{
+			Element parent = temp.addElement("code");
+			parent.addAttribute("max_locals", String.valueOf(constructorNode.maxLocals));
+			for(Instruction instruction : constructorNode.instructions)
+				instruction.accept(this, parent);
+		}
+	}
+
+	@Override
+	public void visitStaticConstructorNode(StaticConstructorNode constructorNode, Element a2)
+	{
+		final Element temp = a2.addElement("static_constructor");
 
 		if(constructorNode.instructions.size() > 0)
 		{

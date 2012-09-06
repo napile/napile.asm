@@ -34,6 +34,8 @@ public interface NodeVisitor<A2>
 
 	void visitConstructorNode(ConstructorNode constructorNode, A2 a2);
 
+	void visitStaticConstructorNode(StaticConstructorNode staticConstructorNode, A2 arg);
+
 	void visitVariableNode(VariableNode variableNode, A2 arg);
 
 	void visitMethodParameterNode(MethodParameterNode methodParameterNode, A2 a2);

@@ -16,32 +16,23 @@
 
 package org.napile.asm.tree.members;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
 
 /**
  * @author VISTALL
- * @date 18:23/06.09.12
+ * @date 19:24/06.09.12
  */
-public class ConstructorNode extends LikeMethodNode<ConstructorNode>
+public class StaticConstructorNode extends LikeMethodNode<StaticConstructorNode>
 {
-	/**
-	 * Parameters of method
-	 */
-	@NotNull
-	public final List<MethodParameterNode> parameters = new ArrayList<MethodParameterNode>(0);
-
-	public ConstructorNode(@NotNull Modifier[] modifiers)
+	public StaticConstructorNode()
 	{
-		super(modifiers);
+		super(Modifier.EMPTY);
 	}
 
 	@Override
 	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
 	{
-		visitor.visitConstructorNode(this, arg);
+		visitor.visitStaticConstructorNode(this, arg);
 	}
 }
