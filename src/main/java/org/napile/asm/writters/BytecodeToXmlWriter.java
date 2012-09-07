@@ -344,4 +344,24 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 		temp.addAttribute("name", variableRef.variable.toString());
 		variableRef.returnType.accept(this, temp);
 	}
+
+	@Override
+	public void visitGetVariable(GetVariableInstruction instruction, Element a)
+	{
+		Element temp = a.addElement("get_variable");
+		temp = temp.addElement("variable");
+		VariableRef variableRef = instruction.variableRef;
+		temp.addAttribute("name", variableRef.variable.toString());
+		variableRef.returnType.accept(this, temp);
+	}
+
+	@Override
+	public void visitGetStaticVariable(GetStaticVariableInstruction instruction, Element a)
+	{
+		Element temp = a.addElement("get_static_variable");
+		temp = temp.addElement("variable");
+		VariableRef variableRef = instruction.variableRef;
+		temp.addAttribute("name", variableRef.variable.toString());
+		variableRef.returnType.accept(this, temp);
+	}
 }

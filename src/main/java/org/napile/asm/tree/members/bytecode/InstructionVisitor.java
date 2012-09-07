@@ -59,4 +59,8 @@ public interface InstructionVisitor<T>
 	void visitPutToVariable(PutToVariableInstruction instruction, T a);
 
 	void visitPutToStaticVariable(PutToStaticVariableInstruction instruction, T a);
+
+	void visitGetVariable(GetVariableInstruction instruction, T a);
+
+	void visitGetStaticVariable(GetStaticVariableInstruction instruction, T a);
 }
