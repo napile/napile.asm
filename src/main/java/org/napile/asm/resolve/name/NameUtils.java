@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 napile.org
+ * Copyright 2010-2012 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,29 +14,26 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members.bytecode;
-
-import java.util.Collections;
-import java.util.List;
+package org.napile.asm.resolve.name;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asm.resolve.name.FqName;
 
 /**
- * @author VISTALL
- * @date 22:17/31.08.12
+ * @author Stepan Koltsov
  */
-public class MethodRef
+public class NameUtils
 {
-	public final FqName method;
-	public final TypeNode returnType;
-	public final List<TypeNode> parameters;
 
-	public MethodRef(@NotNull FqName method, @NotNull List<TypeNode> parameters, TypeNode returnType)
+	public static boolean isValidIdentified(@NotNull String name)
 	{
-		this.method = method;
-		this.returnType = returnType;
-		this.parameters = Collections.unmodifiableList(parameters);
+		return name.length() > 0 && !name.startsWith("<") && !name.contains(".") && !name.contains("/");
+	}
+
+	public static void requireIdentifier(@NotNull String name)
+	{
+		if(!isValidIdentified(name))
+		{
+			throw new IllegalArgumentException("invalid identifier: " + name);
+		}
 	}
 }

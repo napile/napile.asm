@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.types.ClassTypeNode;
-import org.napile.compiler.lang.resolve.name.FqName;
+import org.napile.asm.resolve.name.FqName;
 
 /**
  * @author VISTALL

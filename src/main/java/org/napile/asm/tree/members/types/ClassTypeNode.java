@@ -18,7 +18,7 @@ package org.napile.asm.tree.members.types;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.NodeVisitor;
-import org.napile.compiler.lang.resolve.name.FqName;
+import org.napile.asm.resolve.name.FqName;
 
 /**
  * @author VISTALL

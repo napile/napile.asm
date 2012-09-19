@@ -31,8 +31,8 @@ import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.AsmBuilder;
 import org.napile.asm.Modifier;
-import org.napile.compiler.lang.resolve.name.FqName;
-import org.napile.compiler.lang.rt.NapileLangPackage;
+import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.lib.NapileLangPackage;
 
 /**
  * @author VISTALL

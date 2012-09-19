@@ -6,7 +6,7 @@ import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.parsing.type.TypeNodeUtil;
-import org.napile.compiler.lang.rt.NapileLangPackage;
+import org.napile.asm.lib.NapileLangPackage;
 
 /**
  * @author VISTALL

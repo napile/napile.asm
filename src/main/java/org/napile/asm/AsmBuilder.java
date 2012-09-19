@@ -16,7 +16,7 @@ import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.writters.AsmWriter;
-import org.napile.compiler.lang.resolve.name.FqName;
+import org.napile.asm.resolve.name.FqName;
 
 /**
  * @author VISTALL

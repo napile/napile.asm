@@ -8,7 +8,7 @@ import java.util.List;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.jetbrains.annotations.NotNull;
-import org.napile.compiler.lang.resolve.name.FqName;
+import org.napile.asm.resolve.name.FqName;
 
 /**
  * @author VISTALL

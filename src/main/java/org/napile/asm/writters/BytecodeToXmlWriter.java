@@ -15,7 +15,7 @@ import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.tree.members.types.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.compiler.lang.resolve.name.FqName;
+import org.napile.asm.resolve.name.FqName;
 
 /**
  * @author VISTALL

@@ -14,29 +14,20 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members.bytecode;
+package org.napile.asm.lib;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.resolve.name.Name;
 
 /**
  * @author VISTALL
- * @date 22:17/31.08.12
+ * @date 12:26/25.08.12
  */
-public class MethodRef
+public interface NapileAnnotationPackage
 {
-	public final FqName method;
-	public final TypeNode returnType;
-	public final List<TypeNode> parameters;
+	FqName PACKAGE = new FqName("napile.annotation");
 
-	public MethodRef(@NotNull FqName method, @NotNull List<TypeNode> parameters, TypeNode returnType)
-	{
-		this.method = method;
-		this.returnType = returnType;
-		this.parameters = Collections.unmodifiableList(parameters);
-	}
+	FqName ANNOTATION = PACKAGE.child(Name.identifier("Annotation"));
+
+	FqName REPEATABLE = PACKAGE.child(Name.identifier("Repeatable"));
 }
