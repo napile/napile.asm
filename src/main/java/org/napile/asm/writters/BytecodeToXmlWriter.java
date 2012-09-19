@@ -289,6 +289,11 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 		a.addElement("return");
 	}
 
+	public void visitThrowInstruction(ThrowInstruction instruction, Element a)
+	{
+		a.addElement("throw");
+	}
+
 	@Override
 	public void visitInvokeStatic(InvokeStaticInstruction instruction, Element a)
 	{

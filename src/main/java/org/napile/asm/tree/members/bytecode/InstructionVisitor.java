@@ -63,4 +63,6 @@ public interface InstructionVisitor<T>
 	void visitGetVariable(GetVariableInstruction instruction, T a);
 
 	void visitGetStaticVariable(GetStaticVariableInstruction instruction, T a);
+
+	void visitThrowInstruction(ThrowInstruction throwInstruction, T a2);
 }
