@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.types.ClassTypeNode;
 import org.napile.asm.Modifier;
+import org.napile.asm.tree.members.types.ClassTypeNode;
+import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.compiler.lang.resolve.name.FqName;
 
 /**
@@ -38,7 +39,7 @@ public class ClassNode extends AbstractMemberNode<ClassNode>
 	public List<AbstractMemberNode> members = new ArrayList<AbstractMemberNode>();
 
 	@NotNull
-	public final List<ClassTypeNode> supers = new ArrayList<ClassTypeNode>(1);
+	public final List<TypeNode> supers = new ArrayList<TypeNode>(1);
 
 	public ClassNode(@NotNull Modifier[] modifiers, @NotNull FqName fqName)
 	{
@@ -49,16 +50,18 @@ public class ClassNode extends AbstractMemberNode<ClassNode>
 
 	public ClassNode visitSuper(@NotNull String s)
 	{
-		return visitSuper(new ClassTypeNode(new FqName(s)));
+		return visitSuper(new TypeNode(false, new ClassTypeNode(new FqName(s))));
 	}
 
 	public ClassNode visitSuper(@NotNull FqName fqName)
 	{
-		return visitSuper(new ClassTypeNode(fqName));
+		return visitSuper(new TypeNode(false, new ClassTypeNode(fqName)));
 	}
 
-	public ClassNode visitSuper(@NotNull ClassTypeNode typeNode)
+	public ClassNode visitSuper(@NotNull TypeNode typeNode)
 	{
+		if(typeNode.nullable || !(typeNode.typeConstructorNode instanceof ClassTypeNode))
+			throw new IllegalArgumentException("Super type cant be nullable or not ClassTypeNode");
 		supers.add(typeNode);
 		return this;
 	}
