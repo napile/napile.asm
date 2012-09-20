@@ -29,6 +29,8 @@ public interface NapileLangPackage
 
 	FqName ANY = PACKAGE.child(Name.identifier("Any"));
 
+	FqName ARRAY = PACKAGE.child(Name.identifier("Array"));
+
 	FqName NUMBER = PACKAGE.child(Name.identifier("Number"));
 
 	FqName BOOL = PACKAGE.child(Name.identifier("Bool"));
