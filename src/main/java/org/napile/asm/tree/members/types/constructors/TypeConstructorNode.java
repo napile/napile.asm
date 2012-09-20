@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members.types;
+package org.napile.asm.tree.members.types.constructors;
 
 import org.napile.asm.tree.members.Node;
 

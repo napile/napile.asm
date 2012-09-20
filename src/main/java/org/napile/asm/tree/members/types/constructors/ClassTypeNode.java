@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members.types;
+package org.napile.asm.tree.members.types.constructors;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.NodeVisitor;
@@ -26,17 +26,12 @@ import org.napile.asm.resolve.name.FqName;
  */
 public class ClassTypeNode implements TypeConstructorNode
 {
-	private final FqName className;
+	@NotNull
+	public final FqName className;
 
 	public ClassTypeNode(@NotNull FqName className)
 	{
 		this.className = className;
-	}
-
-	@NotNull
-	public FqName getClassName()
-	{
-		return className;
 	}
 
 	@Override

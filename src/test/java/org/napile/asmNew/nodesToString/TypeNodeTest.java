@@ -2,11 +2,12 @@ package org.napile.asmNew.nodesToString;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.napile.asm.tree.members.types.ClassTypeNode;
-import org.napile.asm.tree.members.types.ThisTypeNode;
+import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.parsing.type.TypeNodeUtil;
 import org.napile.asm.lib.NapileLangPackage;
+import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 
 /**
  * @author VISTALL
@@ -34,6 +35,16 @@ public class TypeNodeTest
 		type.visitArgument(new TypeNode(false, new ThisTypeNode()));
 
 		createAndParserCheck(type, "napile.lang.Any<napile.lang.Double?, this>");
+	}
+
+	@Test
+	public void test4()
+	{
+		TypeNode type = new TypeNode(false, new TypeParameterValueTypeNode("E"));
+		type.visitArgument(new TypeNode(true, new ClassTypeNode(NapileLangPackage.DOUBLE)));
+		type.visitArgument(new TypeNode(false, new ThisTypeNode()));
+
+		createAndParserCheck(type, ":E:<napile.lang.Double?, this>");
 	}
 
 	private static void createAndParserCheck(final TypeNode typeNode, final String type)

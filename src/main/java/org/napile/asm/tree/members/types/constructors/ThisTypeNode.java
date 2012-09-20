@@ -1,4 +1,4 @@
-package org.napile.asm.tree.members.types;
+package org.napile.asm.tree.members.types.constructors;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.NodeVisitor;

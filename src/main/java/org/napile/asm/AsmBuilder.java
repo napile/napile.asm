@@ -13,7 +13,7 @@ import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
 import org.napile.asm.tree.members.VariableNode;
-import org.napile.asm.tree.members.types.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.writters.AsmWriter;
 import org.napile.asm.resolve.name.FqName;

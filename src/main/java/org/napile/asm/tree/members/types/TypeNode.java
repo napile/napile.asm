@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.AnnotableNode;
 import org.napile.asm.tree.members.AnnotationNode;
 import org.napile.asm.tree.members.NodeVisitor;
+import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.util.Comparing2;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.Function;

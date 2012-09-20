@@ -24,11 +24,12 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.types.ClassTypeNode;
-import org.napile.asm.tree.members.types.ThisTypeNode;
-import org.napile.asm.tree.members.types.TypeConstructorNode;
+import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
+import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 
 /**
  * @author VISTALL
@@ -54,7 +55,7 @@ public class TypeNodeWorker extends TypeNodeBaseListener
 	}
 
 	@Override
-	public void enterClassOrThisType(TypeNodeParser.ClassOrThisTypeContext ctx)
+	public void enterTypePart(TypeNodeParser.TypePartContext ctx)
 	{
 		acceptChild(ctx);
 	}
@@ -69,6 +70,12 @@ public class TypeNodeWorker extends TypeNodeBaseListener
 	public void enterClassType(TypeNodeParser.ClassTypeContext ctx)
 	{
 		typeConstructorNode = new ClassTypeNode(new FqName(ctx.qualifiedName().getText(tokenStream)));
+	}
+
+	@Override
+	public void enterTypeParameterValue(TypeNodeParser.TypeParameterValueContext ctx)
+	{
+		typeConstructorNode = new TypeParameterValueTypeNode(ctx.Identifier().getSymbol().getText());
 	}
 
 	@Override
@@ -98,7 +105,7 @@ public class TypeNodeWorker extends TypeNodeBaseListener
 			if(parserTree instanceof ParserRuleContext)
 				((ParserRuleContext) parserTree).enterRule(this);
 			else if(parserTree instanceof ParseTree.TerminalNode)
-				visitTerminal((ParseTree.TerminalNode)parserTree);
+				visitTerminal((ParseTree.TerminalNode) parserTree);
 		}
 	}
 

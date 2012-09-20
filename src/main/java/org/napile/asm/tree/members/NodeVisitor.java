@@ -16,9 +16,10 @@
 
 package org.napile.asm.tree.members;
 
-import org.napile.asm.tree.members.types.ClassTypeNode;
-import org.napile.asm.tree.members.types.ThisTypeNode;
+import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
+import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 
 /**
  * @author VISTALL
@@ -47,4 +48,6 @@ public interface NodeVisitor<A2>
 	void visitClassTypeNode(ClassTypeNode classTypeNode, A2 a2);
 
 	void visitThisTypeNode(ThisTypeNode thisTypeNode, A2 a2);
+
+	void visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, A2 arg);
 }

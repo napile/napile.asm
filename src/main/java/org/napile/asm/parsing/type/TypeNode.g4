@@ -9,17 +9,24 @@ package org.napile.asm.parsing.type;
 package org.napile.asm.parsing.type;
 }
 
-typeNode: classOrThisType arguments? nulled?;
+typeNode: typePart arguments? nulled?;
 
 arguments : '<' typeNode (',' typeNode)? '>';
 
-classOrThisType : classType | thisType;
+typePart : classType | typeParameterValue | thisType;
 
+// class type
 classType : qualifiedName;
 
-nulled: '?';
-
+// this type
 thisType : 'this';
+
+// type parameter value
+typeParameterValue : ':' Identifier ':';
+
+//TODO [VISTALL] add parsing of method types
+
+nulled: '?';
 
 qualifiedName: Identifier ('.' Identifier)*;
 

@@ -12,10 +12,11 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
-import org.napile.asm.tree.members.types.ClassTypeNode;
-import org.napile.asm.tree.members.types.ThisTypeNode;
+import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 
 /**
  * @author VISTALL
@@ -168,13 +169,20 @@ public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> imple
 	public void visitClassTypeNode(ClassTypeNode classTypeNode, Element a2)
 	{
 		final Element temp = a2.addElement("class_type");
-		temp.addAttribute("name", classTypeNode.getClassName().getFqName());
+		temp.addAttribute("name", classTypeNode.className.getFqName());
 	}
 
 	@Override
 	public void visitThisTypeNode(ThisTypeNode thisTypeNode, Element a2)
 	{
 		a2.addElement("this_type");
+	}
+
+	@Override
+	public void visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, Element a2)
+	{
+		final Element temp = a2.addElement("type_parameter_value_type");
+		temp.addAttribute("name", typeParameterValueTypeNode.name);
 	}
 
 	private void ifNotEmptyAdd(List<? extends Node> list, String name, Element parent)
