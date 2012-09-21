@@ -196,6 +196,8 @@ public class AsmXmlFileReader
 					instruction = new NewFloatInstruction(Float.parseFloat(instructionElement.attributeValue("val")));
 				else if("new_double".equals(instructionName))
 					instruction = new NewDoubleInstruction(Double.parseDouble(instructionElement.attributeValue("val")));
+				else if("new_string".equals(instructionName))
+					instruction = new NewStringInstruction(instructionElement.attributeValue("val"));
 				else if("new_object".equals(instructionName))
 					instruction = new NewObjectInstruction(readType(instructionElement.element("type"))) ;
 				else if("store".equals(instructionName))
