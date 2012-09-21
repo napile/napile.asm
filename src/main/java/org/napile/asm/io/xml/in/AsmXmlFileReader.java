@@ -147,7 +147,9 @@ public class AsmXmlFileReader
 	{
 		MethodNode methodNode = new MethodNode(readModifiers(child), child.attributeValue("name"));
 
-		methodNode.returnType = readType(child.element("return_type").element("type"));
+		Element returnElement = child.element("return_type");
+		if(returnElement != null)
+			methodNode.returnType = readType(returnElement.element("type"));
 
 		readTypeParameters(child, methodNode);
 
