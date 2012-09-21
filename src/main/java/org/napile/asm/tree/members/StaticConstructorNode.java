@@ -27,7 +27,7 @@ public class StaticConstructorNode extends LikeMethodNode<StaticConstructorNode>
 {
 	public StaticConstructorNode()
 	{
-		super(Modifier.EMPTY);
+		super(new Modifier[] {Modifier.STATIC});
 	}
 
 	@Override
