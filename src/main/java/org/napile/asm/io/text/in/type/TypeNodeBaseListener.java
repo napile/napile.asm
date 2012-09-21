@@ -1,5 +1,5 @@
 
-package org.napile.asm.parsing.type;
+package org.napile.asm.io.text.in.type;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;

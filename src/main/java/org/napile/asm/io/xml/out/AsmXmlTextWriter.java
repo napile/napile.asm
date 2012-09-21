@@ -1,4 +1,4 @@
-package org.napile.asm.writters;
+package org.napile.asm.io.xml.out;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @author VISTALL
  * @date 17:57/31.08.12
  */
-public class BytecodeToXmlTextWriter extends BytecodeToXmlWriter<String>
+public class AsmXmlTextWriter extends AbstractAsmXmlWriter<String>
 {
 	@NotNull
 	@Override
@@ -32,5 +32,4 @@ public class BytecodeToXmlTextWriter extends BytecodeToXmlWriter<String>
 		}
 		return stringWriter.toString();
 	}
-
 }

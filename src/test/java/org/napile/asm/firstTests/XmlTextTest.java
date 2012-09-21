@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package org.napile.asmNew;
+package org.napile.asm.firstTests;
 
-import org.junit.Test;
-import org.napile.asm.Modifier;
+import java.util.List;
+
+import org.napile.asm.AsmBuilder;
+import org.napile.asm.io.xml.out.AsmXmlTextWriter;
 
 /**
  * @author VISTALL
- * @date 23:17/13.08.12
+ * @date 22:46/13.08.12
  */
-public class ModifierTest
+public class XmlTextTest
 {
-	@Test(expected = IllegalArgumentException.class)
-	public void test()
+	public static void main(String... arg)
 	{
-		Modifier.list(Modifier.ABSTRACT, Modifier.COVERED, Modifier.HERITABLE);
+		AsmBuilder builder = NodeUtil.createTestClassNode();
+
+		List<String> result = builder.getResult(new AsmXmlTextWriter());
+
+		for(String s : result)
+			System.out.println(s);
 	}
 }

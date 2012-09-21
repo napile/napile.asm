@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.LangVersion;
 import org.napile.asm.Modifier;
+import org.napile.asm.io.xml.out.AsmXmlTextWriter;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.resolve.name.FqName;
@@ -74,5 +76,12 @@ public class ClassNode extends AbstractMemberNode<ClassNode>
 	public <T> void accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T> asmVisitor, T a2)
 	{
 		asmVisitor.visitClassNode(this, a2);
+	}
+
+	@Override
+	public String toString()
+	{
+		AsmXmlTextWriter writer = new AsmXmlTextWriter();
+		return writer.write(LangVersion.CURRENT, this);
 	}
 }

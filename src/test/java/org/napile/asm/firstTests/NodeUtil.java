@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package org.napile.asmNew.firstTests;
+package org.napile.asm.firstTests;
 
 import java.util.Collections;
 
+import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.bytecode.MethodRef;
+import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.InvokeStaticInstruction;
 import org.napile.asm.tree.members.bytecode.impl.LoadInstruction;
 import org.napile.asm.tree.members.bytecode.impl.NewIntInstruction;
 import org.napile.asm.tree.members.bytecode.impl.NewObjectInstruction;
+import org.napile.asm.tree.members.bytecode.impl.PutToStaticVariableInstruction;
 import org.napile.asm.tree.members.bytecode.impl.StoreInstruction;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
@@ -33,6 +36,7 @@ import org.napile.asm.AsmBuilder;
 import org.napile.asm.Modifier;
 import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.lib.NapileLangPackage;
+import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 
 /**
  * @author VISTALL
@@ -44,6 +48,7 @@ public class NodeUtil
 	{
 		AsmBuilder asmBuilder = new AsmBuilder();
 		asmBuilder.visitClass(Modifier.list(Modifier.ABSTRACT), NapileLangPackage.INT).visitSuper(NapileLangPackage.ANY);
+		asmBuilder.visitTypeParameter("E");
 
 		MethodNode methodNode = asmBuilder.visitMethod(Modifier.list(Modifier.STATIC), "main");
 		asmBuilder.visitMethodParameter(true, "arg", asmBuilder.createTypeOfClass("napile.lang.Array").visitArgument(asmBuilder.createTypeOfClass(NapileLangPackage.STRING))) ;
@@ -56,6 +61,7 @@ public class NodeUtil
 		methodNode.instructions.add(new InvokeStaticInstruction(new MethodRef(new FqName("Console.write"), Collections.singletonList(asmBuilder.createTypeOfClass(NapileLangPackage.INT)), null)));
 
 		methodNode.instructions.add(new NewObjectInstruction(asmBuilder.createTypeOfClass(NapileLangPackage.ANY)));
+		methodNode.instructions.add(new PutToStaticVariableInstruction(new VariableRef(NapileLangPackage.ANY.child(Name.identifier("Test")), new TypeNode(false, new TypeParameterValueTypeNode("E")))));
 
 		VariableNode variableNode = asmBuilder.visitVariable(Modifier.list(Modifier.NATIVE), "myVar");
 		variableNode.returnType = new TypeNode(false, new ClassTypeNode(NapileLangPackage.INT));

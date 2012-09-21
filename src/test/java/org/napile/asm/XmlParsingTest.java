@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 JetBrains s.r.o.
+ * Copyright 2010-2012 napile.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-package org.napile.asmNew.firstTests;
+package org.napile.asm;
 
-import java.util.List;
+import java.io.FileInputStream;
 
-import org.napile.asm.AsmBuilder;
-import org.napile.asm.writters.BytecodeToXmlTextWriter;
+import org.napile.asm.io.xml.in.AsmXmlFileReader;
+import org.napile.asm.tree.members.ClassNode;
 
 /**
  * @author VISTALL
- * @date 22:46/13.08.12
+ * @date 17:16/21.09.12
  */
-public class XmlTextTest
+public class XmlParsingTest
 {
-	public static void main(String... arg)
+	public static void main(String... arg) throws Exception
 	{
-		AsmBuilder builder = NodeUtil.createTestClassNode();
+		AsmXmlFileReader xmlFileReader = new AsmXmlFileReader();
 
-		List<String> result = builder.getResult(new BytecodeToXmlTextWriter());
+		ClassNode classNode = xmlFileReader.read(new FileInputStream("src/test/output/napile/lang/Int.xml"));
 
-		for(String s : result)
-			System.out.println(s);
+		System.out.println(classNode);
 	}
 }

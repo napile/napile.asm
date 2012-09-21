@@ -1,4 +1,4 @@
-package org.napile.asm.writters;
+package org.napile.asm.io.xml.out;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,12 +14,12 @@ import org.napile.asm.resolve.name.FqName;
  * @author VISTALL
  * @date 18:51/04.09.12
  */
-public class BytecodeToXmlFileWriter extends BytecodeToXmlWriter<File>
+public class AsmXmlFileWriter extends AbstractAsmXmlWriter<File>
 {
 	@NotNull
 	private final File outputDir;
 
-	public BytecodeToXmlFileWriter(@NotNull File outputDir)
+	public AsmXmlFileWriter(@NotNull File outputDir)
 	{
 		this.outputDir = outputDir;
 	}

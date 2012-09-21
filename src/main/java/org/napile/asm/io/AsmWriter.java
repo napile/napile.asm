@@ -1,4 +1,4 @@
-package org.napile.asm.writters;
+package org.napile.asm.io;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.ClassNode;

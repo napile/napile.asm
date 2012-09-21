@@ -16,7 +16,7 @@
 
 // $ANTLR ANTLRVersion> TypeNodeLexerLexer.java generatedTimestamp>
 
-package org.napile.asm.parsing.type;
+package org.napile.asm.io.text.in.type;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

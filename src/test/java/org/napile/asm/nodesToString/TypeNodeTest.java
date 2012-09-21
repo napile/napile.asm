@@ -1,11 +1,11 @@
-package org.napile.asmNew.nodesToString;
+package org.napile.asm.nodesToString;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asm.parsing.type.TypeNodeUtil;
+import org.napile.asm.io.text.in.type.TypeNodeUtil;
 import org.napile.asm.lib.NapileLangPackage;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 

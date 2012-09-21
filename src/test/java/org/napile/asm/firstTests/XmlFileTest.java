@@ -1,10 +1,10 @@
-package org.napile.asmNew.firstTests;
+package org.napile.asm.firstTests;
 
 import java.io.File;
 import java.util.List;
 
 import org.napile.asm.AsmBuilder;
-import org.napile.asm.writters.BytecodeToXmlFileWriter;
+import org.napile.asm.io.xml.out.AsmXmlFileWriter;
 
 /**
  * @author VISTALL
@@ -16,7 +16,7 @@ public class XmlFileTest
 	{
 		AsmBuilder builder = NodeUtil.createTestClassNode();
 
-		List<File> result = builder.getResult(new BytecodeToXmlFileWriter(new File("src/test/output")));
+		List<File> result = builder.getResult(new AsmXmlFileWriter(new File("src/test/output")));
 
 		for(File s : result)
 			System.out.println(s.getAbsolutePath());

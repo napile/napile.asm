@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.napile.asm.parsing.type;
+package org.napile.asm.io.text.in.type;
 
 import java.util.ArrayList;
 import java.util.List;

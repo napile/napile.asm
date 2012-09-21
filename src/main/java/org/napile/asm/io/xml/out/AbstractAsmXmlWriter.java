@@ -1,4 +1,4 @@
-package org.napile.asm.writters;
+package org.napile.asm.io.xml.out;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.napile.asm.Modifier;
+import org.napile.asm.io.AsmWriter;
 import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
@@ -22,7 +23,7 @@ import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode
  * @author VISTALL
  * @date 17:51/31.08.12
  */
-public abstract class BytecodeToXmlWriter<R> extends AsmWriter<Element, R> implements InstructionVisitor<Element>
+public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> implements InstructionVisitor<Element>
 {
 	protected Document document;
 	protected FqName fqName;

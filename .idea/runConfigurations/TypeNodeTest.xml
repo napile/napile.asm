@@ -2,15 +2,15 @@
   <configuration default="false" name="TypeNodeTest" type="JUnit" factoryName="JUnit">
     <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
       <pattern>
-        <option name="PATTERN" value="org.napile.asmNew.nodesToString.*" />
+        <option name="PATTERN" value="org.napile.asm.nodesToString.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
     <module name="napile.asm" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" value="" />
-    <option name="PACKAGE_NAME" value="org.napile.asmNew.nodesToString" />
-    <option name="MAIN_CLASS_NAME" value="org.napile.asmNew.nodesToString.TypeNodeTest" />
+    <option name="PACKAGE_NAME" value="org.napile.asm.nodesToString" />
+    <option name="MAIN_CLASS_NAME" value="org.napile.asm.nodesToString.TypeNodeTest" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
     <option name="VM_PARAMETERS" value="-ea" />
