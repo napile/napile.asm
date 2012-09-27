@@ -70,7 +70,7 @@ public interface InstructionVisitor<T>
 
 	void visitPopInstruction(PopInstruction popInstruction, T a2);
 
-	void visitIfInstruction(IfInstruction ifInstruction, T a2);
+	void visitJumpIfInstruction(JumpIfInstruction jumpIfInstruction, T a2);
 
-	void visitGoToInstruction(GoToInstruction goToInstruction, T a2);
+	void visitJumpInstruction(JumpInstruction jumpInstruction, T a2);
 }

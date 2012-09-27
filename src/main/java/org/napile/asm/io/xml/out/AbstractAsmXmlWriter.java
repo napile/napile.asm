@@ -317,16 +317,16 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 	}
 
 	@Override
-	public void visitIfInstruction(IfInstruction instruction, Element a)
+	public void visitJumpIfInstruction(JumpIfInstruction instruction, Element a)
 	{
-		Element element = a.addElement("if");
+		Element element = a.addElement("jump_if");
 		element.addAttribute("val", String.valueOf(instruction.value));
 	}
 
 	@Override
-	public void visitGoToInstruction(GoToInstruction instruction, Element a)
+	public void visitJumpInstruction(JumpInstruction instruction, Element a)
 	{
-		Element element = a.addElement("goto");
+		Element element = a.addElement("jump");
 		element.addAttribute("val", String.valueOf(instruction.value));
 	}
 

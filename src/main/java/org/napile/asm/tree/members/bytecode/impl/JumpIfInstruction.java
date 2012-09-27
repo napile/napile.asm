@@ -7,11 +7,11 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  * @author VISTALL
  * @date 16:51/27.09.12
  */
-public class IfInstruction implements Instruction
+public class JumpIfInstruction implements Instruction
 {
 	public final int value;
 
-	public IfInstruction(int value)
+	public JumpIfInstruction(int value)
 	{
 		this.value = value;
 	}
@@ -19,6 +19,6 @@ public class IfInstruction implements Instruction
 	@Override
 	public <T> void accept(InstructionVisitor<T> visitor, T a2)
 	{
-		visitor.visitIfInstruction(this, a2);
+		visitor.visitJumpIfInstruction(this, a2);
 	}
 }
