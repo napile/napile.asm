@@ -22,55 +22,55 @@ import org.napile.asm.tree.members.bytecode.impl.*;
  * @author VISTALL
  * @date 22:23/31.08.12
  */
-public interface InstructionVisitor<T>
+public interface InstructionVisitor<T, R>
 {
-	void visitDup(DupInstruction instruction, T a);
+	R visitDup(DupInstruction instruction, T a);
 
-	void visitLoad(LoadInstruction instruction, T a);
+	R visitLoad(LoadInstruction instruction, T a);
 
-	void visitStore(StoreInstruction instruction, T a);
+	R visitStore(StoreInstruction instruction, T a);
 
-	void visitNewObject(NewObjectInstruction instruction, T a);
+	R visitNewObject(NewObjectInstruction instruction, T a);
 
-	void visitNewByte(NewByteInstruction instruction, T a);
+	R visitNewByte(NewByteInstruction instruction, T a);
 
-	void visitNewShort(NewShortInstruction instruction, T a);
+	R visitNewShort(NewShortInstruction instruction, T a);
 
-	void visitNewInt(NewIntInstruction instruction, T a);
+	R visitNewInt(NewIntInstruction instruction, T a);
 
-	void visitNewLong(NewLongInstruction instruction, T a);
+	R visitNewLong(NewLongInstruction instruction, T a);
 
-	void visitNewFloat(NewFloatInstruction instruction, T a);
+	R visitNewFloat(NewFloatInstruction instruction, T a);
 
-	void visitNewDouble(NewDoubleInstruction instruction, T a);
+	R visitNewDouble(NewDoubleInstruction instruction, T a);
 
-	void visitNewChar(NewCharInstruction instruction, T a);
+	R visitNewChar(NewCharInstruction instruction, T a);
 
-	void visitNewString(NewStringInstruction instruction, T a);
+	R visitNewString(NewStringInstruction instruction, T a);
 
-	void visitReturn(ReturnInstruction instruction, T a);
+	R visitReturn(ReturnInstruction instruction, T a);
 
-	void visitInvokeStatic(InvokeStaticInstruction instruction, T a);
+	R visitInvokeStatic(InvokeStaticInstruction instruction, T a);
 
-	void visitInvokeSpecial(InvokeSpecialInstruction instruction, T a);
+	R visitInvokeSpecial(InvokeSpecialInstruction instruction, T a);
 
-	void visitInvokeVirtual(InvokeVirtualInstruction instruction, T a);
+	R visitInvokeVirtual(InvokeVirtualInstruction instruction, T a);
 
-	void visitPutToVariable(PutToVariableInstruction instruction, T a);
+	R visitPutToVariable(PutToVariableInstruction instruction, T a);
 
-	void visitPutToStaticVariable(PutToStaticVariableInstruction instruction, T a);
+	R visitPutToStaticVariable(PutToStaticVariableInstruction instruction, T a);
 
-	void visitGetVariable(GetVariableInstruction instruction, T a);
+	R visitGetVariable(GetVariableInstruction instruction, T a);
 
-	void visitGetStaticVariable(GetStaticVariableInstruction instruction, T a);
+	R visitGetStaticVariable(GetStaticVariableInstruction instruction, T a);
 
-	void visitThrowInstruction(ThrowInstruction throwInstruction, T a2);
+	R visitThrowInstruction(ThrowInstruction throwInstruction, T a2);
 
-	void visitSwapInstruction(SwapInstruction swapInstruction, T a2);
+	R visitSwapInstruction(SwapInstruction swapInstruction, T a2);
 
-	void visitPopInstruction(PopInstruction popInstruction, T a2);
+	R visitPopInstruction(PopInstruction popInstruction, T a2);
 
-	void visitJumpIfInstruction(JumpIfInstruction jumpIfInstruction, T a2);
+	R visitJumpIfInstruction(JumpIfInstruction jumpIfInstruction, T a2);
 
-	void visitJumpInstruction(JumpInstruction jumpInstruction, T a2);
+	R visitJumpInstruction(JumpInstruction jumpInstruction, T a2);
 }

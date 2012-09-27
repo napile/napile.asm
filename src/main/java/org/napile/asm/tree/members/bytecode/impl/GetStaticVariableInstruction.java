@@ -19,9 +19,10 @@ public class GetStaticVariableInstruction implements Instruction
 		this.variableRef = variableRef;
 	}
 
+	@NotNull
 	@Override
-	public <T> void accept(InstructionVisitor<T> visitor, T a2)
+	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		visitor.visitGetStaticVariable(this, a2);
+		return visitor.visitGetStaticVariable(this, a2);
 	}
 }

@@ -54,9 +54,9 @@ public class TypeNode extends AnnotableNode<TypeNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
-		visitor.visitTypeNode(this, arg);
+		return visitor.visitTypeNode(this, arg);
 	}
 
 	@Override

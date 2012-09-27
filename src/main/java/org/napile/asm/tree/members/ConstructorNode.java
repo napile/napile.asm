@@ -40,8 +40,8 @@ public class ConstructorNode extends LikeMethodNode<ConstructorNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
-		visitor.visitConstructorNode(this, arg);
+		return visitor.visitConstructorNode(this, arg);
 	}
 }

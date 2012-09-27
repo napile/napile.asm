@@ -24,5 +24,5 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Node
 {
-	<T> void accept(@NotNull NodeVisitor<T> visitor, T arg);
+	<T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg);
 }

@@ -34,16 +34,15 @@ public class TypeParameterValueTypeNode implements TypeConstructorNode
 	}
 
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
-		visitor.visitTypeParameterValueTypeNode(this, arg);
+		return visitor.visitTypeParameterValueTypeNode(this, arg);
 	}
 
 	@Override
 	public boolean equals(Object o)
 	{
 		return !(o == null || o.getClass() != TypeParameterValueTypeNode.class) && toString().equals(o.toString());
-
 	}
 
 	@Override

@@ -145,9 +145,9 @@ public class AsmBuilder
 	}
 
 	@NotNull
-	public <R> List<R> getResult(AsmWriter<?, R> writer)
+	public <W> List<W> getResult(AsmWriter<?, ?, W> writer)
 	{
-		List<R> result = new ArrayList<R>(classNodes.size());
+		List<W> result = new ArrayList<W>(classNodes.size());
 		for(ClassNode classNode : classNodes)
 			result.add(writer.write(langVersion, classNode));
 		return result;

@@ -55,8 +55,8 @@ public class VariableNode extends AbstractMemberNode<VariableNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
-		visitor.visitVariableNode(this, arg);
+		return visitor.visitVariableNode(this, arg);
 	}
 }

@@ -18,9 +18,10 @@ public class NewStringInstruction implements Instruction
 		this.value = value;
 	}
 
+	@NotNull
 	@Override
-	public <T> void accept(InstructionVisitor<T> visitor, T a2)
+	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		visitor.visitNewString(this, a2);
+		return visitor.visitNewString(this, a2);
 	}
 }

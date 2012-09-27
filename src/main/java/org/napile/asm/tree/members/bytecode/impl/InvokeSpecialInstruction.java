@@ -19,9 +19,10 @@ public class InvokeSpecialInstruction implements Instruction
 		this.methodRef = methodRef;
 	}
 
+	@NotNull
 	@Override
-	public <T> void accept(InstructionVisitor<T> visitor, T a2)
+	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		visitor.visitInvokeSpecial(this, a2);
+		return visitor.visitInvokeSpecial(this, a2);
 	}
 }

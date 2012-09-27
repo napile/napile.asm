@@ -73,9 +73,9 @@ public class ClassNode extends AbstractMemberNode<ClassNode>
 	// ------------------------------------------------------------------------
 
 	@Override
-	public <T> void accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T> asmVisitor, T a2)
+	public <T, R> R accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T, R> asmVisitor, T a2)
 	{
-		asmVisitor.visitClassNode(this, a2);
+		return asmVisitor.visitClassNode(this, a2);
 	}
 
 	@Override

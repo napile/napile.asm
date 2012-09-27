@@ -25,29 +25,29 @@ import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode
  * @author VISTALL
  * @date 22:20/13.08.12
  */
-public interface NodeVisitor<A2>
+public interface NodeVisitor<A, R>
 {
-	void visitAnnotationNode(AnnotationNode annotationNode, A2 a2);
+	R visitAnnotationNode(AnnotationNode annotationNode, A a2);
 
-	void visitClassNode(ClassNode classNode, A2 a2);
+	R visitClassNode(ClassNode classNode, A a2);
 
-	void visitMethodNode(MethodNode methodNode, A2 a2);
+	R visitMethodNode(MethodNode methodNode, A a2);
 
-	void visitConstructorNode(ConstructorNode constructorNode, A2 a2);
+	R visitConstructorNode(ConstructorNode constructorNode, A a2);
 
-	void visitStaticConstructorNode(StaticConstructorNode staticConstructorNode, A2 arg);
+	R visitStaticConstructorNode(StaticConstructorNode staticConstructorNode, A arg);
 
-	void visitVariableNode(VariableNode variableNode, A2 arg);
+	R visitVariableNode(VariableNode variableNode, A arg);
 
-	void visitMethodParameterNode(MethodParameterNode methodParameterNode, A2 a2);
+	R visitMethodParameterNode(MethodParameterNode methodParameterNode, A a2);
 
-	void visitTypeParameter(TypeParameterNode typeParameterNode, A2 a2);
+	R visitTypeParameter(TypeParameterNode typeParameterNode, A a2);
 
-	void visitTypeNode(TypeNode typeNode, A2 a2);
+	R visitTypeNode(TypeNode typeNode, A a2);
 
-	void visitClassTypeNode(ClassTypeNode classTypeNode, A2 a2);
+	R visitClassTypeNode(ClassTypeNode classTypeNode, A a2);
 
-	void visitThisTypeNode(ThisTypeNode thisTypeNode, A2 a2);
+	R visitThisTypeNode(ThisTypeNode thisTypeNode, A a2);
 
-	void visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, A2 arg);
+	R visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, A arg);
 }

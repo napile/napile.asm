@@ -16,6 +16,7 @@
 
 package org.napile.asm.tree.members.bytecode.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 
@@ -32,9 +33,10 @@ public class NewIntInstruction implements Instruction
 		this.value = value;
 	}
 
+	@NotNull
 	@Override
-	public <T> void accept(InstructionVisitor<T> visitor, T a2)
+	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		visitor.visitNewInt(this, a2);
+		return visitor.visitNewInt(this, a2);
 	}
 }

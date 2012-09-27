@@ -55,8 +55,8 @@ public class MethodNode extends LikeMethodNode<MethodNode>
 	// Accept method
 	// ------------------------------------------------------------------------
 	@Override
-	public <T> void accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T> asmVisitor, T a2)
+	public <T, R> R accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T, R> asmVisitor, T a2)
 	{
-		asmVisitor.visitMethodNode(this, a2);
+		return asmVisitor.visitMethodNode(this, a2);
 	}
 }

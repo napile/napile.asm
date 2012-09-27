@@ -33,9 +33,9 @@ public class AnnotationNode implements Node
 	}
 
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
-		visitor.visitAnnotationNode(this, arg);
+		return visitor.visitAnnotationNode(this, arg);
 	}
 
 	public FqName getName()

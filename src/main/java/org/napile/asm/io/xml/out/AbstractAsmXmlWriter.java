@@ -23,7 +23,7 @@ import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode
  * @author VISTALL
  * @date 17:51/31.08.12
  */
-public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> implements InstructionVisitor<Element>
+public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element, A> implements InstructionVisitor<Element, Element>
 {
 	protected Document document;
 	protected FqName fqName;
@@ -35,14 +35,15 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 	}
 
 	@Override
-	public void visitAnnotationNode(AnnotationNode annotationNode, Element o)
+	public Element visitAnnotationNode(AnnotationNode annotationNode, Element o)
 	{
 		final Element temp = o.addElement("annotation");
 		temp.addAttribute("name", annotationNode.getName().getFqName());
+		return temp;
 	}
 
 	@Override
-	public void visitClassNode(ClassNode classNode, Element a2)
+	public Element visitClassNode(ClassNode classNode, Element a2)
 	{
 		Element element = document.addElement("class");
 		fqName = classNode.name;
@@ -58,10 +59,11 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 
 		for(AbstractMemberNode memberNode : classNode.members)
 			memberNode.accept(this, element);
+		return element;
 	}
 
 	@Override
-	public void visitMethodNode(MethodNode methodNode, Element a2)
+	public Element visitMethodNode(MethodNode methodNode, Element a2)
 	{
 		final Element temp = a2.addElement("method");
 		temp.addAttribute("name", methodNode.name);
@@ -82,10 +84,11 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 			for(Instruction instruction : methodNode.instructions)
 				instruction.accept(this, parent);
 		}
+		return temp;
 	}
 
 	@Override
-	public void visitConstructorNode(ConstructorNode constructorNode, Element a2)
+	public Element visitConstructorNode(ConstructorNode constructorNode, Element a2)
 	{
 		final Element temp = a2.addElement("constructor");
 
@@ -99,13 +102,22 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 		{
 			Element parent = temp.addElement("code");
 			parent.addAttribute("max_locals", String.valueOf(constructorNode.maxLocals));
+
+			int i = 0;
 			for(Instruction instruction : constructorNode.instructions)
-				instruction.accept(this, parent);
+			{
+				Element e = instruction.accept(this, parent);
+
+				e.addComment("index" + i);
+
+				i ++;
+			}
 		}
+		return temp;
 	}
 
 	@Override
-	public void visitStaticConstructorNode(StaticConstructorNode constructorNode, Element a2)
+	public Element visitStaticConstructorNode(StaticConstructorNode constructorNode, Element a2)
 	{
 		final Element temp = a2.addElement("static_constructor");
 
@@ -116,10 +128,11 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 			for(Instruction instruction : constructorNode.instructions)
 				instruction.accept(this, parent);
 		}
+		return temp;
 	}
 
 	@Override
-	public void visitVariableNode(VariableNode variableNode, Element a2)
+	public Element visitVariableNode(VariableNode variableNode, Element a2)
 	{
 		final Element temp = a2.addElement("variable");
 		temp.addAttribute("name", variableNode.name);
@@ -129,10 +142,11 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 		ifNotEmptyAdd(variableNode.annotations, "annotations", temp);
 
 		variableNode.returnType.accept(this, temp.addElement("return_type"));
+		return temp;
 	}
 
 	@Override
-	public void visitMethodParameterNode(MethodParameterNode methodParameterNode, Element element)
+	public Element visitMethodParameterNode(MethodParameterNode methodParameterNode, Element element)
 	{
 		final Element temp = element.addElement("parameter");
 		temp.addAttribute("name", methodParameterNode.name);
@@ -142,19 +156,21 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 		ifNotEmptyAdd(methodParameterNode.annotations, "annotations", element);
 
 		methodParameterNode.typeNode.accept(this, temp);
+		return temp;
 	}
 
 	@Override
-	public void visitTypeParameter(TypeParameterNode typeParameterNode, Element a2)
+	public Element visitTypeParameter(TypeParameterNode typeParameterNode, Element a2)
 	{
 		Element temp = a2.addElement("type_parameter");
 		temp.addAttribute("name", typeParameterNode.name);
 
 		ifNotEmptyAdd(typeParameterNode.supers, "extends", temp);
+		return temp;
 	}
 
 	@Override
-	public void visitTypeNode(TypeNode typeNode, Element a2)
+	public Element visitTypeNode(TypeNode typeNode, Element a2)
 	{
 		final Element element = a2.addElement("type");
 		element.addAttribute("nullable", String.valueOf(typeNode.nullable));
@@ -164,26 +180,29 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 		typeNode.typeConstructorNode.accept(this, element);
 
 		ifNotEmptyAdd(typeNode.arguments, "type_arguments", element);
+		return element;
 	}
 
 	@Override
-	public void visitClassTypeNode(ClassTypeNode classTypeNode, Element a2)
+	public Element visitClassTypeNode(ClassTypeNode classTypeNode, Element a2)
 	{
 		final Element temp = a2.addElement("class_type");
 		temp.addAttribute("name", classTypeNode.className.getFqName());
+		return temp;
 	}
 
 	@Override
-	public void visitThisTypeNode(ThisTypeNode thisTypeNode, Element a2)
+	public Element visitThisTypeNode(ThisTypeNode thisTypeNode, Element a2)
 	{
-		a2.addElement("this_type");
+		return a2.addElement("this_type");
 	}
 
 	@Override
-	public void visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, Element a2)
+	public Element visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, Element a2)
 	{
 		final Element temp = a2.addElement("type_parameter_value_type");
 		temp.addAttribute("name", typeParameterValueTypeNode.name);
+		return temp;
 	}
 
 	private void ifNotEmptyAdd(List<? extends Node> list, String name, Element parent)
@@ -211,127 +230,140 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 	//-----------------------------------------------------------------------------
 
 	@Override
-	public void visitLoad(LoadInstruction instruction, Element a)
+	public Element visitLoad(LoadInstruction instruction, Element a)
 	{
 		Element element = a.addElement("load");
 		element.addAttribute("val", String.valueOf(instruction.varIndex));
+		return element;
 	}
 
-	public void visitDup(DupInstruction instruction, Element a)
+	public Element visitDup(DupInstruction instruction, Element a)
 	{
-		a.addElement("dup");
+		return a.addElement("dup");
 	}
 
 	@Override
-	public void visitStore(StoreInstruction instruction, Element a)
+	public Element visitStore(StoreInstruction instruction, Element a)
 	{
 		Element element = a.addElement("store");
 		element.addAttribute("val", String.valueOf(instruction.varIndex));
+		return element;
 	}
 
 	@Override
-	public void visitNewObject(NewObjectInstruction instruction, Element a)
+	public Element visitNewObject(NewObjectInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_object");
 		instruction.value.accept(this, element);
+		return element;
 	}
 
 	@Override
-	public void visitNewByte(NewByteInstruction instruction, Element a)
+	public Element visitNewByte(NewByteInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_byte");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitNewShort(NewShortInstruction instruction, Element a)
+	public Element visitNewShort(NewShortInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_short");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitNewInt(NewIntInstruction instruction, Element a)
+	public Element visitNewInt(NewIntInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_int");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitNewLong(NewLongInstruction instruction, Element a)
+	public Element visitNewLong(NewLongInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_long");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitNewFloat(NewFloatInstruction instruction, Element a)
+	public Element visitNewFloat(NewFloatInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_float");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitNewDouble(NewDoubleInstruction instruction, Element a)
+	public Element visitNewDouble(NewDoubleInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_double");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitNewChar(NewCharInstruction instruction, Element a)
+	public Element visitNewChar(NewCharInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_char");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitNewString(NewStringInstruction instruction, Element a)
+	public Element visitNewString(NewStringInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_string");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitReturn(ReturnInstruction instruction, Element a)
+	public Element visitReturn(ReturnInstruction instruction, Element a)
 	{
-		a.addElement("return");
+		return a.addElement("return");
 	}
 
 	@Override
-	public void visitThrowInstruction(ThrowInstruction instruction, Element a)
+	public Element visitThrowInstruction(ThrowInstruction instruction, Element a)
 	{
-		a.addElement("throw");
+		return a.addElement("throw");
 	}
 
 	@Override
-	public void visitSwapInstruction(SwapInstruction swapInstruction, Element a)
+	public Element visitSwapInstruction(SwapInstruction swapInstruction, Element a)
 	{
-		a.addElement("swap");
+		return a.addElement("swap");
 	}
 
 	@Override
-	public void visitPopInstruction(PopInstruction popInstruction, Element a)
+	public Element visitPopInstruction(PopInstruction popInstruction, Element a)
 	{
-		a.addElement("pop");
+		return a.addElement("pop");
 	}
 
 	@Override
-	public void visitJumpIfInstruction(JumpIfInstruction instruction, Element a)
+	public Element visitJumpIfInstruction(JumpIfInstruction instruction, Element a)
 	{
 		Element element = a.addElement("jump_if");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitJumpInstruction(JumpInstruction instruction, Element a)
+	public Element visitJumpInstruction(JumpInstruction instruction, Element a)
 	{
 		Element element = a.addElement("jump");
 		element.addAttribute("val", String.valueOf(instruction.value));
+		return element;
 	}
 
 	@Override
-	public void visitInvokeStatic(InvokeStaticInstruction instruction, Element a)
+	public Element visitInvokeStatic(InvokeStaticInstruction instruction, Element a)
 	{
 		Element temp = a.addElement("invoke_static");
 		temp = temp.addElement("method");
@@ -340,10 +372,11 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 		if(methodRef.returnType != null)
 			methodRef.returnType.accept(this, temp.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+		return temp;
 	}
 
 	@Override
-	public void visitInvokeSpecial(InvokeSpecialInstruction instruction, Element a)
+	public Element visitInvokeSpecial(InvokeSpecialInstruction instruction, Element a)
 	{
 		Element temp = a.addElement("invoke_special");
 		temp = temp.addElement("method");
@@ -352,10 +385,11 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 		if(methodRef.returnType != null)
 			methodRef.returnType.accept(this, temp.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+		return temp;
 	}
 
 	@Override
-	public void visitInvokeVirtual(InvokeVirtualInstruction instruction, Element a)
+	public Element visitInvokeVirtual(InvokeVirtualInstruction instruction, Element a)
 	{
 		Element temp = a.addElement("invoke_virtual");
 		temp = temp.addElement("method");
@@ -364,45 +398,50 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 		if(methodRef.returnType != null)
 			methodRef.returnType.accept(this, temp.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+		return temp;
 	}
 
 	@Override
-	public void visitPutToVariable(PutToVariableInstruction instruction, Element a)
+	public Element visitPutToVariable(PutToVariableInstruction instruction, Element a)
 	{
 		Element temp = a.addElement("put_to_variable");
 		temp = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
 		temp.addAttribute("name", variableRef.variable.toString());
 		variableRef.returnType.accept(this, temp);
+		return temp;
 	}
 
 	@Override
-	public void visitPutToStaticVariable(PutToStaticVariableInstruction instruction, Element a)
+	public Element visitPutToStaticVariable(PutToStaticVariableInstruction instruction, Element a)
 	{
 		Element temp = a.addElement("put_to_static_variable");
 		temp = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
 		temp.addAttribute("name", variableRef.variable.toString());
 		variableRef.returnType.accept(this, temp);
+		return temp;
 	}
 
 	@Override
-	public void visitGetVariable(GetVariableInstruction instruction, Element a)
+	public Element visitGetVariable(GetVariableInstruction instruction, Element a)
 	{
 		Element temp = a.addElement("get_variable");
 		temp = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
 		temp.addAttribute("name", variableRef.variable.toString());
 		variableRef.returnType.accept(this, temp);
+		return temp;
 	}
 
 	@Override
-	public void visitGetStaticVariable(GetStaticVariableInstruction instruction, Element a)
+	public Element visitGetStaticVariable(GetStaticVariableInstruction instruction, Element a)
 	{
 		Element temp = a.addElement("get_static_variable");
 		temp = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
 		temp.addAttribute("name", variableRef.variable.toString());
 		variableRef.returnType.accept(this, temp);
+		return temp;
 	}
 }

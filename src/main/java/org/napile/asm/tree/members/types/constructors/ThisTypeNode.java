@@ -10,9 +10,9 @@ import org.napile.asm.tree.members.NodeVisitor;
 public class ThisTypeNode implements TypeConstructorNode
 {
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
-		visitor.visitThisTypeNode(this, arg);
+		return visitor.visitThisTypeNode(this, arg);
 	}
 
 	@Override

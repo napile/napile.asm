@@ -24,8 +24,8 @@ public class TypeParameterNode extends AnnotableNode<TypeParameterNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
-		visitor.visitTypeParameter(this, arg);
+		return visitor.visitTypeParameter(this, arg);
 	}
 }

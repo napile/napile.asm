@@ -39,8 +39,8 @@ public class MethodParameterNode extends AbstractMemberNode<MethodParameterNode>
 	}
 
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T arg)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
-		visitor.visitMethodParameterNode(this, arg);
+		return visitor.visitMethodParameterNode(this, arg);
 	}
 }

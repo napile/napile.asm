@@ -35,9 +35,9 @@ public class ClassTypeNode implements TypeConstructorNode
 	}
 
 	@Override
-	public <T> void accept(@NotNull NodeVisitor<T> visitor, T a2)
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T a2)
 	{
-		visitor.visitClassTypeNode(this, a2);
+		return visitor.visitClassTypeNode(this, a2);
 	}
 
 	@Override

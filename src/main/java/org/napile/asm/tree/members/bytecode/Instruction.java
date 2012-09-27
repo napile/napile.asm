@@ -16,11 +16,14 @@
 
 package org.napile.asm.tree.members.bytecode;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author VISTALL
  * @date 22:13/31.08.12
  */
 public interface Instruction
 {
-	<T> void accept(InstructionVisitor<T> visitor, T a2);
+	@NotNull
+	<T, R> R accept(InstructionVisitor<T, R> visitor, T a2);
 }
