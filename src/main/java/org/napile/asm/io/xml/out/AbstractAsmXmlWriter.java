@@ -5,8 +5,10 @@ import java.util.List;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
 import org.napile.asm.io.AsmWriter;
+import org.napile.asm.io.AsmWriterOption;
 import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.Instruction;
@@ -77,13 +79,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 		ifNotEmptyAdd(methodNode.parameters, "parameters", temp);
 
-		if(methodNode.instructions.size() > 0)
-		{
-			Element parent = temp.addElement("code");
-			parent.addAttribute("max_locals", String.valueOf(methodNode.maxLocals));
-			for(Instruction instruction : methodNode.instructions)
-				instruction.accept(this, parent);
-		}
+		visitCode(temp, methodNode.maxLocals, methodNode.instructions);
 		return temp;
 	}
 
@@ -98,21 +94,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 		ifNotEmptyAdd(constructorNode.parameters, "parameters", temp);
 
-		if(constructorNode.instructions.size() > 0)
-		{
-			Element parent = temp.addElement("code");
-			parent.addAttribute("max_locals", String.valueOf(constructorNode.maxLocals));
-
-			int i = 0;
-			for(Instruction instruction : constructorNode.instructions)
-			{
-				Element e = instruction.accept(this, parent);
-
-				e.addComment("index" + i);
-
-				i ++;
-			}
-		}
+		visitCode(temp, constructorNode.maxLocals, constructorNode.instructions);
 		return temp;
 	}
 
@@ -121,14 +103,31 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	{
 		final Element temp = a2.addElement("static_constructor");
 
-		if(constructorNode.instructions.size() > 0)
+		visitCode(temp, constructorNode.maxLocals, constructorNode.instructions);
+
+		return temp;
+	}
+
+	private void visitCode(@NotNull Element temp, int maxLocals, @NotNull  List<Instruction> instructions)
+	{
+		if(instructions.size() > 0)
 		{
 			Element parent = temp.addElement("code");
-			parent.addAttribute("max_locals", String.valueOf(constructorNode.maxLocals));
-			for(Instruction instruction : constructorNode.instructions)
-				instruction.accept(this, parent);
+			parent.addAttribute("max_locals", String.valueOf(maxLocals));
+
+			int i = 0;
+			for(Instruction instruction : instructions)
+			{
+				Element e = instruction.accept(this, parent);
+
+				if(hasOption(AsmWriterOption.INSTRUCTION_INDEX_IN_COMMENT))
+				{
+					e.addComment("index" + i);
+
+					i ++;
+				}
+			}
 		}
-		return temp;
 	}
 
 	@Override
