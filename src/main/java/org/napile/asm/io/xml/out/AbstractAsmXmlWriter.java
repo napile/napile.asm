@@ -7,16 +7,16 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.napile.asm.Modifier;
 import org.napile.asm.io.AsmWriter;
+import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
+import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
-import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 
 /**
@@ -314,6 +314,20 @@ public abstract class AbstractAsmXmlWriter<R> extends AsmWriter<Element, R> impl
 	public void visitPopInstruction(PopInstruction popInstruction, Element a)
 	{
 		a.addElement("pop");
+	}
+
+	@Override
+	public void visitIfInstruction(IfInstruction instruction, Element a)
+	{
+		Element element = a.addElement("if");
+		element.addAttribute("val", String.valueOf(instruction.value));
+	}
+
+	@Override
+	public void visitGoToInstruction(GoToInstruction instruction, Element a)
+	{
+		Element element = a.addElement("goto");
+		element.addAttribute("val", String.valueOf(instruction.value));
 	}
 
 	@Override

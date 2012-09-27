@@ -69,4 +69,8 @@ public interface InstructionVisitor<T>
 	void visitSwapInstruction(SwapInstruction swapInstruction, T a2);
 
 	void visitPopInstruction(PopInstruction popInstruction, T a2);
+
+	void visitIfInstruction(IfInstruction ifInstruction, T a2);
+
+	void visitGoToInstruction(GoToInstruction goToInstruction, T a2);
 }

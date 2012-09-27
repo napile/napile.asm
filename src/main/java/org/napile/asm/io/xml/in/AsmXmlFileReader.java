@@ -226,6 +226,10 @@ public class AsmXmlFileReader
 					instruction = new GetVariableInstruction(readVariableRef(instructionElement));
 				else if("get_static_variable".equals(instructionName))
 					instruction = new GetStaticVariableInstruction(readVariableRef(instructionElement));
+				else if("if".equals(instructionName))
+					instruction = new IfInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
+				else if("goto".equals(instructionName))
+					instruction = new GoToInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 
 				if(instruction != null)
 					methodNode.instructions.add(instruction);
