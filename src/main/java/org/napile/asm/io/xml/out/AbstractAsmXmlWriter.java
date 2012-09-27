@@ -122,7 +122,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 				if(hasOption(AsmWriterOption.INSTRUCTION_INDEX_IN_COMMENT))
 				{
-					e.addComment("index" + i);
+					e.addComment(String.valueOf(i));
 
 					i ++;
 				}
@@ -364,83 +364,83 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitInvokeStatic(InvokeStaticInstruction instruction, Element a)
 	{
-		Element temp = a.addElement("invoke_static");
-		temp = temp.addElement("method");
+		final Element temp = a.addElement("invoke_static");
+		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
-		temp.addAttribute("name", methodRef.method.toString());
+		temp2.addAttribute("name", methodRef.method.toString());
 		if(methodRef.returnType != null)
-			methodRef.returnType.accept(this, temp.addElement("return_type"));
-		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+			methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
 		return temp;
 	}
 
 	@Override
 	public Element visitInvokeSpecial(InvokeSpecialInstruction instruction, Element a)
 	{
-		Element temp = a.addElement("invoke_special");
-		temp = temp.addElement("method");
+		final Element temp = a.addElement("invoke_special");
+		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
-		temp.addAttribute("name", methodRef.method.toString());
+		temp2.addAttribute("name", methodRef.method.toString());
 		if(methodRef.returnType != null)
-			methodRef.returnType.accept(this, temp.addElement("return_type"));
-		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+			methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
 		return temp;
 	}
 
 	@Override
 	public Element visitInvokeVirtual(InvokeVirtualInstruction instruction, Element a)
 	{
-		Element temp = a.addElement("invoke_virtual");
-		temp = temp.addElement("method");
+		final Element temp = a.addElement("invoke_virtual");
+		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
-		temp.addAttribute("name", methodRef.method.toString());
+		temp2.addAttribute("name", methodRef.method.toString());
 		if(methodRef.returnType != null)
-			methodRef.returnType.accept(this, temp.addElement("return_type"));
-		ifNotEmptyAdd(methodRef.parameters, "parameters", temp);
+			methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
 		return temp;
 	}
 
 	@Override
 	public Element visitPutToVariable(PutToVariableInstruction instruction, Element a)
 	{
-		Element temp = a.addElement("put_to_variable");
-		temp = temp.addElement("variable");
+		final Element temp = a.addElement("put_to_variable");
+		Element temp2 = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
-		temp.addAttribute("name", variableRef.variable.toString());
-		variableRef.returnType.accept(this, temp);
+		temp2.addAttribute("name", variableRef.variable.toString());
+		variableRef.returnType.accept(this, temp2);
 		return temp;
 	}
 
 	@Override
 	public Element visitPutToStaticVariable(PutToStaticVariableInstruction instruction, Element a)
 	{
-		Element temp = a.addElement("put_to_static_variable");
-		temp = temp.addElement("variable");
+		final Element temp = a.addElement("put_to_static_variable");
+		Element temp2 = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
-		temp.addAttribute("name", variableRef.variable.toString());
-		variableRef.returnType.accept(this, temp);
+		temp2.addAttribute("name", variableRef.variable.toString());
+		variableRef.returnType.accept(this, temp2);
 		return temp;
 	}
 
 	@Override
 	public Element visitGetVariable(GetVariableInstruction instruction, Element a)
 	{
-		Element temp = a.addElement("get_variable");
-		temp = temp.addElement("variable");
+		final Element temp = a.addElement("get_variable");
+		Element temp2 = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
-		temp.addAttribute("name", variableRef.variable.toString());
-		variableRef.returnType.accept(this, temp);
+		temp2.addAttribute("name", variableRef.variable.toString());
+		variableRef.returnType.accept(this, temp2);
 		return temp;
 	}
 
 	@Override
 	public Element visitGetStaticVariable(GetStaticVariableInstruction instruction, Element a)
 	{
-		Element temp = a.addElement("get_static_variable");
-		temp = temp.addElement("variable");
+		final Element temp = a.addElement("get_static_variable");
+		Element temp2 = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
-		temp.addAttribute("name", variableRef.variable.toString());
-		variableRef.returnType.accept(this, temp);
+		temp2.addAttribute("name", variableRef.variable.toString());
+		variableRef.returnType.accept(this, temp2);
 		return temp;
 	}
 }
