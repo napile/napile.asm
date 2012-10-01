@@ -12,4 +12,6 @@ public interface NapileReflectPackage
 	FqName PACKAGE = new FqName("napile.reflect");
 
 	FqName CLASS = PACKAGE.child(Name.identifier("Class"));
+
+	FqName TYPE = PACKAGE.child(Name.identifier("Type"));
 }
