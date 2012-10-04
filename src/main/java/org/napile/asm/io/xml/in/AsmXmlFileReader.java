@@ -199,7 +199,7 @@ public class AsmXmlFileReader
 				else if("new_string".equals(instructionName))
 					instruction = new NewStringInstruction(instructionElement.attributeValue("val"));
 				else if("new_object".equals(instructionName))
-					instruction = new NewObjectInstruction(readType(instructionElement.element("type"))) ;
+					instruction = new NewObjectInstruction(readType(instructionElement.element("type")));
 				else if("store".equals(instructionName))
 					instruction = new StoreInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 				else if("load".equals(instructionName))
@@ -230,6 +230,10 @@ public class AsmXmlFileReader
 					instruction = new JumpIfInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 				else if("jump".equals(instructionName))
 					instruction = new JumpInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
+				else if("class_of".equals(instructionName))
+					instruction = new ClassOfInstruction(readType(instructionElement.element("type")));
+				else if("type_of".equals(instructionName))
+					instruction = new TypeOfInstruction(readType(instructionElement.element("type")));
 
 				if(instruction != null)
 					methodNode.instructions.add(instruction);

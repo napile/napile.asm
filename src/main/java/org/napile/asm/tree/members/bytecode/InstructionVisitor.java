@@ -73,4 +73,8 @@ public interface InstructionVisitor<T, R>
 	R visitJumpIfInstruction(JumpIfInstruction jumpIfInstruction, T a2);
 
 	R visitJumpInstruction(JumpInstruction jumpInstruction, T a2);
+
+	R visitTypeOfInstruction(TypeOfInstruction typeOfInstruction, T a2);
+
+	R visitClassOfInstruction(ClassOfInstruction classOfInstruction, T a2);
 }

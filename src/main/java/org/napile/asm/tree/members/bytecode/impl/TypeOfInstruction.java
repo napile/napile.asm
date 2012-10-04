@@ -19,16 +19,18 @@ package org.napile.asm.tree.members.bytecode.impl;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
+import org.napile.asm.tree.members.types.TypeNode;
 
 /**
  * @author VISTALL
- * @date 13:31/02.09.12
+ * @date 11:32/04.10.12
  */
-public class NewDoubleInstruction implements Instruction
+public class TypeOfInstruction implements Instruction
 {
-	public final double value;
+	@NotNull
+	public final TypeNode value;
 
-	public NewDoubleInstruction(double value)
+	public TypeOfInstruction(@NotNull TypeNode value)
 	{
 		this.value = value;
 	}
@@ -37,6 +39,6 @@ public class NewDoubleInstruction implements Instruction
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitNewDouble(this, a2);
+		return visitor.visitTypeOfInstruction(this, a2);
 	}
 }
