@@ -41,4 +41,10 @@ public class InvokeSpecialInstruction implements Instruction
 	{
 		return visitor.visitInvokeSpecial(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "invoke_special: " + methodRef;
+	}
 }

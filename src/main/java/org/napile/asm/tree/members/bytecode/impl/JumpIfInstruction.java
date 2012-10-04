@@ -39,4 +39,10 @@ public class JumpIfInstruction implements Instruction
 	{
 		return visitor.visitJumpIfInstruction(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "jump_if: " + value;
+	}
 }

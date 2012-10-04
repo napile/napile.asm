@@ -39,4 +39,10 @@ public class NewDoubleInstruction implements Instruction
 	{
 		return visitor.visitNewDouble(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_doble: " + value;
+	}
 }

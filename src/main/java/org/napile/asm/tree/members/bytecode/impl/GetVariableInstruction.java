@@ -41,4 +41,10 @@ public class GetVariableInstruction implements Instruction
 	{
 		return visitor.visitGetVariable(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "get_variable: " + variableRef;
+	}
 }

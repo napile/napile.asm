@@ -39,4 +39,10 @@ public class NewIntInstruction implements Instruction
 	{
 		return visitor.visitNewInt(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_int: " + value;
+	}
 }

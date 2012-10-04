@@ -39,4 +39,10 @@ public class StoreInstruction implements Instruction
 	{
 		return visitor.visitStore(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "store: " + varIndex;
+	}
 }

@@ -41,4 +41,10 @@ public class TypeOfInstruction implements Instruction
 	{
 		return visitor.visitTypeOfInstruction(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "type_of: " + value;
+	}
 }

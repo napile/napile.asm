@@ -32,4 +32,10 @@ public class SwapInstruction implements Instruction
 	{
 		return visitor.visitSwapInstruction(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "swap";
+	}
 }

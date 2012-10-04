@@ -41,4 +41,10 @@ public class PutToStaticVariableInstruction implements Instruction
 	{
 		return visitor.visitPutToStaticVariable(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "put_to_static_variable: " + variableRef;
+	}
 }

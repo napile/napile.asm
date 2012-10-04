@@ -41,4 +41,10 @@ public class PutToVariableInstruction implements Instruction
 	{
 		return visitor.visitPutToVariable(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "put_to_variable: " + variableRef;
+	}
 }

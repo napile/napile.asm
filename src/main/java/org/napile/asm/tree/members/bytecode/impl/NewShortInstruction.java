@@ -39,4 +39,10 @@ public class NewShortInstruction implements Instruction
 	{
 		return visitor.visitNewShort(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_short: " + value;
+	}
 }

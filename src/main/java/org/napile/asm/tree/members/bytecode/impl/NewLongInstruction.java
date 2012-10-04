@@ -39,4 +39,10 @@ public class NewLongInstruction implements Instruction
 	{
 		return visitor.visitNewLong(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_long: " + value;
+	}
 }

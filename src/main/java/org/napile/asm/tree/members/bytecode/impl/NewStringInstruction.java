@@ -40,4 +40,10 @@ public class NewStringInstruction implements Instruction
 	{
 		return visitor.visitNewString(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_string: " + value;
+	}
 }

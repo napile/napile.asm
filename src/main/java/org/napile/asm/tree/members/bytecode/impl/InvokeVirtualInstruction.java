@@ -41,4 +41,10 @@ public class InvokeVirtualInstruction implements Instruction
 	{
 		return visitor.visitInvokeVirtual(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "invoke_virtual: " + methodRef;
+	}
 }

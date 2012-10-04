@@ -32,4 +32,10 @@ public class DupInstruction implements Instruction
 	{
 		return visitor.visitDup(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "dup";
+	}
 }

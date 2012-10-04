@@ -32,4 +32,10 @@ public class ThrowInstruction implements Instruction
 	{
 		return visitor.visitThrowInstruction(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "throw";
+	}
 }

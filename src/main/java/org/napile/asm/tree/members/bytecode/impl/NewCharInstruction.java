@@ -39,4 +39,10 @@ public class NewCharInstruction implements Instruction
 	{
 		return visitor.visitNewChar(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_char: " + value;
+	}
 }

@@ -41,4 +41,10 @@ public class InvokeStaticInstruction implements Instruction
 	{
 		return visitor.visitInvokeStatic(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "invoke_static: " + methodRef;
+	}
 }

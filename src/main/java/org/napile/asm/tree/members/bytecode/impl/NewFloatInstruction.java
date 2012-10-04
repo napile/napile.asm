@@ -39,4 +39,10 @@ public class NewFloatInstruction implements Instruction
 	{
 		return visitor.visitNewFloat(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_float: " + value;
+	}
 }

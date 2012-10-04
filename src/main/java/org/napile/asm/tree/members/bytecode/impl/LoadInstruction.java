@@ -39,4 +39,10 @@ public class LoadInstruction implements Instruction
 	{
 		return visitor.visitLoad(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "load: " + varIndex;
+	}
 }

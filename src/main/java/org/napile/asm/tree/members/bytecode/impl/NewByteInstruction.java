@@ -39,4 +39,10 @@ public class NewByteInstruction implements Instruction
 	{
 		return visitor.visitNewByte(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_byte: " + value;
+	}
 }

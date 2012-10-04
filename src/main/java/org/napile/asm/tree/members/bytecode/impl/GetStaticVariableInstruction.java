@@ -41,4 +41,10 @@ public class GetStaticVariableInstruction implements Instruction
 	{
 		return visitor.visitGetStaticVariable(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "get_static_variable: " + variableRef;
+	}
 }

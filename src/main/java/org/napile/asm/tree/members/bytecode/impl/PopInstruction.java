@@ -32,4 +32,10 @@ public class PopInstruction implements Instruction
 	{
 		return visitor.visitPopInstruction(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "pop";
+	}
 }

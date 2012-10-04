@@ -32,4 +32,10 @@ public class ReturnInstruction implements Instruction
 	{
 		return visitor.visitReturn(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "return";
+	}
 }

@@ -41,4 +41,10 @@ public class NewObjectInstruction implements Instruction
 	{
 		return visitor.visitNewObject(this, a2);
 	}
+
+	@Override
+	public String toStringImpl()
+	{
+		return "new_object: " + value;
+	}
 }
