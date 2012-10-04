@@ -29,14 +29,20 @@ import org.napile.asm.resolve.name.FqName;
  */
 public class MethodRef
 {
+	@NotNull
 	public final FqName method;
+	@NotNull
 	public final TypeNode returnType;
+	@NotNull
 	public final List<TypeNode> parameters;
+	@NotNull
+	public final List<TypeNode> typeArguments;
 
-	public MethodRef(@NotNull FqName method, @NotNull List<TypeNode> parameters, TypeNode returnType)
+	public MethodRef(@NotNull FqName method, @NotNull List<TypeNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType)
 	{
 		this.method = method;
 		this.returnType = returnType;
 		this.parameters = Collections.unmodifiableList(parameters);
+		this.typeArguments = Collections.unmodifiableList(typeArguments);
 	}
 }

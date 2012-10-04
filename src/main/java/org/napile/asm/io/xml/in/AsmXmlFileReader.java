@@ -258,9 +258,7 @@ public class AsmXmlFileReader
 		FqName fqName = new FqName(element.attributeValue("name"));
 		Element returnElement = element.element("return_type");
 
-		TypeNode returnType = null;
-		if(returnElement != null)
-			returnType = readType(returnElement.element("type"));
+		TypeNode returnType = readType(returnElement.element("type"));
 
 		List<TypeNode> parameterTypes = new ArrayList<TypeNode>();
 		Element parametersElement = element.element("parameters");
@@ -268,7 +266,13 @@ public class AsmXmlFileReader
 			for(Element parameterElement : parametersElement.elements())
 				parameterTypes.add(readType(parameterElement));
 
-		return new MethodRef(fqName, parameterTypes, returnType);
+		List<TypeNode> typeArguments = new ArrayList<TypeNode>();
+		Element typeArgumentsElement = element.element("type_arguments");
+		if(typeArgumentsElement != null)
+			for(Element typeArgumentElement : typeArgumentsElement.elements())
+				typeArguments.add(readType(typeArgumentElement));
+
+		return new MethodRef(fqName, parameterTypes, typeArguments, returnType);
 	}
 
 	private void readSupers(@NotNull Element element, @NotNull List<TypeNode> list)

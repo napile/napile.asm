@@ -400,9 +400,9 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
 		temp2.addAttribute("name", methodRef.method.toString());
-		if(methodRef.returnType != null)
-			methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
 		return temp;
 	}
 
@@ -413,9 +413,9 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
 		temp2.addAttribute("name", methodRef.method.toString());
-		if(methodRef.returnType != null)
-			methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
 		return temp;
 	}
 
@@ -426,9 +426,9 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
 		temp2.addAttribute("name", methodRef.method.toString());
-		if(methodRef.returnType != null)
-			methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
 		return temp;
 	}
 
