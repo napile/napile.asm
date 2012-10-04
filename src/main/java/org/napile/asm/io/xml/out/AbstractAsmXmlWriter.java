@@ -394,6 +394,14 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
+	public Element visitIsInstruction(IsInstruction instruction, Element a)
+	{
+		Element element = a.addElement("is");
+		instruction.value.accept(this, element);
+		return element;
+	}
+
+	@Override
 	public Element visitInvokeStatic(InvokeStaticInstruction instruction, Element a)
 	{
 		final Element temp = a.addElement("invoke_static");

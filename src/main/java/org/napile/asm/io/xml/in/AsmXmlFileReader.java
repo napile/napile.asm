@@ -234,6 +234,8 @@ public class AsmXmlFileReader
 					instruction = new ClassOfInstruction(readType(instructionElement.element("type")));
 				else if("type_of".equals(instructionName))
 					instruction = new TypeOfInstruction(readType(instructionElement.element("type")));
+				else if("is".equals(instructionName))
+					instruction = new IsInstruction(readType(instructionElement.element("type")));
 
 				if(instruction != null)
 					methodNode.instructions.add(instruction);

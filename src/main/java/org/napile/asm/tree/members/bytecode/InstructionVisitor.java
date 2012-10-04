@@ -77,4 +77,6 @@ public interface InstructionVisitor<T, R>
 	R visitTypeOfInstruction(TypeOfInstruction typeOfInstruction, T a2);
 
 	R visitClassOfInstruction(ClassOfInstruction classOfInstruction, T a2);
+
+	R visitIsInstruction(IsInstruction isInstruction, T a2);
 }

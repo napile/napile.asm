@@ -170,6 +170,12 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
+	public IsInstruction is(TypeNode typeNode)
+	{
+		return add(new IsInstruction(typeNode));
+	}
+
+	@NotNull
 	public ReservedInstruction reserve()
 	{
 		return add(new ReservedInstruction());
