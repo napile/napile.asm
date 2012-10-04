@@ -21,12 +21,10 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.AnnotableNode;
-import org.napile.asm.tree.members.AnnotationNode;
 import org.napile.asm.tree.members.NodeVisitor;
 import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.util.Comparing2;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.Function;
 
 /**
  * @author VISTALL
@@ -83,33 +81,14 @@ public class TypeNode extends AnnotableNode<TypeNode>
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder();
-		if(annotations.size() > 0)
-		{
-			builder.append("[");
-			builder.append(StringUtil.join(annotations, new Function<AnnotationNode, String>()
-			{
-				@Override
-				public String fun(AnnotationNode annotationNode)
-				{
-					return annotationNode.toString();
-				}
-			}, ", "));
-			builder.append("]");
-		}
+		builder.append(StringUtil.join(annotations, " "));
 
 		builder.append(typeConstructorNode.toString());
 
 		if(arguments.size() > 0)
 		{
 			builder.append("<");
-			builder.append(StringUtil.join(arguments, new Function<TypeNode, String>()
-			{
-				@Override
-				public String fun(TypeNode typeNode)
-				{
-					return typeNode.toString();
-				}
-			}, ", "));
+			builder.append(StringUtil.join(arguments, ", "));
 			builder.append(">");
 		}
 

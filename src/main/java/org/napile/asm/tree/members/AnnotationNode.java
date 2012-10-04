@@ -46,7 +46,7 @@ public class AnnotationNode implements Node
 	@Override
 	public String toString()
 	{
-		return getName().toString(); //TODO [VISTALL] arguments
+		return "@" + getName().toString(); //TODO [VISTALL] arguments
 	}
 
 	@Override

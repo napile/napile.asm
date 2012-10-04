@@ -22,6 +22,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.resolve.name.FqName;
+import com.intellij.openapi.util.text.StringUtil;
 
 /**
  * @author VISTALL
@@ -44,5 +45,21 @@ public class MethodRef
 		this.returnType = returnType;
 		this.parameters = Collections.unmodifiableList(parameters);
 		this.typeArguments = Collections.unmodifiableList(typeArguments);
+	}
+
+	public String toString()
+	{
+		StringBuilder b = new StringBuilder();
+		b.append("meth ");
+		b.append(method.getFqName()).append(" ");
+		b.append("<");
+		b.append(StringUtil.join(typeArguments, ", "));
+		b.append(">");
+		b.append("(");
+		b.append(StringUtil.join(parameters, ", "));
+		b.append(")");
+		b.append(" : ");
+		b.append(returnType);
+		return b.toString();
 	}
 }
