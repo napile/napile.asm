@@ -41,7 +41,7 @@ public class JumpIfInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "jump_if: " + value;
 	}

@@ -34,7 +34,7 @@ public class SwapInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "swap";
 	}

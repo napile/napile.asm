@@ -16,6 +16,7 @@
 
 package org.napile.asm.tree.members.bytecode.adapter;
 
+import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 
@@ -25,9 +26,16 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  */
 public class ReservedInstruction implements Instruction
 {
+	@NotNull
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String toString()
+	{
+		return "reserve";
 	}
 }

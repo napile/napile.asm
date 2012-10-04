@@ -34,7 +34,7 @@ public class PopInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "pop";
 	}

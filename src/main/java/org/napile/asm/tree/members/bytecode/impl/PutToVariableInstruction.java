@@ -43,7 +43,7 @@ public class PutToVariableInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "put_to_variable: " + variableRef;
 	}

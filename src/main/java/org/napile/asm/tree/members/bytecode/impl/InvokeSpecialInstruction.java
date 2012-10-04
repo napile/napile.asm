@@ -43,7 +43,7 @@ public class InvokeSpecialInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "invoke_special: " + methodRef;
 	}

@@ -34,7 +34,7 @@ public class ThrowInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "throw";
 	}

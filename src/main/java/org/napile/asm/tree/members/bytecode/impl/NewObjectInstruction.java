@@ -43,7 +43,7 @@ public class NewObjectInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "new_object: " + value;
 	}

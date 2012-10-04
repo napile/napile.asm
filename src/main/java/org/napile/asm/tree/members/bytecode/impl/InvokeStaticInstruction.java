@@ -43,7 +43,7 @@ public class InvokeStaticInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "invoke_static: " + methodRef;
 	}

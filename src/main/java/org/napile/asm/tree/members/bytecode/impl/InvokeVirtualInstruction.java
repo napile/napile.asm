@@ -43,7 +43,7 @@ public class InvokeVirtualInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "invoke_virtual: " + methodRef;
 	}

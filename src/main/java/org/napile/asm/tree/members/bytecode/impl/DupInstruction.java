@@ -34,7 +34,7 @@ public class DupInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "dup";
 	}

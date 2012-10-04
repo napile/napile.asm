@@ -42,7 +42,7 @@ public class NewStringInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "new_string: " + value;
 	}

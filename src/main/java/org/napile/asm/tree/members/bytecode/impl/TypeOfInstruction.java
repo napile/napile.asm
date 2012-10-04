@@ -43,7 +43,7 @@ public class TypeOfInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "type_of: " + value;
 	}

@@ -41,7 +41,7 @@ public class NewLongInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "new_long: " + value;
 	}

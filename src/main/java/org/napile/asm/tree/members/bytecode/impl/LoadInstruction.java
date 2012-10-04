@@ -41,7 +41,7 @@ public class LoadInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "load: " + varIndex;
 	}

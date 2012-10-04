@@ -43,7 +43,7 @@ public class PutToStaticVariableInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "put_to_static_variable: " + variableRef;
 	}

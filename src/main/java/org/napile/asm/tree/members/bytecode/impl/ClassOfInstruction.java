@@ -43,7 +43,7 @@ public class ClassOfInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "class_of: " + value;
 	}

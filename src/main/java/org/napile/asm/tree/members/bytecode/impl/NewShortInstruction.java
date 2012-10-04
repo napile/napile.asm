@@ -41,7 +41,7 @@ public class NewShortInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "new_short: " + value;
 	}

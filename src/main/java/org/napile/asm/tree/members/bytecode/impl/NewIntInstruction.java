@@ -41,7 +41,7 @@ public class NewIntInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "new_int: " + value;
 	}

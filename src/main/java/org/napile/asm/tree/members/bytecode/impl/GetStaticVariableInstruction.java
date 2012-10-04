@@ -43,7 +43,7 @@ public class GetStaticVariableInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "get_static_variable: " + variableRef;
 	}

@@ -41,7 +41,7 @@ public class NewByteInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "new_byte: " + value;
 	}

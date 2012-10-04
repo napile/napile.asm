@@ -41,7 +41,7 @@ public class NewDoubleInstruction implements Instruction
 	}
 
 	@Override
-	public String toStringImpl()
+	public String toString()
 	{
 		return "new_doble: " + value;
 	}
