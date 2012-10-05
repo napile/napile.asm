@@ -42,6 +42,9 @@ import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
+import org.napile.asm.tree.members.bytecode.tryCatch.CatchBlock;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryBlock;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
@@ -239,6 +242,38 @@ public class AsmXmlFileReader
 					methodNode.instructions.add(instruction);
 				else
 					throw new IllegalArgumentException("Unknown instruction: " + instructionName);
+			}
+		}
+
+		Element tryCatchBlocks = parent.element("try_catch_blocks");
+		if(tryCatchBlocks != null)
+		{
+			for(Element tryCatchBlockElement : tryCatchBlocks.elements())
+			{
+				TryBlock tryBlock = null;
+				List<CatchBlock> catchBlocks = new ArrayList<CatchBlock>(0);
+
+				for(Element childTryBlock : tryCatchBlockElement.elements())
+				{
+					String temp = childTryBlock.getName();
+					if("try".equals(temp))
+						tryBlock = new TryBlock(Integer.parseInt(childTryBlock.attributeValue("start_index")), Integer.parseInt( childTryBlock.attributeValue("end_index")));
+					else if("catch".equals(temp))
+					{
+						int startIndex = Integer.parseInt(childTryBlock.attributeValue("start_index"));
+						int endIndex = Integer.parseInt(childTryBlock.attributeValue("end_index"));
+						int variableIndex = Integer.parseInt(childTryBlock.attributeValue("variable_index"));
+						TypeNode typeNode = readType(childTryBlock.element("type"));
+						catchBlocks.add(new CatchBlock(startIndex, endIndex, variableIndex, typeNode));
+					}
+					else
+						throw new UnsupportedOperationException("Unknown element: " + temp);
+				}
+
+				if(tryBlock == null)
+					throw new UnsupportedOperationException("TryCatch Block cant be without 'try' part");
+
+				methodNode.tryCatchBlockNodes.add(new TryCatchBlockNode(tryBlock, catchBlocks));
 			}
 		}
 	}

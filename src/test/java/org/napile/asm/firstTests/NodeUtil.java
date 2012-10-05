@@ -16,12 +16,19 @@
 
 package org.napile.asm.firstTests;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.napile.asm.AsmBuilder;
 import org.napile.asm.Modifier;
 import org.napile.asm.lib.NapileLangPackage;
 import org.napile.asm.tree.members.MethodNode;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.TypeParameterNode;
+import org.napile.asm.tree.members.bytecode.tryCatch.CatchBlock;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryBlock;
 import org.napile.asm.tree.members.types.TypeNode;
+import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 
 /**
@@ -41,6 +48,10 @@ public class NodeUtil
 		asmBuilder.visitMethodParameter(true, "arg", asmBuilder.createTypeOfClass("napile.lang.Array").visitArgument(asmBuilder.createTypeOfClass(NapileLangPackage.STRING))) ;
 
 		methodNode.returnType = new TypeNode(false, new ThisTypeNode());
+
+		TryBlock tryBlock = new TryBlock(0, 15);
+		List<CatchBlock> list = Arrays.asList(new CatchBlock(16, 17, new TypeNode(false, new ClassTypeNode(NapileLangPackage.THROWABLE))));
+		methodNode.tryCatchBlockNodes.add(new TryCatchBlockNode(tryBlock, list));
 
 		//VariableNode variableNode = asmBuilder.visitVariable(Modifier.list(Modifier.NATIVE), "myVar");
 		//variableNode.returnType = new TypeNode(false, new ClassTypeNode(NapileLangPackage.INT));

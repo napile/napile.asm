@@ -30,8 +30,10 @@ import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
+import org.napile.asm.tree.members.bytecode.tryCatch.CatchBlock;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
@@ -95,7 +97,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 		ifNotEmptyAdd(methodNode.parameters, "parameters", temp);
 
-		visitCode(temp, methodNode.maxLocals, methodNode.instructions);
+		visitCode(temp, methodNode);
 		return temp;
 	}
 
@@ -110,7 +112,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 		ifNotEmptyAdd(constructorNode.parameters, "parameters", temp);
 
-		visitCode(temp, constructorNode.maxLocals, constructorNode.instructions);
+		visitCode(temp, constructorNode);
 		return temp;
 	}
 
@@ -119,31 +121,30 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	{
 		final Element temp = a2.addElement("static_constructor");
 
-		visitCode(temp, constructorNode.maxLocals, constructorNode.instructions);
+		visitCode(temp, constructorNode);
 
 		return temp;
 	}
 
-	private void visitCode(@NotNull Element temp, int maxLocals, @NotNull  List<Instruction> instructions)
+	private void visitCode(@NotNull Element temp, @NotNull LikeMethodNode<?> methodNode)
 	{
-		if(instructions.size() > 0)
+		if(!methodNode.instructions.isEmpty())
 		{
 			Element parent = temp.addElement("code");
-			parent.addAttribute("max_locals", String.valueOf(maxLocals));
+			parent.addAttribute("max_locals", String.valueOf(methodNode.maxLocals));
 
 			int i = 0;
-			for(Instruction instruction : instructions)
+			for(Instruction instruction : methodNode.instructions)
 			{
 				Element e = instruction.accept(this, parent);
 
 				if(hasOption(AsmWriterOption.INSTRUCTION_INDEX_IN_COMMENT))
-				{
-					e.addComment(String.valueOf(i));
-
-					i ++;
-				}
+					e.addComment(String.valueOf(i ++));
 			}
 		}
+
+		if(!methodNode.tryCatchBlockNodes.isEmpty())
+			ifNotEmptyAdd(methodNode.tryCatchBlockNodes, "try_catch_block", temp.addElement("try_catch_blocks"));
 	}
 
 	@Override
@@ -218,6 +219,25 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		final Element temp = a2.addElement("type_parameter_value_type");
 		temp.addAttribute("name", typeParameterValueTypeNode.name);
 		return temp;
+	}
+
+	@Override
+	public Element visitTryCatchBlockNode(TryCatchBlockNode tryCatchBlockNode, Element arg)
+	{
+		Element tryElement = arg.addElement("try");
+		tryElement.addAttribute("start_index", String.valueOf(tryCatchBlockNode.tryBlock.startIndex));
+		tryElement.addAttribute("end_index", String.valueOf(tryCatchBlockNode.tryBlock.endIndex));
+
+		for(CatchBlock catchBlock : tryCatchBlockNode.catchBlocks)
+		{
+			Element catchElement = arg.addElement("catch");
+			catchElement.addAttribute("start_index", String.valueOf(catchBlock.startIndex));
+			catchElement.addAttribute("end_index", String.valueOf(catchBlock.endIndex));
+			catchElement.addAttribute("variable_index", String.valueOf(catchBlock.variableIndex));
+
+			catchBlock.exception.accept(this, catchElement);
+		}
+		return arg;
 	}
 
 	private void ifNotEmptyAdd(List<? extends Node> list, String name, Element parent)

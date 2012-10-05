@@ -22,6 +22,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
 import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 
 /**
  * @author VISTALL
@@ -35,6 +36,8 @@ public abstract class LikeMethodNode<T extends LikeMethodNode<T>> extends Abstra
 	@NotNull
 	public final List<Instruction> instructions = new ArrayList<Instruction>(0);
 
+	@NotNull
+	public final List<TryCatchBlockNode> tryCatchBlockNodes = new ArrayList<TryCatchBlockNode>(0);
 	/**
 	 * The maximum number of local variables of this method.
 	 */

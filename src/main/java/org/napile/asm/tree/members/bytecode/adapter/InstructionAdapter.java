@@ -26,6 +26,7 @@ import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 
 /**
@@ -36,6 +37,9 @@ public class InstructionAdapter implements Iterable<Instruction>
 {
 	@NotNull
 	private final List<Instruction> instructions = new ArrayList<Instruction>();
+
+	@NotNull
+	private final List<TryCatchBlockNode> tryCatchBlockNodes = new ArrayList<TryCatchBlockNode>();
 
 	private int maxLocals;
 
@@ -181,6 +185,11 @@ public class InstructionAdapter implements Iterable<Instruction>
 		return add(new ReservedInstruction());
 	}
 
+	public void tryCatch(@NotNull TryCatchBlockNode b)
+	{
+		tryCatchBlockNodes.add(b);
+	}
+
 	public int size()
 	{
 		return instructions.size();
@@ -222,5 +231,11 @@ public class InstructionAdapter implements Iterable<Instruction>
 	public int getMaxLocals()
 	{
 		return maxLocals;
+	}
+
+	@NotNull
+	public Collection<TryCatchBlockNode> getTryCatchBlockNodes()
+	{
+		return tryCatchBlockNodes;
 	}
 }
