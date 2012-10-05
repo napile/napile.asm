@@ -173,9 +173,7 @@ public class AsmXmlFileReader
 		Element codeElement = parent.element("code");
 		if(codeElement != null)
 		{
-			int val = Integer.parseInt(codeElement.attributeValue("max_locals"));
-			//TODO [VISTALL] max stacks
-			methodNode.visitMaxs(val, val);
+			methodNode.maxLocals = Integer.parseInt(codeElement.attributeValue("max_locals"));
 
 			for(Element instructionElement : codeElement.elements())
 			{

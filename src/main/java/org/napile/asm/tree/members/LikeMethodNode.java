@@ -36,11 +36,6 @@ public abstract class LikeMethodNode<T extends LikeMethodNode<T>> extends Abstra
 	public final List<Instruction> instructions = new ArrayList<Instruction>(0);
 
 	/**
-	 * The maximum stack size of this method.
-	 */
-	public int maxStack;
-
-	/**
 	 * The maximum number of local variables of this method.
 	 */
 	public int maxLocals;
@@ -48,11 +43,5 @@ public abstract class LikeMethodNode<T extends LikeMethodNode<T>> extends Abstra
 	public LikeMethodNode(@NotNull final Modifier[] modifiers)
 	{
 		super(modifiers);
-	}
-
-	public void visitMaxs(final int maxStack, final int maxLocals)
-	{
-		this.maxStack = maxStack;
-		this.maxLocals = maxLocals;
 	}
 }
