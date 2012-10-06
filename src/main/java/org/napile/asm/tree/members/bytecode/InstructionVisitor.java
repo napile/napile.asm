@@ -64,19 +64,21 @@ public interface InstructionVisitor<T, R>
 
 	R visitGetStaticVariable(GetStaticVariableInstruction instruction, T a);
 
-	R visitThrowInstruction(ThrowInstruction throwInstruction, T a2);
+	R visitThrow(ThrowInstruction throwInstruction, T a2);
 
-	R visitSwapInstruction(SwapInstruction swapInstruction, T a2);
+	R visitSwap(SwapInstruction swapInstruction, T a2);
 
-	R visitPopInstruction(PopInstruction popInstruction, T a2);
+	R visitPop(PopInstruction popInstruction, T a2);
 
-	R visitJumpIfInstruction(JumpIfInstruction jumpIfInstruction, T a2);
+	R visitJumpIf(JumpIfInstruction jumpIfInstruction, T a2);
 
-	R visitJumpInstruction(JumpInstruction jumpInstruction, T a2);
+	R visitJump(JumpInstruction jumpInstruction, T a2);
 
-	R visitTypeOfInstruction(TypeOfInstruction typeOfInstruction, T a2);
+	R visitTypeOf(TypeOfInstruction typeOfInstruction, T a2);
 
-	R visitClassOfInstruction(ClassOfInstruction classOfInstruction, T a2);
+	R visitClassOf(ClassOfInstruction classOfInstruction, T a2);
 
-	R visitIsInstruction(IsInstruction isInstruction, T a2);
+	R visitIs(IsInstruction isInstruction, T a2);
+
+	R visitDup1x1(Dup1x1Instruction instruction, T a2);
 }

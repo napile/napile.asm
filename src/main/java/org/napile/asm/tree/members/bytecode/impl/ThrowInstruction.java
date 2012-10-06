@@ -30,7 +30,7 @@ public class ThrowInstruction implements Instruction
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitThrowInstruction(this, a2);
+		return visitor.visitThrow(this, a2);
 	}
 
 	@Override

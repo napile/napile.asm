@@ -30,7 +30,7 @@ public class PopInstruction implements Instruction
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitPopInstruction(this, a2);
+		return visitor.visitPop(this, a2);
 	}
 
 	@Override

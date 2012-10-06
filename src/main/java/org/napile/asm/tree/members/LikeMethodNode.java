@@ -22,6 +22,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
 import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.bytecode.adapter.InstructionAdapter;
 import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 
 /**
@@ -46,5 +47,12 @@ public abstract class LikeMethodNode<T extends LikeMethodNode<T>> extends Abstra
 	public LikeMethodNode(@NotNull final Modifier[] modifiers)
 	{
 		super(modifiers);
+	}
+
+	public void putInstructions(InstructionAdapter instructionAdapter)
+	{
+		instructions.addAll(instructionAdapter.getInstructions());
+
+		maxLocals = instructionAdapter.getMaxLocals();
 	}
 }

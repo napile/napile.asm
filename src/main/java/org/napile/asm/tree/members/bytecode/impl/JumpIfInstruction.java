@@ -37,7 +37,7 @@ public class JumpIfInstruction implements Instruction
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitJumpIfInstruction(this, a2);
+		return visitor.visitJumpIf(this, a2);
 	}
 
 	@Override

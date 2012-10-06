@@ -30,7 +30,7 @@ public class SwapInstruction implements Instruction
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitSwapInstruction(this, a2);
+		return visitor.visitSwap(this, a2);
 	}
 
 	@Override

@@ -272,9 +272,16 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		return element;
 	}
 
+	@Override
 	public Element visitDup(DupInstruction instruction, Element a)
 	{
 		return a.addElement("dup");
+	}
+
+	@Override
+	public Element visitDup1x1(Dup1x1Instruction instruction, Element a)
+	{
+		return a.addElement("dup1x1");
 	}
 
 	@Override
@@ -364,25 +371,25 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
-	public Element visitThrowInstruction(ThrowInstruction instruction, Element a)
+	public Element visitThrow(ThrowInstruction instruction, Element a)
 	{
 		return a.addElement("throw");
 	}
 
 	@Override
-	public Element visitSwapInstruction(SwapInstruction swapInstruction, Element a)
+	public Element visitSwap(SwapInstruction swapInstruction, Element a)
 	{
 		return a.addElement("swap");
 	}
 
 	@Override
-	public Element visitPopInstruction(PopInstruction popInstruction, Element a)
+	public Element visitPop(PopInstruction popInstruction, Element a)
 	{
 		return a.addElement("pop");
 	}
 
 	@Override
-	public Element visitJumpIfInstruction(JumpIfInstruction instruction, Element a)
+	public Element visitJumpIf(JumpIfInstruction instruction, Element a)
 	{
 		Element element = a.addElement("jump_if");
 		element.addAttribute("val", String.valueOf(instruction.value));
@@ -390,7 +397,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
-	public Element visitJumpInstruction(JumpInstruction instruction, Element a)
+	public Element visitJump(JumpInstruction instruction, Element a)
 	{
 		Element element = a.addElement("jump");
 		element.addAttribute("val", String.valueOf(instruction.value));
@@ -398,7 +405,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
-	public Element visitTypeOfInstruction(TypeOfInstruction instruction, Element a)
+	public Element visitTypeOf(TypeOfInstruction instruction, Element a)
 	{
 		Element element = a.addElement("type_of");
 		instruction.value.accept(this, element);
@@ -406,7 +413,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
-	public Element visitClassOfInstruction(ClassOfInstruction instruction, Element a)
+	public Element visitClassOf(ClassOfInstruction instruction, Element a)
 	{
 		Element element = a.addElement("class_of");
 		instruction.value.accept(this, element);
@@ -414,7 +421,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
-	public Element visitIsInstruction(IsInstruction instruction, Element a)
+	public Element visitIs(IsInstruction instruction, Element a)
 	{
 		Element element = a.addElement("is");
 		instruction.value.accept(this, element);

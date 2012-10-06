@@ -39,7 +39,7 @@ public class TypeOfInstruction implements Instruction
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitTypeOfInstruction(this, a2);
+		return visitor.visitTypeOf(this, a2);
 	}
 
 	@Override
