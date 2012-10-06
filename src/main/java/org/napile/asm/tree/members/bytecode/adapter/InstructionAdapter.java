@@ -157,6 +157,12 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
+	public Dup1x1Instruction dup1x1()
+	{
+		return add(new Dup1x1Instruction());
+	}
+
+	@NotNull
 	public ThrowInstruction throwVal()
 	{
 		return add(new ThrowInstruction());

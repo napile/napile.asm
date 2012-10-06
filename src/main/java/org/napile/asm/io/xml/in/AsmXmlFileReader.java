@@ -207,6 +207,8 @@ public class AsmXmlFileReader
 					instruction = new LoadInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 				else if("dup".equals(instructionName))
 					instruction = new DupInstruction();
+				else if("dup1x1".equals(instructionName))
+					instruction = new Dup1x1Instruction();
 				else if("pop".equals(instructionName))
 					instruction = new PopInstruction();
 				else if("return".equals(instructionName))
