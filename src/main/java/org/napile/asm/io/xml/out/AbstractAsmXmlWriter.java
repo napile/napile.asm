@@ -182,6 +182,10 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		temp.addAttribute("name", typeParameterNode.name);
 
 		ifNotEmptyAdd(typeParameterNode.supers, "extends", temp);
+
+		Element constructorsElement = temp.addElement("type_parameter_constructors");
+		for(List<MethodParameterNode> p : typeParameterNode.constructors)
+			ifNotEmptyAdd(p, "type_parameter_constructor", constructorsElement);
 		return temp;
 	}
 
@@ -297,6 +301,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	{
 		Element element = a.addElement("new_object");
 		instruction.value.accept(this, element);
+		ifNotEmptyAdd(instruction.parameters, "parameters", element);
 		return element;
 	}
 

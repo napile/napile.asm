@@ -32,6 +32,9 @@ public class TypeParameterNode extends AnnotableNode<TypeParameterNode>
 	public final List<TypeNode> supers = new ArrayList<TypeNode>(1);
 
 	@NotNull
+	public final List<List<MethodParameterNode>> constructors = new ArrayList<List<MethodParameterNode>>(0);
+
+	@NotNull
 	public final String name;
 
 	public TypeParameterNode(@NotNull String name)

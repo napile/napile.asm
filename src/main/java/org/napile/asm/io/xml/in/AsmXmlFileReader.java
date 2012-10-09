@@ -200,7 +200,14 @@ public class AsmXmlFileReader
 				else if("new_string".equals(instructionName))
 					instruction = new NewStringInstruction(instructionElement.attributeValue("val"));
 				else if("new_object".equals(instructionName))
-					instruction = new NewObjectInstruction(readType(instructionElement.element("type")));
+				{
+					List<TypeNode> parameters = new ArrayList<TypeNode>(0);
+					Element typeArgumentsElement = instructionElement.element("parameters");
+					if(typeArgumentsElement != null)
+						for(Element typeArgumentElement : typeArgumentsElement.elements())
+							parameters.add(readType(typeArgumentElement));
+					instruction = new NewObjectInstruction(readType(instructionElement.element("type")), parameters);
+				}
 				else if("store".equals(instructionName))
 					instruction = new StoreInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 				else if("load".equals(instructionName))
@@ -350,6 +357,17 @@ public class AsmXmlFileReader
 			TypeParameterNode typeParameterNode = new TypeParameterNode(child.attributeValue("name"));
 
 			readSupers(child, typeParameterNode.supers);
+
+			Element constructorsElement = child.element("type_parameter_constructors");
+			if(constructorsElement != null)
+				for(Element constructorElement : constructorsElement.elements())
+				{
+					List<MethodParameterNode> parameterNodes = new ArrayList<MethodParameterNode>();
+					for(Element parameterElement : constructorElement.elements())
+						parameterNodes.add(new MethodParameterNode(readModifiers(parameterElement), parameterElement.attributeValue("name"), readType(parameterElement.element("type"))));
+
+					typeParameterNode.constructors.add(parameterNodes);
+				}
 
 			node.typeParameters.add(typeParameterNode);
 		}
