@@ -32,6 +32,8 @@ import org.napile.asm.resolve.name.FqName;
  */
 public class AsmXmlFileWriter extends AbstractAsmXmlWriter<File>
 {
+	public static final String DOT_EXTENSION = ".nxml";
+
 	@NotNull
 	private final File outputDir;
 
@@ -58,7 +60,7 @@ public class AsmXmlFileWriter extends AbstractAsmXmlWriter<File>
 
 		assert file != null;
 
-		file = new File(file.getAbsolutePath() + ".xml");
+		file = new File(file.getAbsolutePath() + DOT_EXTENSION);
 
 		OutputFormat format = OutputFormat.createPrettyPrint();
 		format.setIndent("\t");
