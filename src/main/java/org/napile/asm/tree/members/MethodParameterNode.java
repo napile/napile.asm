@@ -17,8 +17,8 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.Modifier;
+import org.napile.asm.tree.members.types.TypeNode;
 
 /**
  * @author VISTALL

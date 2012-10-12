@@ -36,9 +36,9 @@ public interface NodeVisitor<A, R>
 
 	R visitConstructorNode(ConstructorNode constructorNode, A a2);
 
-	R visitStaticConstructorNode(StaticConstructorNode staticConstructorNode, A arg);
+	R visitStaticConstructorNode(StaticConstructorNode staticConstructorNode, A a2);
 
-	R visitVariableNode(VariableNode variableNode, A arg);
+	R visitVariableNode(VariableNode variableNode, A a2);
 
 	R visitMethodParameterNode(MethodParameterNode methodParameterNode, A a2);
 
@@ -50,7 +50,7 @@ public interface NodeVisitor<A, R>
 
 	R visitThisTypeNode(ThisTypeNode thisTypeNode, A a2);
 
-	R visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, A arg);
+	R visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, A a2);
 
-	R visitTryCatchBlockNode(TryCatchBlockNode tryCatchBlockNode, A arg);
+	R visitTryCatchBlockNode(TryCatchBlockNode tryCatchBlockNode, A a2);
 }
