@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
+import org.napile.asm.resolve.name.Name;
 
 /**
  * @author VISTALL
@@ -40,7 +41,7 @@ public abstract class AbstractMemberNode<T extends AbstractMemberNode<T>> extend
 		this.modifiers = modifiers;
 	}
 
-	public TypeParameterNode visitTypeParameter(@NotNull String name)
+	public TypeParameterNode visitTypeParameter(@NotNull Name name)
 	{
 		TypeParameterNode typeParameterNode = new TypeParameterNode(name);
 

@@ -29,6 +29,7 @@ import org.dom4j.io.SAXReader;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
 import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.AbstractMemberNode;
 import org.napile.asm.tree.members.ClassNode;
 import org.napile.asm.tree.members.ConstructorNode;
@@ -137,7 +138,7 @@ public class AsmXmlFileReader
 
 	private AbstractMemberNode<?> readVariable(@NotNull Element child)
 	{
-		VariableNode variableNode = new VariableNode(readModifiers(child), child.attributeValue("name"));
+		VariableNode variableNode = new VariableNode(readModifiers(child), Name.identifier(child.attributeValue("name")));
 
 		variableNode.returnType = readType(child.element("return_type").element("type"));
 
@@ -148,7 +149,7 @@ public class AsmXmlFileReader
 
 	private AbstractMemberNode<?> readMethod(@NotNull Element child)
 	{
-		MethodNode methodNode = new MethodNode(readModifiers(child), child.attributeValue("name"));
+		MethodNode methodNode = new MethodNode(readModifiers(child), Name.identifier(child.attributeValue("name")));
 
 		Element returnElement = child.element("return_type");
 		if(returnElement != null)
@@ -168,7 +169,7 @@ public class AsmXmlFileReader
 		Element parametersElement = parent.element("parameters");
 		if(parametersElement != null)
 			for(Element parameterElement : parametersElement.elements())
-				parameters.add(new MethodParameterNode(readModifiers(parameterElement), parameterElement.attributeValue("name"), readType(parameterElement.element("type"))));
+				parameters.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type"))));
 	}
 
 	private void readCode(@NotNull Element parent, @NotNull LikeMethodNode<?> methodNode)
@@ -354,7 +355,7 @@ public class AsmXmlFileReader
 		{
 			child = throwIfNotExpected(child, "type_parameter");
 
-			TypeParameterNode typeParameterNode = new TypeParameterNode(child.attributeValue("name"));
+			TypeParameterNode typeParameterNode = new TypeParameterNode(Name.identifier(child.attributeValue("name")));
 
 			readSupers(child, typeParameterNode.supers);
 
@@ -364,7 +365,7 @@ public class AsmXmlFileReader
 				{
 					List<MethodParameterNode> parameterNodes = new ArrayList<MethodParameterNode>();
 					for(Element parameterElement : constructorElement.elements())
-						parameterNodes.add(new MethodParameterNode(readModifiers(parameterElement), parameterElement.attributeValue("name"), readType(parameterElement.element("type"))));
+						parameterNodes.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type"))));
 
 					typeParameterNode.constructors.add(parameterNodes);
 				}
@@ -385,7 +386,7 @@ public class AsmXmlFileReader
 		else if((constructorElement = element.element("this_type")) != null)
 			typeConstructorNode = new ThisTypeNode();
 		else if((constructorElement = element.element("type_parameter_value_type")) != null)
-			typeConstructorNode = new TypeParameterValueTypeNode(constructorElement.attributeValue("name"));
+			typeConstructorNode = new TypeParameterValueTypeNode(Name.identifier(constructorElement.attributeValue("name")));
 
 		if(typeConstructorNode == null)
 			throw new IllegalArgumentException("Unknown constructor of type: " + element.elements());

@@ -17,6 +17,7 @@
 package org.napile.asm.tree.members.types.constructors;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.NodeVisitor;
 
 /**
@@ -26,9 +27,9 @@ import org.napile.asm.tree.members.NodeVisitor;
 public class TypeParameterValueTypeNode implements TypeConstructorNode
 {
 	@NotNull
-	public final String name;
+	public final Name name;
 
-	public TypeParameterValueTypeNode(@NotNull String name)
+	public TypeParameterValueTypeNode(@NotNull Name name)
 	{
 		this.name = name;
 	}

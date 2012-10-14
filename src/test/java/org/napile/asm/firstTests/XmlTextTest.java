@@ -16,10 +16,9 @@
 
 package org.napile.asm.firstTests;
 
-import java.util.List;
-
-import org.napile.asm.AsmBuilder;
+import org.napile.asm.LangVersion;
 import org.napile.asm.io.xml.out.AsmXmlTextWriter;
+import org.napile.asm.tree.members.ClassNode;
 
 /**
  * @author VISTALL
@@ -29,11 +28,10 @@ public class XmlTextTest
 {
 	public static void main(String... arg)
 	{
-		AsmBuilder builder = NodeUtil.createTestClassNode();
+		ClassNode classNode = NodeUtil.createTestClassNode();
 
-		List<String> result = builder.getResult(new AsmXmlTextWriter());
+		AsmXmlTextWriter writer = new AsmXmlTextWriter();
 
-		for(String s : result)
-			System.out.println(s);
+		System.out.println(writer.write(LangVersion.CURRENT, classNode));
 	}
 }

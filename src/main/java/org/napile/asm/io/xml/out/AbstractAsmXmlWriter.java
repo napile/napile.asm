@@ -36,6 +36,7 @@ import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.bytecode.tryCatch.CatchBlock;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 
@@ -86,14 +87,13 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	public Element visitMethodNode(MethodNode methodNode, Element a2)
 	{
 		final Element temp = a2.addElement("method");
-		temp.addAttribute("name", methodNode.name);
+		temp.addAttribute("name", methodNode.name.getIdentifier());
 
 		addMemberElements(temp, methodNode);
 
 		ifNotEmptyAdd(methodNode.annotations, "annotations", temp);
 
-		if(methodNode.returnType != null)
-			methodNode.returnType.accept(this, temp.addElement("return_type"));
+		methodNode.returnType.accept(this, temp.addElement("return_type"));
 
 		ifNotEmptyAdd(methodNode.parameters, "parameters", temp);
 
@@ -151,7 +151,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	public Element visitVariableNode(VariableNode variableNode, Element a2)
 	{
 		final Element temp = a2.addElement("variable");
-		temp.addAttribute("name", variableNode.name);
+		temp.addAttribute("name", variableNode.name.getIdentifier());
 
 		addMemberElements(temp, variableNode);
 
@@ -165,7 +165,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	public Element visitMethodParameterNode(MethodParameterNode methodParameterNode, Element element)
 	{
 		final Element temp = element.addElement("parameter");
-		temp.addAttribute("name", methodParameterNode.name);
+		temp.addAttribute("name", methodParameterNode.name.getIdentifier());
 
 		addMemberElements(temp, methodParameterNode);
 
@@ -179,7 +179,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	public Element visitTypeParameter(TypeParameterNode typeParameterNode, Element a2)
 	{
 		Element temp = a2.addElement("type_parameter");
-		temp.addAttribute("name", typeParameterNode.name);
+		temp.addAttribute("name", typeParameterNode.name.getIdentifier());
 
 		ifNotEmptyAdd(typeParameterNode.supers, "extends", temp);
 
@@ -218,10 +218,22 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
+	public Element visitMethodTypeNode(MethodTypeNode methodTypeNode, Element a2)
+	{
+		final Element temp = a2.addElement("method_type");
+
+		methodTypeNode.returnType.accept(this, temp.addElement("return_type"));
+
+		ifNotEmptyAdd(methodTypeNode.parameters, "parameters", temp);
+
+		return temp;
+	}
+
+	@Override
 	public Element visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, Element a2)
 	{
 		final Element temp = a2.addElement("type_parameter_value_type");
-		temp.addAttribute("name", typeParameterValueTypeNode.name);
+		temp.addAttribute("name", typeParameterValueTypeNode.name.getIdentifier());
 		return temp;
 	}
 

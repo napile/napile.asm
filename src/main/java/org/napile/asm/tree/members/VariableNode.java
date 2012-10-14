@@ -16,8 +16,9 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.Modifier;
+import org.napile.asm.resolve.name.Name;
+import org.napile.asm.tree.members.types.TypeNode;
 
 /**
  * A node that represents a field.
@@ -29,12 +30,12 @@ import org.napile.asm.Modifier;
 public class VariableNode extends AbstractMemberNode<VariableNode>
 {
 	@NotNull
-	public final String name;
+	public final Name name;
 
 	@NotNull
 	public TypeNode returnType;
 
-	public VariableNode(@NotNull Modifier[] modifiers, @NotNull String name)
+	public VariableNode(@NotNull Modifier[] modifiers, @NotNull Name name)
 	{
 		super(modifiers);
 		this.name = name;

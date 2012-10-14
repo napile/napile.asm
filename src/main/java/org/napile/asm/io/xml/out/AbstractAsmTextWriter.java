@@ -9,6 +9,7 @@ import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 import com.intellij.openapi.util.text.StringUtil;
@@ -209,6 +210,19 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 	public StringBuilder visitThisTypeNode(ThisTypeNode thisTypeNode, StringBuilder a2)
 	{
 		return a2.append("this");
+	}
+
+	@Override
+	public StringBuilder visitMethodTypeNode(MethodTypeNode methodTypeNode, StringBuilder a2)
+	{
+		a2.append("{");
+		a2.append("(");
+		a2.append(StringUtil.join(methodTypeNode.parameters, ", "));
+		a2.append(")");
+		a2.append(" : ");
+		methodTypeNode.returnType.accept(this, a2);
+		a2.append("}");
+		return a2;
 	}
 
 	@Override

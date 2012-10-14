@@ -1,10 +1,10 @@
 package org.napile.asm.firstTests;
 
 import java.io.File;
-import java.util.List;
 
-import org.napile.asm.AsmBuilder;
+import org.napile.asm.LangVersion;
 import org.napile.asm.io.xml.out.AsmXmlFileWriter;
+import org.napile.asm.tree.members.ClassNode;
 
 /**
  * @author VISTALL
@@ -14,11 +14,10 @@ public class XmlFileTest
 {
 	public static void main(String... arg)
 	{
-		AsmBuilder builder = NodeUtil.createTestClassNode();
+		ClassNode classNode = NodeUtil.createTestClassNode();
 
-		List<File> result = builder.getResult(new AsmXmlFileWriter(new File("src/test/output")));
+		AsmXmlFileWriter writer = new AsmXmlFileWriter(new File("src/test/output"));
 
-		for(File s : result)
-			System.out.println(s.getAbsolutePath());
+		System.out.println(writer.write(LangVersion.CURRENT, classNode));
 	}
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.types.TypeNode;
 
 /**
@@ -35,9 +36,9 @@ public class TypeParameterNode extends AnnotableNode<TypeParameterNode>
 	public final List<List<MethodParameterNode>> constructors = new ArrayList<List<MethodParameterNode>>(0);
 
 	@NotNull
-	public final String name;
+	public final Name name;
 
-	public TypeParameterNode(@NotNull String name)
+	public TypeParameterNode(@NotNull Name name)
 	{
 		this.name = name;
 	}

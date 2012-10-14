@@ -18,7 +18,9 @@ package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
+import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.types.TypeNode;
+import com.intellij.openapi.util.Comparing;
 
 /**
  * @author VISTALL
@@ -27,11 +29,11 @@ import org.napile.asm.tree.members.types.TypeNode;
 public class MethodParameterNode extends AbstractMemberNode<MethodParameterNode>
 {
 	@NotNull
-	public final String name;
+	public final Name name;
 	@NotNull
 	public final TypeNode typeNode;
 
-	public MethodParameterNode(@NotNull Modifier[] modifiers, @NotNull String name, @NotNull TypeNode typeNode)
+	public MethodParameterNode(@NotNull Modifier[] modifiers, @NotNull Name name, @NotNull TypeNode typeNode)
 	{
 		super(modifiers);
 		this.name = name;
@@ -42,5 +44,22 @@ public class MethodParameterNode extends AbstractMemberNode<MethodParameterNode>
 	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
 		return visitor.visitMethodParameterNode(this, arg);
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o == null || o.getClass() != MethodParameterNode.class)
+			return false;
+
+		MethodParameterNode oParam = (MethodParameterNode) o;
+
+		if(!name.equals(oParam.name))
+			return false;
+
+		if(!Comparing.equal(modifiers, oParam.modifiers))
+			return false;
+
+		return typeNode.equals(oParam.typeNode);
 	}
 }

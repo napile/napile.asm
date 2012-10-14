@@ -17,22 +17,20 @@
 package org.napile.asm.firstTests;
 
 import java.util.Arrays;
-import java.util.List;
 
-import org.napile.asm.AsmBuilder;
+import org.napile.asm.AsmConstants;
 import org.napile.asm.Modifier;
 import org.napile.asm.lib.NapileLangPackage;
+import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.ClassNode;
 import org.napile.asm.tree.members.ConstructorNode;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
 import org.napile.asm.tree.members.VariableNode;
-import org.napile.asm.tree.members.bytecode.tryCatch.CatchBlock;
-import org.napile.asm.tree.members.bytecode.tryCatch.TryBlock;
-import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 
 /**
@@ -41,30 +39,33 @@ import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
  */
 public class NodeUtil
 {
-	static AsmBuilder createTestClassNode()
+	static ClassNode createTestClassNode()
 	{
-		AsmBuilder asmBuilder = new AsmBuilder();
-		ClassNode classNode = asmBuilder.visitClass(Modifier.list(Modifier.ABSTRACT), NapileLangPackage.INT).visitSuper(NapileLangPackage.ANY);
-		TypeParameterNode typeParameterNode = asmBuilder.visitTypeParameter("E");
-		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, "test", new TypeNode(false, new ClassTypeNode(NapileLangPackage.INT))), new MethodParameterNode(Modifier.EMPTY, "test2", new TypeNode(false, new ClassTypeNode(NapileLangPackage.THROWABLE)))));
-		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, "2", new TypeNode(true, new ClassTypeNode(NapileLangPackage.THROWABLE))), new MethodParameterNode(Modifier.EMPTY, "1", new TypeNode(false, new ClassTypeNode(NapileLangPackage.STRING)))));
+		ClassNode classNode = new ClassNode(Modifier.list(Modifier.ABSTRACT), NapileLangPackage.INT).visitSuper(AsmConstants.ANY_TYPE);
+		TypeParameterNode typeParameterNode = classNode.visitTypeParameter(Name.identifier("E"));
+		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, Name.identifier("test"), AsmConstants.INT_TYPE), new MethodParameterNode(Modifier.EMPTY, Name.identifier("test2"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.THROWABLE)))));
+		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, Name.identifier("test3"), new TypeNode(true, new ClassTypeNode(NapileLangPackage.THROWABLE))), new MethodParameterNode(Modifier.EMPTY, Name.identifier("test4"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.STRING)))));
 
-		MethodNode methodNode = asmBuilder.visitMethod(Modifier.list(Modifier.STATIC), "main");
-		methodNode.typeParameters.add(new TypeParameterNode("E"));
-		asmBuilder.visitMethodParameter(true, "arg", asmBuilder.createTypeOfClass("napile.lang.Array").visitArgument(asmBuilder.createTypeOfClass(NapileLangPackage.STRING))) ;
-
+		MethodNode methodNode = new MethodNode(Modifier.list(Modifier.STATIC), Name.identifier("main"));
+		methodNode.typeParameters.add(new TypeParameterNode(Name.identifier("E")));
+		methodNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.FINAL), Name.identifier("arg"), AsmConstants.ARRAY__STRING__TYPE));
 		methodNode.returnType = new TypeNode(false, new ThisTypeNode());
+		classNode.members.add(methodNode);
 
-		TryBlock tryBlock = new TryBlock(0, 15);
-		List<CatchBlock> list = Arrays.asList(new CatchBlock(16, 17, 0, new TypeNode(false, new ClassTypeNode(NapileLangPackage.THROWABLE))));
-		methodNode.tryCatchBlockNodes.add(new TryCatchBlockNode(tryBlock, list));
+		VariableNode variableNode = new VariableNode(Modifier.list(Modifier.NATIVE), Name.identifier("myVar"));
+		variableNode.returnType = AsmConstants.INT_TYPE;
+		classNode.members.add(variableNode);
 
-		VariableNode variableNode = asmBuilder.visitVariable(Modifier.list(Modifier.NATIVE), "myVar");
-		variableNode.returnType = new TypeNode(false, new ClassTypeNode(NapileLangPackage.INT));
+		MethodNode methodNode2 = new MethodNode(Modifier.EMPTY, Name.identifier("methodWithParameter"));
+		MethodTypeNode methodTypeNode = new MethodTypeNode();
+		methodTypeNode.parameters.add(new MethodParameterNode(Modifier.EMPTY, Name.identifier("p1"), AsmConstants.BOOL_TYPE));
+		methodNode2.returnType = new TypeNode(false, methodTypeNode);
+
+		classNode.members.add(methodNode2);
 
 		ConstructorNode constructorNode = new ConstructorNode(Modifier.EMPTY);
 		classNode.members.add(constructorNode);
 
-		return asmBuilder;
+		return classNode;
 	}
 }

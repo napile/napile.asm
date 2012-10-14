@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.AsmConstants;
 import org.napile.asm.Modifier;
+import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.types.TypeNode;
 
 /**
@@ -34,11 +36,12 @@ public class MethodNode extends LikeMethodNode<MethodNode>
 	/**
 	 * The method's name.
 	 */
-	public String name;
+	public Name name;
 	/**
 	 * Return type of method
 	 */
-	public TypeNode returnType;
+	@NotNull
+	public TypeNode returnType = AsmConstants.NULL_TYPE;
 
 	/**
 	 * Parameters of method
@@ -46,7 +49,7 @@ public class MethodNode extends LikeMethodNode<MethodNode>
 	@NotNull
 	public final List<MethodParameterNode> parameters = new ArrayList<MethodParameterNode>(0);
 
-	public MethodNode(@NotNull Modifier[] modifiers, @NotNull String name)
+	public MethodNode(@NotNull Modifier[] modifiers, @NotNull Name name)
 	{
 		super(modifiers);
 		this.name = name;

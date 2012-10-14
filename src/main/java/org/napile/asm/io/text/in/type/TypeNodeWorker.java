@@ -24,7 +24,11 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.Modifier;
+import org.napile.asm.resolve.name.Name;
+import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -75,7 +79,33 @@ public class TypeNodeWorker extends TypeNodeBaseListener
 	@Override
 	public void enterTypeParameterValue(TypeNodeParser.TypeParameterValueContext ctx)
 	{
-		typeConstructorNode = new TypeParameterValueTypeNode(ctx.Identifier().getSymbol().getText());
+		typeConstructorNode = new TypeParameterValueTypeNode(Name.identifier(ctx.Identifier().getSymbol().getText()));
+	}
+
+	@Override
+	public void enterMethodType(TypeNodeParser.MethodTypeContext ctx)
+	{
+		typeConstructorNode = new MethodTypeNode();
+
+		acceptChild(ctx);
+	}
+
+	@Override
+	public void enterMethodParameter(TypeNodeParser.MethodParameterContext ctx)
+	{
+		TypeNodeWorker worker = new TypeNodeWorker(tokenStream);
+		worker.acceptChild(ctx.typeNode());
+
+		((MethodTypeNode) typeConstructorNode).parameters.add(new MethodParameterNode(Modifier.EMPTY, Name.identifier(ctx.Identifier().getSymbol().getText()), worker.toType()));
+	}
+
+	@Override
+	public void enterReturnType(TypeNodeParser.ReturnTypeContext ctx)
+	{
+		TypeNodeWorker worker = new TypeNodeWorker(tokenStream);
+		worker.acceptChild(ctx.typeNode());
+
+		((MethodTypeNode) typeConstructorNode).returnType = worker.toType();
 	}
 
 	@Override

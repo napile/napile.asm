@@ -13,7 +13,7 @@ typeNode: typePart arguments? nulled?;
 
 arguments : '<' typeNode (',' typeNode)? '>';
 
-typePart : classType | typeParameterValue | thisType;
+typePart : classType | typeParameterValue | thisType | methodType;
 
 // class type
 classType : qualifiedName;
@@ -21,10 +21,15 @@ classType : qualifiedName;
 // this type
 thisType : 'this';
 
+// method type
+methodType : '{' '(' methodParameter (',' methodParameter)* ')' ':' returnType '}';
+
+methodParameter : Identifier ':' typeNode;
+
+returnType : typeNode;
+
 // type parameter value
 typeParameterValue : ':' Identifier ':';
-
-//TODO [VISTALL] add parsing of method types
 
 nulled: '?';
 

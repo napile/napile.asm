@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.AsmConstants;
 import org.napile.asm.lib.NapileLangPackage;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.bytecode.Instruction;
@@ -31,7 +32,6 @@ import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 
 /**
  * @author VISTALL
@@ -39,14 +39,11 @@ import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
  */
 public class InstructionAdapter implements Iterable<Instruction>
 {
-	private static final TypeNode BOOL_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.BOOL));
-	private static final TypeNode NULL_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.NULL));
+	private static final MethodRef BOOL_TRUE = new MethodRef(NapileLangPackage.BOOL.child(Name.identifier("TRUE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE);
 
-	private static final MethodRef BOOL_TRUE = new MethodRef(NapileLangPackage.BOOL.child(Name.identifier("TRUE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), BOOL_TYPE);
+	private static final MethodRef BOOL_FALSE = new MethodRef(NapileLangPackage.BOOL.child(Name.identifier("FALSE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE);
 
-	private static final MethodRef BOOL_FALSE = new MethodRef(NapileLangPackage.BOOL.child(Name.identifier("FALSE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), BOOL_TYPE);
-
-	private static final MethodRef NULL = new MethodRef(NapileLangPackage.NULL.child(Name.identifier("INSTANCE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), NULL_TYPE);
+	private static final MethodRef NULL = new MethodRef(NapileLangPackage.NULL.child(Name.identifier("INSTANCE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.NULL_TYPE);
 
 	@NotNull
 	private final List<Instruction> instructions = new ArrayList<Instruction>();

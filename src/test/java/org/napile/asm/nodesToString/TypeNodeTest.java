@@ -2,7 +2,12 @@ package org.napile.asm.nodesToString;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.napile.asm.AsmConstants;
+import org.napile.asm.Modifier;
+import org.napile.asm.resolve.name.Name;
+import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.io.text.in.type.TypeNodeUtil;
@@ -40,11 +45,23 @@ public class TypeNodeTest
 	@Test
 	public void test4()
 	{
-		TypeNode type = new TypeNode(false, new TypeParameterValueTypeNode("E"));
+		TypeNode type = new TypeNode(false, new TypeParameterValueTypeNode(Name.identifier("E")));
 		type.visitArgument(new TypeNode(true, new ClassTypeNode(NapileLangPackage.DOUBLE)));
 		type.visitArgument(new TypeNode(false, new ThisTypeNode()));
 
 		createAndParserCheck(type, ":E:<napile.lang.Double?, this>");
+	}
+
+	@Test
+	public void test5()
+	{
+		MethodTypeNode methodTypeNode = new MethodTypeNode();
+		methodTypeNode.parameters.add(new MethodParameterNode(Modifier.EMPTY, Name.identifier("p1"), AsmConstants.BOOL_TYPE));
+		methodTypeNode.returnType = AsmConstants.INT_TYPE;
+
+		TypeNode type = new TypeNode(false, methodTypeNode);
+
+		createAndParserCheck(type, "{(p1 : napile.lang.Bool) : napile.lang.Int}");
 	}
 
 	private static void createAndParserCheck(final TypeNode typeNode, final String type)
@@ -56,6 +73,8 @@ public class TypeNodeTest
 		Assert.assertTrue(out.equals(type));
 
 		TypeNode parsedType = TypeNodeUtil.fromString(out);
+
+		System.out.println("checking '" + typeNode + "' to parsed '" + parsedType + "'");
 
 		Assert.assertTrue(parsedType.equals(typeNode));
 	}

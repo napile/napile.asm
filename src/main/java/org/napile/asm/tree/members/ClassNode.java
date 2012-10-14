@@ -51,16 +51,6 @@ public class ClassNode extends AbstractMemberNode<ClassNode>
 		this.name = fqName;
 	}
 
-	public ClassNode visitSuper(@NotNull String s)
-	{
-		return visitSuper(new TypeNode(false, new ClassTypeNode(new FqName(s))));
-	}
-
-	public ClassNode visitSuper(@NotNull FqName fqName)
-	{
-		return visitSuper(new TypeNode(false, new ClassTypeNode(fqName)));
-	}
-
 	public ClassNode visitSuper(@NotNull TypeNode typeNode)
 	{
 		if(typeNode.nullable || !(typeNode.typeConstructorNode instanceof ClassTypeNode))
