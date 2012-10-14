@@ -217,7 +217,7 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 	{
 		a2.append("{");
 		a2.append("(");
-		a2.append(StringUtil.join(methodTypeNode.parameters, ", "));
+		a2.append(StringUtil.join(methodTypeNode.parameters, (Function<MethodParameterNode,String>) func, ", "));
 		a2.append(")");
 		a2.append(" : ");
 		methodTypeNode.returnType.accept(this, a2);
