@@ -17,43 +17,22 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.Modifier;
 
 /**
  * @author VISTALL
  * @date 0:25/14.08.12
  */
-public class AnnotationNode implements Node
+public class AnnotationNode extends LikeMethodNode<AnnotationNode>
 {
-	private final FqName name;
-
-	public AnnotationNode(@NotNull FqName name)
+	public AnnotationNode()
 	{
-		this.name = name;
+		super(Modifier.EMPTY);
 	}
 
 	@Override
 	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
 		return visitor.visitAnnotationNode(this, arg);
-	}
-
-	public FqName getName()
-	{
-		return name;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "@" + getName().toString(); //TODO [VISTALL] arguments
-	}
-
-	@Override
-	public boolean equals(Object o)
-	{
-		if(o == null || o.getClass() != AnnotationNode.class)
-			return false;
-		return toString().equals(o.toString()); //TODO [VISTALL] arguments
 	}
 }

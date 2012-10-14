@@ -31,7 +31,7 @@ public class XmlParsingTest
 	{
 		AsmXmlFileReader xmlFileReader = new AsmXmlFileReader();
 
-		ClassNode classNode = xmlFileReader.read(new FileInputStream("src/test/output/napile/lang/Int.xml"));
+		ClassNode classNode = xmlFileReader.read(new FileInputStream("src/test/output/napile/lang/Int.nxml"));
 
 		System.out.println(classNode);
 	}

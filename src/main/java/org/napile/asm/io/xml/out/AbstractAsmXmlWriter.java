@@ -59,7 +59,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	public Element visitAnnotationNode(AnnotationNode annotationNode, Element o)
 	{
 		final Element temp = o.addElement("annotation");
-		temp.addAttribute("name", annotationNode.getName().getFqName());
+		visitCode(temp, annotationNode);
 		return temp;
 	}
 
