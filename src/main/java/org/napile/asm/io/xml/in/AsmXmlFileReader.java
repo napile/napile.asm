@@ -48,6 +48,7 @@ import org.napile.asm.tree.members.bytecode.tryCatch.TryBlock;
 import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
@@ -385,6 +386,14 @@ public class AsmXmlFileReader
 			typeConstructorNode = new ClassTypeNode(new FqName(constructorElement.attributeValue("name")));
 		else if((constructorElement = element.element("this_type")) != null)
 			typeConstructorNode = new ThisTypeNode();
+		else if((constructorElement = element.element("method_type")) != null)
+		{
+			Element returnElement = constructorElement.element("return_type");
+
+			typeConstructorNode = new MethodTypeNode();
+			((MethodTypeNode) typeConstructorNode).returnType = readType(returnElement.element("type"));
+			readParameters(constructorElement, ((MethodTypeNode) typeConstructorNode).parameters);
+		}
 		else if((constructorElement = element.element("type_parameter_value_type")) != null)
 			typeConstructorNode = new TypeParameterValueTypeNode(Name.identifier(constructorElement.attributeValue("name")));
 
