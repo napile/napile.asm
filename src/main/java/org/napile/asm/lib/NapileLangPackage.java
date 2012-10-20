@@ -31,6 +31,8 @@ public interface NapileLangPackage
 
 	FqName ARRAY = PACKAGE.child(Name.identifier("Array"));
 
+	FqName NATIVE_ARRAY = PACKAGE.child(Name.identifier("NativeArray"));
+
 	FqName NUMBER = PACKAGE.child(Name.identifier("Number"));
 
 	FqName BOOL = PACKAGE.child(Name.identifier("Bool"));
