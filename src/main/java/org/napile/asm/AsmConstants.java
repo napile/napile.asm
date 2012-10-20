@@ -16,11 +16,17 @@ public interface AsmConstants
 
 	TypeNode NULL_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.NULL));
 
-	TypeNode BYTE_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.INT));
+	TypeNode BYTE_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.BYTE));
 
-	TypeNode SHORT_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.INT));
+	TypeNode SHORT_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.SHORT));
 
 	TypeNode INT_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.INT));
+
+	TypeNode LONG_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.LONG));
+
+	TypeNode FLOAT_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.FLOAT));
+
+	TypeNode DOUBLE_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.DOUBLE));
 
 	TypeNode STRING_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.STRING));
 
