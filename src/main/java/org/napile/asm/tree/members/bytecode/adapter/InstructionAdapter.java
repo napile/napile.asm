@@ -82,43 +82,61 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public InvokeSpecialInstruction invokeSpecial(MethodRef methodRef)
+	public InvokeSpecialInstruction invokeSpecial(@NotNull MethodRef methodRef)
 	{
 		return add(new InvokeSpecialInstruction(methodRef));
 	}
 
 	@NotNull
-	public InvokeStaticInstruction invokeStatic(MethodRef methodRef)
+	public InvokeStaticInstruction invokeStatic(@NotNull MethodRef methodRef)
 	{
 		return add(new InvokeStaticInstruction(methodRef));
 	}
 
 	@NotNull
-	public InvokeVirtualInstruction invokeVirtual(MethodRef methodRef)
+	public InvokeVirtualInstruction invokeVirtual(@NotNull MethodRef methodRef)
 	{
 		return add(new InvokeVirtualInstruction(methodRef));
 	}
 
 	@NotNull
-	public PutToVariableInstruction putToVar(VariableRef variableRef)
+	public InvokeAnonymInstruction invokeAnonym(@NotNull List<TypeNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType)
+	{
+		return add(new InvokeAnonymInstruction(parameters, typeArguments, returnType));
+	}
+
+	@NotNull
+	public LinkMethodInstruction linkMethod(@NotNull MethodRef methodRef)
+	{
+		return add(new LinkMethodInstruction(methodRef));
+	}
+
+	@NotNull
+	public LinkStaticMethodInstruction linkStaticMethod(@NotNull MethodRef methodRef)
+	{
+		return add(new LinkStaticMethodInstruction(methodRef));
+	}
+
+	@NotNull
+	public PutToVariableInstruction putToVar(@NotNull VariableRef variableRef)
 	{
 		return add(new PutToVariableInstruction(variableRef));
 	}
 
 	@NotNull
-	public PutToStaticVariableInstruction putToStaticVar(VariableRef variableRef)
+	public PutToStaticVariableInstruction putToStaticVar(@NotNull VariableRef variableRef)
 	{
 		return add(new PutToStaticVariableInstruction(variableRef));
 	}
 
 	@NotNull
-	public GetVariableInstruction getVar(VariableRef variableRef)
+	public GetVariableInstruction getVar(@NotNull VariableRef variableRef)
 	{
 		return add(new GetVariableInstruction(variableRef));
 	}
 
 	@NotNull
-	public GetStaticVariableInstruction getStaticVar(VariableRef variableRef)
+	public GetStaticVariableInstruction getStaticVar(@NotNull VariableRef variableRef)
 	{
 		return add(new GetStaticVariableInstruction(variableRef));
 	}

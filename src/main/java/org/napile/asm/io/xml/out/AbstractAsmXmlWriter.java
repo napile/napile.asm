@@ -485,6 +485,42 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
+	public Element visitInvokeAnonym(InvokeAnonymInstruction instruction, Element a)
+	{
+		final Element temp = a.addElement("invoke_anonym");
+		Element temp2 = temp.addElement("method");
+		MethodRef methodRef = instruction.methodRef;
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
+		return temp;
+	}
+
+	@Override
+	public Element visitLinkMethod(LinkMethodInstruction instruction, Element a)
+	{
+		final Element temp = a.addElement("link_method");
+		Element temp2 = temp.addElement("method");
+		MethodRef methodRef = instruction.methodRef;
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
+		return temp;
+	}
+
+	@Override
+	public Element visitLinkStaticMethod(LinkStaticMethodInstruction instruction, Element a)
+	{
+		final Element temp = a.addElement("link_static_method");
+		Element temp2 = temp.addElement("method");
+		MethodRef methodRef = instruction.methodRef;
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
+		return temp;
+	}
+
+	@Override
 	public Element visitPutToVariable(PutToVariableInstruction instruction, Element a)
 	{
 		final Element temp = a.addElement("put_to_variable");

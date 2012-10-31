@@ -56,6 +56,8 @@ public interface InstructionVisitor<T, R>
 
 	R visitInvokeVirtual(InvokeVirtualInstruction instruction, T a);
 
+	R visitInvokeAnonym(InvokeAnonymInstruction instruction, T a2);
+
 	R visitPutToVariable(PutToVariableInstruction instruction, T a);
 
 	R visitPutToStaticVariable(PutToStaticVariableInstruction instruction, T a);
@@ -81,4 +83,8 @@ public interface InstructionVisitor<T, R>
 	R visitIs(IsInstruction isInstruction, T a2);
 
 	R visitDup1x1(Dup1x1Instruction instruction, T a2);
+
+	R visitLinkMethod(LinkMethodInstruction instruction, T a2);
+
+	R visitLinkStaticMethod(LinkStaticMethodInstruction instruction, T a2);
 }

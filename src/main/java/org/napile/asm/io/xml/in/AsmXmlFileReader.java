@@ -230,6 +230,32 @@ public class AsmXmlFileReader
 					instruction = new InvokeSpecialInstruction(readMethodRef(instructionElement));
 				else if("invoke_virtual".equals(instructionName))
 					instruction = new InvokeVirtualInstruction(readMethodRef(instructionElement));
+				else if("invoke_anonym".equals(instructionName))
+				{
+					Element element = instructionElement.element("method");
+
+					Element returnElement = element.element("return_type");
+
+					TypeNode returnType = readType(returnElement.element("type"));
+
+					List<TypeNode> parameterTypes = new ArrayList<TypeNode>();
+					Element parametersElement = element.element("parameters");
+					if(parametersElement != null)
+						for(Element parameterElement : parametersElement.elements())
+							parameterTypes.add(readType(parameterElement));
+
+					List<TypeNode> typeArguments = new ArrayList<TypeNode>();
+					Element typeArgumentsElement = element.element("type_arguments");
+					if(typeArgumentsElement != null)
+						for(Element typeArgumentElement : typeArgumentsElement.elements())
+							typeArguments.add(readType(typeArgumentElement));
+
+					instruction = new InvokeAnonymInstruction(parameterTypes, typeArguments, returnType);
+				}
+				else if("link_method".equals(instructionName))
+					instruction = new LinkMethodInstruction(readMethodRef(instructionElement));
+				else if("link_static_method".equals(instructionName))
+					instruction = new LinkStaticMethodInstruction(readMethodRef(instructionElement));
 				else if("put_to_variable".equals(instructionName))
 					instruction = new PutToVariableInstruction(readVariableRef(instructionElement));
 				else if("put_to_static_variable".equals(instructionName))
