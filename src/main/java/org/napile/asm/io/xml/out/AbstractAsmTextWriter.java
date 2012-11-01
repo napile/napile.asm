@@ -13,7 +13,6 @@ import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.ArrayUtil;
 import com.intellij.util.Function;
 
 /**
@@ -55,13 +54,8 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 		if(!shortName.contains(AsmConstants.ANONYM_SPLITTER))
 			builder.append("package ").append(classNode.name.parent().getFqName()).append("\n\n");
 
-		renderModifiers(builder, classNode.modifiers, Modifier.RETELL, Modifier.ENUM);
-		if(ArrayUtil.contains(Modifier.RETELL, classNode.modifiers))
-			builder.append("retell ");
-		else if(ArrayUtil.contains(Modifier.ENUM, classNode.modifiers))
-			builder.append("enum ");
-		else
-			builder.append("class ");
+		renderModifiers(builder, classNode.modifiers);
+		builder.append("class ");
 
 		builder.append(shortName);
 
@@ -247,18 +241,9 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 		}
 	}
 
-	private static void renderModifiers(StringBuilder b, Modifier[] modifiers, Modifier... ignored)
+	private static void renderModifiers(StringBuilder b, Modifier[] modifiers)
 	{
-		if(modifiers.length == 0)
-			if(ignored.length != 0)
-				b.append(" ");
-		else
-			for(Modifier m : modifiers)
-			{
-				if(ArrayUtil.contains(m, ignored))
-					continue;
-
-				b.append(m.name().toLowerCase()).append(" ");
-			}
+		for(Modifier m : modifiers)
+			b.append(m.name().toLowerCase()).append(" ");
 	}
 }

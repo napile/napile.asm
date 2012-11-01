@@ -24,6 +24,5 @@ public enum ModifierType
 {
 	ACCESS,
 	EXTENDING,
-	CLASS_TYPE,
 	ETC
 }
