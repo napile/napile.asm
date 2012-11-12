@@ -30,15 +30,16 @@ import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
-import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.bytecode.tryCatch.CatchBlock;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
+import org.napile.asm.util.StringWrapper;
 
 /**
  * @author VISTALL
@@ -377,7 +378,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	public Element visitNewString(NewStringInstruction instruction, Element a)
 	{
 		Element element = a.addElement("new_string");
-		element.addAttribute("val", String.valueOf(instruction.value));
+		element.addAttribute("val", StringWrapper.wrapToXml(instruction.value));
 		return element;
 	}
 

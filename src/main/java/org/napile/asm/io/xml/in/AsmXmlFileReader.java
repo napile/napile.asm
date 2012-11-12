@@ -52,6 +52,7 @@ import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
+import org.napile.asm.util.StringWrapper;
 
 /**
  * @author VISTALL
@@ -200,7 +201,7 @@ public class AsmXmlFileReader
 				else if("new_double".equals(instructionName))
 					instruction = new NewDoubleInstruction(Double.parseDouble(instructionElement.attributeValue("val")));
 				else if("new_string".equals(instructionName))
-					instruction = new NewStringInstruction(instructionElement.attributeValue("val"));
+					instruction = new NewStringInstruction(StringWrapper.unwrapFromXml(instructionElement.attributeValue("val")));
 				else if("new_object".equals(instructionName))
 				{
 					List<TypeNode> parameters = new ArrayList<TypeNode>(0);
