@@ -103,6 +103,22 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 	}
 
 	@Override
+	public StringBuilder visitMacroNode(MacroNode methodNode, StringBuilder a2)
+	{
+		renderModifiers(a2, methodNode.modifiers);
+		a2.append("macro ");
+		a2.append(methodNode.name);
+		renderTypeParameters(a2, methodNode);
+		a2.append("(");
+		for(MethodParameterNode m : methodNode.parameters)
+			m.accept(this, a2);
+		a2.append(")");
+		a2.append(" : ");
+		a2.append(methodNode.returnType);
+		return a2;
+	}
+
+	@Override
 	public StringBuilder visitConstructorNode(ConstructorNode constructorNode, StringBuilder a2)
 	{
 		renderModifiers(a2, constructorNode.modifiers);

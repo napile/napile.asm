@@ -112,6 +112,23 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
+	public MacroVirtualInstruction macroVirtual(@NotNull MethodRef methodRef)
+	{
+		return add(new MacroVirtualInstruction(methodRef));
+	}
+
+	@NotNull
+	public MacroStaticInstruction macroStatic(@NotNull MethodRef methodRef)
+	{
+		return add(new MacroStaticInstruction(methodRef));
+	}
+
+	@NotNull
+	public MacroSpecialInstruction macroSpecial(@NotNull MethodRef methodRef)
+	{
+		return add(new MacroSpecialInstruction(methodRef));
+	}
+
 	public LinkStaticMethodInstruction linkStaticMethod(@NotNull MethodRef methodRef)
 	{
 		return add(new LinkStaticMethodInstruction(methodRef));

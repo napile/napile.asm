@@ -103,6 +103,24 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
+	public Element visitMacroNode(MacroNode macroNode, Element a2)
+	{
+		final Element temp = a2.addElement("macro");
+		temp.addAttribute("name", macroNode.name.getIdentifier());
+
+		addMemberElements(temp, macroNode);
+
+		ifNotEmptyAdd(macroNode.annotations, "annotations", temp);
+
+		macroNode.returnType.accept(this, temp.addElement("return_type"));
+
+		ifNotEmptyAdd(macroNode.parameters, "parameters", temp);
+
+		visitCode(temp, macroNode);
+		return temp;
+	}
+
+	@Override
 	public Element visitConstructorNode(ConstructorNode constructorNode, Element a2)
 	{
 		final Element temp = a2.addElement("constructor");
@@ -491,6 +509,45 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		final Element temp = a.addElement("invoke_anonym");
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
+		return temp;
+	}
+
+	@Override
+	public Element visitMacroSpecial(MacroSpecialInstruction instruction, Element a)
+	{
+		final Element temp = a.addElement("macro_special");
+		Element temp2 = temp.addElement("method");
+		MethodRef methodRef = instruction.methodRef;
+		temp2.addAttribute("name", methodRef.method.toString());
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
+		return temp;
+	}
+
+	@Override
+	public Element visitMacroStatic(MacroStaticInstruction instruction, Element a)
+	{
+		final Element temp = a.addElement("macro_static");
+		Element temp2 = temp.addElement("method");
+		MethodRef methodRef = instruction.methodRef;
+		temp2.addAttribute("name", methodRef.method.toString());
+		methodRef.returnType.accept(this, temp2.addElement("return_type"));
+		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
+		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
+		return temp;
+	}
+
+	@Override
+	public Element visitMacroVirtual(MacroVirtualInstruction instruction, Element a)
+	{
+		final Element temp = a.addElement("macro_virtual");
+		Element temp2 = temp.addElement("method");
+		MethodRef methodRef = instruction.methodRef;
+		temp2.addAttribute("name", methodRef.method.toString());
 		methodRef.returnType.accept(this, temp2.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
 		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);

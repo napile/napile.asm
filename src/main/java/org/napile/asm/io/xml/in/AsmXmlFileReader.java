@@ -231,6 +231,12 @@ public class AsmXmlFileReader
 					instruction = new InvokeSpecialInstruction(readMethodRef(instructionElement));
 				else if("invoke_virtual".equals(instructionName))
 					instruction = new InvokeVirtualInstruction(readMethodRef(instructionElement));
+				else if("macro_virtual".equals(instructionName))
+					instruction = new MacroVirtualInstruction(readMethodRef(instructionElement));
+				else if("macro_static".equals(instructionName))
+					instruction = new MacroStaticInstruction(readMethodRef(instructionElement));
+				else if("macro_special".equals(instructionName))
+					instruction = new MacroSpecialInstruction(readMethodRef(instructionElement));
 				else if("invoke_anonym".equals(instructionName))
 				{
 					Element element = instructionElement.element("method");
