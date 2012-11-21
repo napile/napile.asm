@@ -56,11 +56,9 @@ public interface InstructionVisitor<T, R>
 
 	R visitInvokeVirtual(InvokeVirtualInstruction instruction, T a);
 
-	R visitMacroStatic(MacroStaticInstruction instruction, T a);
+	R visitMacroStaticJump(MacroStaticJumpInstruction instruction, T a);
 
-	R visitMacroSpecial(MacroSpecialInstruction instruction, T a);
-
-	R visitMacroVirtual(MacroVirtualInstruction instruction, T a);
+	R visitMacroJump(MacroJumpInstruction instruction, T a);
 
 	R visitInvokeAnonym(InvokeAnonymInstruction instruction, T a2);
 

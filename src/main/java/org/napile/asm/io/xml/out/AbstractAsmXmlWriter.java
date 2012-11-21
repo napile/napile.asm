@@ -516,9 +516,9 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
-	public Element visitMacroSpecial(MacroSpecialInstruction instruction, Element a)
+	public Element visitMacroJump(MacroJumpInstruction instruction, Element a)
 	{
-		final Element temp = a.addElement("macro_special");
+		final Element temp = a.addElement("macro_jump");
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
 		temp2.addAttribute("name", methodRef.method.toString());
@@ -529,22 +529,9 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
-	public Element visitMacroStatic(MacroStaticInstruction instruction, Element a)
+	public Element visitMacroStaticJump(MacroStaticJumpInstruction instruction, Element a)
 	{
-		final Element temp = a.addElement("macro_static");
-		Element temp2 = temp.addElement("method");
-		MethodRef methodRef = instruction.methodRef;
-		temp2.addAttribute("name", methodRef.method.toString());
-		methodRef.returnType.accept(this, temp2.addElement("return_type"));
-		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
-		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
-		return temp;
-	}
-
-	@Override
-	public Element visitMacroVirtual(MacroVirtualInstruction instruction, Element a)
-	{
-		final Element temp = a.addElement("macro_virtual");
+		final Element temp = a.addElement("macro_static_jump");
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
 		temp2.addAttribute("name", methodRef.method.toString());
