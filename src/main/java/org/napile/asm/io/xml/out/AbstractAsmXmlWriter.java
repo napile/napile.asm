@@ -120,32 +120,8 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		return temp;
 	}
 
-	@Override
-	public Element visitConstructorNode(ConstructorNode constructorNode, Element a2)
-	{
-		final Element temp = a2.addElement("constructor");
 
-		addMemberElements(temp, constructorNode);
-
-		ifNotEmptyAdd(constructorNode.annotations, "annotations", temp);
-
-		ifNotEmptyAdd(constructorNode.parameters, "parameters", temp);
-
-		visitCode(temp, constructorNode);
-		return temp;
-	}
-
-	@Override
-	public Element visitStaticConstructorNode(StaticConstructorNode constructorNode, Element a2)
-	{
-		final Element temp = a2.addElement("static_constructor");
-
-		visitCode(temp, constructorNode);
-
-		return temp;
-	}
-
-	private void visitCode(@NotNull Element temp, @NotNull LikeMethodNode<?> methodNode)
+	private void visitCode(@NotNull Element temp, @NotNull MethodNode methodNode)
 	{
 		if(!methodNode.instructions.isEmpty())
 		{

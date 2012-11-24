@@ -38,7 +38,7 @@ public abstract class AbstractMemberNode<T extends AbstractMemberNode<T>> extend
 
 	public AbstractMemberNode(@NotNull Modifier[] modifiers)
 	{
-		this.modifiers = modifiers;
+		this.modifiers = Modifier.list(modifiers);
 	}
 
 	public TypeParameterNode visitTypeParameter(@NotNull Name name)

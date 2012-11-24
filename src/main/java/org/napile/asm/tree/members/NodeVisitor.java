@@ -37,10 +37,6 @@ public interface NodeVisitor<A, R>
 
 	R visitMacroNode(MacroNode methodNode, A a2);
 
-	R visitConstructorNode(ConstructorNode constructorNode, A a2);
-
-	R visitStaticConstructorNode(StaticConstructorNode staticConstructorNode, A a2);
-
 	R visitVariableNode(VariableNode variableNode, A a2);
 
 	R visitMethodParameterNode(MethodParameterNode methodParameterNode, A a2);

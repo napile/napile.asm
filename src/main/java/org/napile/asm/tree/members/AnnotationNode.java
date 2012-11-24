@@ -18,16 +18,19 @@ package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
+import org.napile.asm.resolve.name.Name;
 
 /**
  * @author VISTALL
  * @date 0:25/14.08.12
  */
-public class AnnotationNode extends LikeMethodNode<AnnotationNode>
+public class AnnotationNode extends MethodNode
 {
+	private static final Name NAME = Name.identifier("identifier");
+
 	public AnnotationNode()
 	{
-		super(Modifier.EMPTY);
+		super(Modifier.EMPTY, NAME);
 	}
 
 	@Override

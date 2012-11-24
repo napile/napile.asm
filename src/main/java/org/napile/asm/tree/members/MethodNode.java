@@ -23,20 +23,34 @@ import org.jetbrains.annotations.NotNull;
 import org.napile.asm.AsmConstants;
 import org.napile.asm.Modifier;
 import org.napile.asm.resolve.name.Name;
+import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.bytecode.adapter.InstructionAdapter;
+import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 
 /**
- * A node that represents a method.
  * @author VISTALL
- *
- * base idea was get from ObjectWeb Asm
+ * @date 18:21/06.09.12
  */
-public class MethodNode extends LikeMethodNode<MethodNode>
+public class MethodNode extends AbstractMemberNode<MethodNode>
 {
+	public static final Name CONSTRUCTOR_NAME = Name.identifier("this");
+	public static final Name STATIC_CONSTRUCTOR_NAME = Name.identifier("static");
+
+	public static MethodNode constructor(@NotNull Modifier... modifiers)
+	{
+		return new MethodNode(modifiers, CONSTRUCTOR_NAME);
+	}
+
+	public static MethodNode staticConstructor()
+	{
+		return new MethodNode(new Modifier[]{Modifier.STATIC}, STATIC_CONSTRUCTOR_NAME);
+	}
+
 	/**
 	 * The method's name.
 	 */
-	public Name name;
+	public final Name name;
 	/**
 	 * Return type of method
 	 */
@@ -48,19 +62,36 @@ public class MethodNode extends LikeMethodNode<MethodNode>
 	 */
 	@NotNull
 	public final List<MethodParameterNode> parameters = new ArrayList<MethodParameterNode>(0);
+	/**
+	 * Code instruction
+	 */
+	@NotNull
+	public final List<Instruction> instructions = new ArrayList<Instruction>(0);
 
-	public MethodNode(@NotNull Modifier[] modifiers, @NotNull Name name)
+	@NotNull
+	public final List<TryCatchBlockNode> tryCatchBlockNodes = new ArrayList<TryCatchBlockNode>(0);
+
+	/**
+	 * The maximum number of local variables of this method.
+	 */
+	public int maxLocals;
+
+	public MethodNode(@NotNull final Modifier[] modifiers, @NotNull Name name)
 	{
 		super(modifiers);
 		this.name = name;
 	}
 
-	// ------------------------------------------------------------------------
-	// Accept method
-	// ------------------------------------------------------------------------
-	@Override
-	public <T, R> R accept(@org.jetbrains.annotations.NotNull final NodeVisitor<T, R> asmVisitor, T a2)
+	public void putInstructions(InstructionAdapter instructionAdapter)
 	{
-		return asmVisitor.visitMethodNode(this, a2);
+		instructions.addAll(instructionAdapter.getInstructions());
+
+		maxLocals = instructionAdapter.getMaxLocals();
+	}
+
+	@Override
+	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
+	{
+		return visitor.visitMethodNode(this, arg);
 	}
 }
