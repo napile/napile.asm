@@ -53,5 +53,9 @@ public interface NapileLangPackage
 
 	FqName STRING = PACKAGE.child(Name.identifier("String"));
 
-	FqName THROWABLE = PACKAGE.child(Name.identifier("Throwable"));
+	FqName STRING_BUILDER = PACKAGE.child(Name.identifier("StringBuilder"));
+
+	FqName EXCEPTION = PACKAGE.child(Name.identifier("Exception"));
+
+	FqName NULL_POINTER_EXCEPTION = PACKAGE.child(Name.identifier("Exception"));
 }

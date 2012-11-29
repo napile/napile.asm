@@ -45,8 +45,8 @@ public class NodeUtil
 	{
 		ClassNode classNode = new ClassNode(Modifier.list(Modifier.ABSTRACT), NapileLangPackage.INT).visitSuper(AsmConstants.ANY_TYPE);
 		TypeParameterNode typeParameterNode = classNode.visitTypeParameter(Name.identifier("E"));
-		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, Name.identifier("test"), AsmConstants.INT_TYPE), new MethodParameterNode(Modifier.EMPTY, Name.identifier("test2"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.THROWABLE)))));
-		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, Name.identifier("test3"), new TypeNode(true, new ClassTypeNode(NapileLangPackage.THROWABLE))), new MethodParameterNode(Modifier.EMPTY, Name.identifier("test4"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.STRING)))));
+		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, Name.identifier("test"), AsmConstants.INT_TYPE), new MethodParameterNode(Modifier.EMPTY, Name.identifier("test2"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.EXCEPTION)))));
+		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, Name.identifier("test3"), new TypeNode(true, new ClassTypeNode(NapileLangPackage.EXCEPTION))), new MethodParameterNode(Modifier.EMPTY, Name.identifier("test4"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.STRING)))));
 
 		MethodNode methodNode = new MethodNode(Modifier.list(Modifier.STATIC), Name.identifier("main"));
 		methodNode.typeParameters.add(new TypeParameterNode(Name.identifier("E")));
