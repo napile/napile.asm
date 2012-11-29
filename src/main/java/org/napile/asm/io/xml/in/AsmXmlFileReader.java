@@ -188,6 +188,8 @@ public class AsmXmlFileReader
 					instruction = new Dup1x1Instruction();
 				else if("pop".equals(instructionName))
 					instruction = new PopInstruction();
+				else if("swap".equals(instructionName))
+					instruction = new SwapInstruction();
 				else if("return".equals(instructionName))
 					instruction = new ReturnInstruction();
 				else if("throw".equals(instructionName))
