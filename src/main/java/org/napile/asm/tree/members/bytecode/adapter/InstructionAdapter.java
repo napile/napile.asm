@@ -82,27 +82,27 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public InvokeSpecialInstruction invokeSpecial(@NotNull MethodRef methodRef)
+	public InvokeSpecialInstruction invokeSpecial(@NotNull MethodRef methodRef, boolean nullable)
 	{
-		return add(new InvokeSpecialInstruction(methodRef));
+		return add(new InvokeSpecialInstruction(methodRef, nullable));
 	}
 
 	@NotNull
-	public InvokeStaticInstruction invokeStatic(@NotNull MethodRef methodRef)
+	public InvokeStaticInstruction invokeStatic(@NotNull MethodRef methodRef, boolean nullable)
 	{
-		return add(new InvokeStaticInstruction(methodRef));
+		return add(new InvokeStaticInstruction(methodRef, nullable));
 	}
 
 	@NotNull
-	public InvokeVirtualInstruction invokeVirtual(@NotNull MethodRef methodRef)
+	public InvokeVirtualInstruction invokeVirtual(@NotNull MethodRef methodRef, boolean nullable)
 	{
-		return add(new InvokeVirtualInstruction(methodRef));
+		return add(new InvokeVirtualInstruction(methodRef, nullable));
 	}
 
 	@NotNull
-	public InvokeAnonymInstruction invokeAnonym(@NotNull List<TypeNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType)
+	public InvokeAnonymInstruction invokeAnonym(@NotNull List<TypeNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType, boolean nullable)
 	{
-		return add(new InvokeAnonymInstruction(parameters, typeArguments, returnType));
+		return add(new InvokeAnonymInstruction(parameters, typeArguments, returnType, nullable));
 	}
 
 	@NotNull
@@ -232,17 +232,17 @@ public class InstructionAdapter implements Iterable<Instruction>
 
 	public InvokeStaticInstruction putTrue()
 	{
-		return add(new InvokeStaticInstruction(BOOL_TRUE));
+		return invokeStatic(BOOL_TRUE, false);
 	}
 
 	public InvokeStaticInstruction putFalse()
 	{
-		return add(new InvokeStaticInstruction(BOOL_FALSE));
+		return invokeStatic(BOOL_FALSE, false);
 	}
 
 	public InvokeStaticInstruction putNull()
 	{
-		return add(new InvokeStaticInstruction(NULL));
+		return invokeStatic(NULL, false);
 	}
 
 	public void tryCatch(@NotNull TryCatchBlockNode b)

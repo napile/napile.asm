@@ -443,48 +443,39 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitInvokeStatic(InvokeStaticInstruction instruction, Element a)
 	{
-		final Element temp = a.addElement("invoke_static");
-		Element temp2 = temp.addElement("method");
-		MethodRef methodRef = instruction.methodRef;
-		temp2.addAttribute("name", methodRef.method.toString());
-		methodRef.returnType.accept(this, temp2.addElement("return_type"));
-		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
-		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
-		return temp;
+		return visitInvoke(instruction, a);
 	}
 
 	@Override
 	public Element visitInvokeSpecial(InvokeSpecialInstruction instruction, Element a)
 	{
-		final Element temp = a.addElement("invoke_special");
-		Element temp2 = temp.addElement("method");
-		MethodRef methodRef = instruction.methodRef;
-		temp2.addAttribute("name", methodRef.method.toString());
-		methodRef.returnType.accept(this, temp2.addElement("return_type"));
-		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
-		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
-		return temp;
+		return visitInvoke(instruction, a);
 	}
 
 	@Override
 	public Element visitInvokeVirtual(InvokeVirtualInstruction instruction, Element a)
 	{
-		final Element temp = a.addElement("invoke_virtual");
-		Element temp2 = temp.addElement("method");
-		MethodRef methodRef = instruction.methodRef;
-		temp2.addAttribute("name", methodRef.method.toString());
-		methodRef.returnType.accept(this, temp2.addElement("return_type"));
-		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
-		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);
-		return temp;
+		return visitInvoke(instruction, a);
 	}
 
 	@Override
 	public Element visitInvokeAnonym(InvokeAnonymInstruction instruction, Element a)
 	{
-		final Element temp = a.addElement("invoke_anonym");
+		return visitInvoke(instruction, a);
+	}
+
+	private Element visitInvoke(InvokeInstruction instruction, Element a)
+	{
+		final Element temp = a.addElement(instruction.getShortName());
+		if(instruction.nullable)
+			temp.addElement("nullable");
+
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
+		// anonym not need name
+		if(!(instruction instanceof InvokeAnonymInstruction))
+			temp2.addAttribute("name", methodRef.method.toString());
+
 		methodRef.returnType.accept(this, temp2.addElement("return_type"));
 		ifNotEmptyAdd(methodRef.parameters, "parameters", temp2);
 		ifNotEmptyAdd(methodRef.typeArguments, "type_arguments", temp2);

@@ -193,11 +193,11 @@ public class AsmXmlFileReader
 				else if("throw".equals(instructionName))
 					instruction = new ThrowInstruction();
 				else if("invoke_static".equals(instructionName))
-					instruction = new InvokeStaticInstruction(readMethodRef(instructionElement));
+					instruction = new InvokeStaticInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
 				else if("invoke_special".equals(instructionName))
-					instruction = new InvokeSpecialInstruction(readMethodRef(instructionElement));
+					instruction = new InvokeSpecialInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
 				else if("invoke_virtual".equals(instructionName))
-					instruction = new InvokeVirtualInstruction(readMethodRef(instructionElement));
+					instruction = new InvokeVirtualInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
 				else if("macro_static_jump".equals(instructionName))
 					instruction = new MacroStaticJumpInstruction(readMethodRef(instructionElement));
 				else if("macro_jump".equals(instructionName))
@@ -222,7 +222,7 @@ public class AsmXmlFileReader
 						for(Element typeArgumentElement : typeArgumentsElement.elements())
 							typeArguments.add(readType(typeArgumentElement));
 
-					instruction = new InvokeAnonymInstruction(parameterTypes, typeArguments, returnType);
+					instruction = new InvokeAnonymInstruction(parameterTypes, typeArguments, returnType, instructionElement.element("nullable") != null);
 				}
 				else if("link_method".equals(instructionName))
 					instruction = new LinkMethodInstruction(readMethodRef(instructionElement));

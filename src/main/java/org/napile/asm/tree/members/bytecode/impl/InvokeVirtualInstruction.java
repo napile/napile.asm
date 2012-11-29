@@ -17,7 +17,6 @@
 package org.napile.asm.tree.members.bytecode.impl;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 
@@ -25,14 +24,11 @@ import org.napile.asm.tree.members.bytecode.MethodRef;
  * @author VISTALL
  * @date 13:45/02.09.12
  */
-public class InvokeVirtualInstruction implements Instruction
+public class InvokeVirtualInstruction extends InvokeInstruction
 {
-	@NotNull
-	public final MethodRef methodRef;
-
-	public InvokeVirtualInstruction(@NotNull MethodRef methodRef)
+	public InvokeVirtualInstruction(@NotNull MethodRef methodRef, boolean nullable)
 	{
-		this.methodRef = methodRef;
+		super(methodRef, nullable);
 	}
 
 	@NotNull
@@ -43,8 +39,8 @@ public class InvokeVirtualInstruction implements Instruction
 	}
 
 	@Override
-	public String toString()
+	public String getShortName()
 	{
-		return "invoke_virtual: " + methodRef;
+		return "invoke_virtual";
 	}
 }

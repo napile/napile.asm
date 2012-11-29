@@ -17,15 +17,19 @@
 package org.napile.asm.firstTests;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.napile.asm.AsmConstants;
 import org.napile.asm.Modifier;
 import org.napile.asm.lib.NapileLangPackage;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.ClassNode;
+import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
 import org.napile.asm.tree.members.VariableNode;
+import org.napile.asm.tree.members.bytecode.MethodRef;
+import org.napile.asm.tree.members.bytecode.adapter.InstructionAdapter;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
@@ -48,6 +52,10 @@ public class NodeUtil
 		methodNode.typeParameters.add(new TypeParameterNode(Name.identifier("E")));
 		methodNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.FINAL), Name.identifier("arg"), AsmConstants.ARRAY__STRING__TYPE));
 		methodNode.returnType = new TypeNode(false, new ThisTypeNode());
+
+		InstructionAdapter a = new InstructionAdapter();
+		a.invokeStatic(new MethodRef(NapileLangPackage.ANY.child(Name.identifier("equals")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE), true);
+		methodNode.putInstructions(a);
 		classNode.members.add(methodNode);
 
 		VariableNode variableNode = new VariableNode(Modifier.list(Modifier.NATIVE), Name.identifier("myVar"));
@@ -61,8 +69,6 @@ public class NodeUtil
 
 		classNode.members.add(methodNode2);
 
-		ConstructorNode constructorNode = new ConstructorNode(Modifier.EMPTY);
-		classNode.members.add(constructorNode);
 
 		return classNode;
 	}

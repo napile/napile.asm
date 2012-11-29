@@ -17,7 +17,6 @@
 package org.napile.asm.tree.members.bytecode.impl;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 
@@ -25,14 +24,11 @@ import org.napile.asm.tree.members.bytecode.MethodRef;
  * @author VISTALL
  * @date 22:31/31.08.12
  */
-public class InvokeStaticInstruction implements Instruction
+public class InvokeStaticInstruction extends InvokeInstruction
 {
-	@NotNull
-	public final MethodRef methodRef;
-
-	public InvokeStaticInstruction(@NotNull MethodRef methodRef)
+	public InvokeStaticInstruction(@NotNull MethodRef methodRef, boolean nullable)
 	{
-		this.methodRef = methodRef;
+		super(methodRef, nullable);
 	}
 
 	@NotNull
@@ -43,8 +39,8 @@ public class InvokeStaticInstruction implements Instruction
 	}
 
 	@Override
-	public String toString()
+	public String getShortName()
 	{
-		return "invoke_static: " + methodRef;
+		return "invoke_static";
 	}
 }
