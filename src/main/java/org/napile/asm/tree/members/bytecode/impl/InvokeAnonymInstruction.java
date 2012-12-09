@@ -19,7 +19,6 @@ public class InvokeAnonymInstruction extends InvokeInstruction
 		super(new MethodRef(FqName.ROOT, parameters, typeArguments, returnType), nullable);
 	}
 
-	@NotNull
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{

@@ -34,7 +34,6 @@ public class NewStringInstruction implements Instruction
 		this.value = value;
 	}
 
-	@NotNull
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{

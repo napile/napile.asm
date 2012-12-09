@@ -40,7 +40,6 @@ public class NewObjectInstruction implements Instruction
 		this.parameters = parameters;
 	}
 
-	@NotNull
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{

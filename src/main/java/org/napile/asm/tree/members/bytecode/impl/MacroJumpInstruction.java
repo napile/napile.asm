@@ -35,7 +35,6 @@ public class MacroJumpInstruction implements Instruction
 		this.methodRef = methodRef;
 	}
 
-	@NotNull
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{

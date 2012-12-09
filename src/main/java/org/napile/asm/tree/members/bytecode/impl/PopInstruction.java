@@ -26,7 +26,6 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  */
 public class PopInstruction implements Instruction
 {
-	@NotNull
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{

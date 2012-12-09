@@ -35,7 +35,6 @@ public class PutToVariableInstruction implements Instruction
 		this.variableRef = variableRef;
 	}
 
-	@NotNull
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{

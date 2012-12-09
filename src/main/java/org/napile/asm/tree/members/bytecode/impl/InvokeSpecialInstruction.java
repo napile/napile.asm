@@ -31,7 +31,6 @@ public class InvokeSpecialInstruction extends InvokeInstruction
 		super(methodRef, nullable);
 	}
 
-	@NotNull
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
