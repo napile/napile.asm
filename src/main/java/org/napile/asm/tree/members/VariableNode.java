@@ -35,10 +35,13 @@ public class VariableNode extends AbstractMemberNode<VariableNode>
 	@NotNull
 	public TypeNode returnType;
 
-	public VariableNode(@NotNull Modifier[] modifiers, @NotNull Name name)
+	public final boolean mutable;
+
+	public VariableNode(@NotNull Modifier[] modifiers, @NotNull Name name, boolean mutable)
 	{
 		super(modifiers);
 		this.name = name;
+		this.mutable = mutable;
 	}
 
 	@Override

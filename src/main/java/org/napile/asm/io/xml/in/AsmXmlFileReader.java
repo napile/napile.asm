@@ -116,7 +116,7 @@ public class AsmXmlFileReader
 
 	private AbstractMemberNode<?> readVariable(@NotNull Element child)
 	{
-		VariableNode variableNode = new VariableNode(readModifiers(child), Name.identifier(child.attributeValue("name")));
+		VariableNode variableNode = new VariableNode(readModifiers(child), Name.identifier(child.attributeValue("name")), Boolean.valueOf(child.attributeValue("name")));
 
 		variableNode.returnType = readType(child.element("return_type").element("type"));
 

@@ -147,6 +147,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	{
 		final Element temp = a2.addElement("variable");
 		temp.addAttribute("name", variableNode.name.getIdentifier());
+		temp.addAttribute("mutable", Boolean.toString(variableNode.mutable));
 
 		addMemberElements(temp, variableNode);
 

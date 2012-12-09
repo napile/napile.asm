@@ -122,7 +122,10 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 	public StringBuilder visitVariableNode(VariableNode variableNode, StringBuilder a2)
 	{
 		renderModifiers(a2, variableNode.modifiers);
-		a2.append("var ");
+		if(variableNode.mutable)
+			a2.append("var ");
+		else
+			a2.append("val ") ;
 		a2.append(variableNode.name);
 		a2.append(" : ");
 		a2.append(variableNode.returnType);
