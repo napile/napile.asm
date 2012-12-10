@@ -58,7 +58,7 @@ public class NodeUtil
 		methodNode.putInstructions(a);
 		classNode.members.add(methodNode);
 
-		VariableNode variableNode = new VariableNode(Modifier.list(Modifier.NATIVE), Name.identifier("myVar"));
+		VariableNode variableNode = new VariableNode(Modifier.list(Modifier.NATIVE), Name.identifier("myVar"), true);
 		variableNode.returnType = AsmConstants.INT_TYPE;
 		classNode.members.add(variableNode);
 

@@ -28,7 +28,11 @@ public interface AsmConstants
 
 	TypeNode DOUBLE_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.DOUBLE));
 
+	TypeNode CHAR_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.CHAR));
+
 	TypeNode STRING_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.STRING));
+
+	TypeNode METHOD_LINK_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.METHOD_LINK));
 
 	TypeNode ARRAY__STRING__TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.ARRAY)).visitArgument(STRING_TYPE);
 
