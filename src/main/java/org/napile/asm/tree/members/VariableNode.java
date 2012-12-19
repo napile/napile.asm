@@ -17,6 +17,7 @@ package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
+import org.napile.asm.ModifierType;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.types.TypeNode;
 
@@ -42,6 +43,9 @@ public class VariableNode extends AbstractMemberNode<VariableNode>
 		super(modifiers);
 		this.name = name;
 		this.mutable = mutable;
+		for(Modifier m : modifiers)
+			if(m.getModifierType() == ModifierType.ACCESS)
+				throw new IllegalArgumentException("Variable cant have access modifier");
 	}
 
 	@Override
