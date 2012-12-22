@@ -12,6 +12,7 @@ import org.napile.asm.tree.members.bytecode.Instruction;
  */
 public class Evaluator
 {
+	public final MethodNode methodNode;
 	public final int locals;
 	private final List<Instruction> instructions;
 
@@ -19,6 +20,7 @@ public class Evaluator
 
 	public Evaluator(MethodNode methodNode)
 	{
+		this.methodNode = methodNode;
 		locals = methodNode.maxLocals;
 		instructions = new ArrayList<Instruction>(methodNode.instructions);
 

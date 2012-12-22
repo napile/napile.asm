@@ -42,7 +42,7 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 	public Void visitLoad(LoadInstruction instruction, Integer index)
 	{
 		if(instruction.varIndex >= evaluator.locals)
-			throw new EvaluatorException("Wrong local index (" + instruction.varIndex + ") max (" + evaluator.locals + ") instruction: " + instruction);
+			throw new EvaluatorException("Wrong local index (" + instruction.varIndex + ") max (" + evaluator.locals + ") instruction: " + instruction + ". Method: " + evaluator.methodNode);
 
 		push(new EvaluatorObject(index, instruction, AsmConstants.ANY_TYPE));
 		return null;
@@ -52,7 +52,7 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 	public Void visitStore(StoreInstruction instruction, Integer index)
 	{
 		if(instruction.varIndex >= evaluator.locals)
-			throw new EvaluatorException("Wrong local index (" + instruction.varIndex + ") max (" + evaluator.locals + ") instruction: " + instruction);
+			throw new EvaluatorException("Wrong local index (" + instruction.varIndex + ") max (" + evaluator.locals + ") instruction: " + instruction + ". Method: " + evaluator.methodNode);
 
 		pop(1, instruction);
 		return null;
@@ -305,7 +305,7 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 		if(size == 0)
 			return Collections.emptyList();
 		if(stack.size() < size)
-			throw new EvaluatorException("Require (" + size +  ") objects but found (" + stack.size() + ") for instruction: " + instruction);
+			throw new EvaluatorException("Require (" + size +  ") objects but found (" + stack.size() + ") for instruction: " + instruction + ". Method: " + evaluator.methodNode);
 
 		List<EvaluatorObject> objects = new ArrayList<EvaluatorObject>(size);
 		for(int i = 0; i < size; i++)

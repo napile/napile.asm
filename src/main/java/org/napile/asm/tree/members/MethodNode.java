@@ -94,4 +94,15 @@ public class MethodNode extends AbstractMemberNode<MethodNode>
 	{
 		return visitor.visitMethodNode(this, arg);
 	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder b = new StringBuilder();
+		b.append(getClass().getSimpleName()).append(":");
+		if(parent != null)
+			b.append(parent.name);
+		b.append(".").append(name);
+		return b.toString();
+	}
 }

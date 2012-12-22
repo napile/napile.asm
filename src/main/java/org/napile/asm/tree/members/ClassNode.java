@@ -61,6 +61,8 @@ public class ClassNode extends AbstractMemberNode<ClassNode>
 	{
 		members.add(memberNode);
 
+		memberNode.parent = this;
+
 		for(MemberAddListener memberAddListener : listeners)
 			memberAddListener.onMemberAdd(this, memberNode);
 	}

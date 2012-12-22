@@ -36,6 +36,8 @@ public abstract class AbstractMemberNode<T extends AbstractMemberNode<T>> extend
 	@NotNull
 	public final List<TypeParameterNode> typeParameters = new ArrayList<TypeParameterNode>(0);
 
+	public ClassNode parent;
+
 	public AbstractMemberNode(@NotNull Modifier[] modifiers)
 	{
 		this.modifiers = Modifier.list(modifiers);
