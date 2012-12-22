@@ -79,7 +79,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 		ifNotEmptyAdd(classNode.supers, "extends", element);
 
-		for(AbstractMemberNode memberNode : classNode.members)
+		for(AbstractMemberNode memberNode : classNode.getMembers())
 			memberNode.accept(this, element);
 		return element;
 	}

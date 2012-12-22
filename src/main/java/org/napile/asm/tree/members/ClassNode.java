@@ -17,15 +17,18 @@
 package org.napile.asm.tree.members;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.LangVersion;
 import org.napile.asm.Modifier;
 import org.napile.asm.io.xml.out.AsmXmlTextWriter;
-import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
-import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.tree.MemberAddListener;
+import org.napile.asm.tree.members.types.TypeNode;
+import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.util.evaluate.MethodEvaluatorListener;
 
 /**
  * A node that represents a class.
@@ -39,16 +42,33 @@ public class ClassNode extends AbstractMemberNode<ClassNode>
 	public final FqName name;
 
 	@NotNull
-	public List<AbstractMemberNode> members = new ArrayList<AbstractMemberNode>();
+	private List<AbstractMemberNode> members = new ArrayList<AbstractMemberNode>();
 
 	@NotNull
 	public final List<TypeNode> supers = new ArrayList<TypeNode>(1);
+
+	@NotNull
+	public final List<MemberAddListener> listeners = new ArrayList<MemberAddListener>(Arrays.asList(new MethodEvaluatorListener()));
 
 	public ClassNode(@NotNull Modifier[] modifiers, @NotNull FqName fqName)
 	{
 		super(modifiers);
 
 		this.name = fqName;
+	}
+
+	public void addMember(@NotNull AbstractMemberNode<?> memberNode)
+	{
+		members.add(memberNode);
+
+		for(MemberAddListener memberAddListener : listeners)
+			memberAddListener.onMemberAdd(this, memberNode);
+	}
+
+	@NotNull
+	public List<AbstractMemberNode> getMembers()
+	{
+		return members;
 	}
 
 	public ClassNode visitSuper(@NotNull TypeNode typeNode)

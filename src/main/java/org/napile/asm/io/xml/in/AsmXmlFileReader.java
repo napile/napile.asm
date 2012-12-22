@@ -108,7 +108,7 @@ public class AsmXmlFileReader
 				node = readCode(child, new MacroNode(readModifiers(child), Name.identifier(child.attributeValue("name"))));
 
 			if(node != null)
-				classNode.members.add(node);
+				classNode.addMember(node);
 		}
 
 		return classNode;

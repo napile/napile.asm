@@ -56,18 +56,18 @@ public class NodeUtil
 		InstructionAdapter a = new InstructionAdapter();
 		a.invokeStatic(new MethodRef(NapileLangPackage.ANY.child(Name.identifier("equals")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE), true);
 		methodNode.putInstructions(a);
-		classNode.members.add(methodNode);
+		classNode.addMember(methodNode);
 
 		VariableNode variableNode = new VariableNode(Modifier.list(Modifier.NATIVE), Name.identifier("myVar"), true);
 		variableNode.returnType = AsmConstants.INT_TYPE;
-		classNode.members.add(variableNode);
+		classNode.addMember(variableNode);
 
 		MethodNode methodNode2 = new MethodNode(Modifier.EMPTY, Name.identifier("methodWithParameter"));
 		MethodTypeNode methodTypeNode = new MethodTypeNode();
 		methodTypeNode.parameters.add(new MethodParameterNode(Modifier.EMPTY, Name.identifier("p1"), AsmConstants.BOOL_TYPE));
 		methodNode2.returnType = new TypeNode(false, methodTypeNode);
 
-		classNode.members.add(methodNode2);
+		classNode.addMember(methodNode2);
 
 
 		return classNode;

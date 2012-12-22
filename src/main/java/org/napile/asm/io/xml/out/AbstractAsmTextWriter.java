@@ -70,7 +70,7 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 
 		builder.append("\n").append("{").append("\n");
 
-		builder.append(StringUtil.join(classNode.members, new Function<AbstractMemberNode, String>()
+		builder.append(StringUtil.join(classNode.getMembers(), new Function<AbstractMemberNode, String>()
 		{
 			@Override
 			public String fun(AbstractMemberNode abstractMemberNode)

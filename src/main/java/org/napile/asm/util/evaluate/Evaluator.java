@@ -30,14 +30,7 @@ public class Evaluator
 		for(int i = 0; i < instructions.size(); i++)
 		{
 			Instruction instruction = instructions.get(i);
-			try
-			{
-				instruction.accept(visitor, i);
-			}
-			catch(EvaluatorException e)
-			{
-				return e.getMessage();
-			}
+			instruction.accept(visitor, i);
 		}
 		return null;
 	}
