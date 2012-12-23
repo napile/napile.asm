@@ -59,5 +59,5 @@ public interface NapileLangPackage
 
 	FqName EXCEPTION = PACKAGE.child(Name.identifier("Exception"));
 
-	FqName NULL_POINTER_EXCEPTION = PACKAGE.child(Name.identifier("Exception"));
+	FqName NULL_POINTER_EXCEPTION = PACKAGE.child(Name.identifier("NullPointerException"));
 }
