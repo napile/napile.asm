@@ -30,4 +30,12 @@ public interface NapileReflectPackage
 	FqName CLASS = PACKAGE.child(Name.identifier("Class"));
 
 	FqName TYPE = PACKAGE.child(Name.identifier("Type"));
+
+	FqName METHOD = PACKAGE.child(Name.identifier("Method"));
+
+	FqName CONSTRUCTOR = PACKAGE.child(Name.identifier("Constructor"));
+
+	FqName MACRO = PACKAGE.child(Name.identifier("Macro"));
+
+	FqName VARIABLE = PACKAGE.child(Name.identifier("Variable"));
 }

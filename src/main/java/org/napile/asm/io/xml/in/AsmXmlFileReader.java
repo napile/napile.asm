@@ -47,6 +47,7 @@ import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
+import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
@@ -103,9 +104,9 @@ public class AsmXmlFileReader
 			if("variable".equals(child.getName()))
 				node = readVariable(child);
 			else if("method".equals(child.getName()))
-				node = readCode(child, new MethodNode(readModifiers(child), Name.identifier(child.attributeValue("name"))));
+				node = readCode(child, new MethodNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type"))));
 			else if("macro".equals(child.getName()))
-				node = readCode(child, new MacroNode(readModifiers(child), Name.identifier(child.attributeValue("name"))));
+				node = readCode(child, new MacroNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type"))));
 
 			if(node != null)
 				classNode.addMember(node);
@@ -114,11 +115,9 @@ public class AsmXmlFileReader
 		return classNode;
 	}
 
-	private AbstractMemberNode<?> readVariable(@NotNull Element child)
+	private VariableNode readVariable(@NotNull Element child)
 	{
-		VariableNode variableNode = new VariableNode(readModifiers(child), Name.identifier(child.attributeValue("name")), Boolean.valueOf(child.attributeValue("mutable")));
-
-		variableNode.returnType = readType(child.element("return_type").element("type"));
+		VariableNode variableNode = new VariableNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type")));
 
 		readTypeParameters(child, variableNode);
 
@@ -135,10 +134,6 @@ public class AsmXmlFileReader
 
 	private MethodNode readCode(@NotNull Element parent, @NotNull MethodNode methodNode)
 	{
-		Element rElement = parent.element("return_type");
-		if(rElement != null)
-			methodNode.returnType = readType(rElement.element("type"));
-
 		readTypeParameters(parent, methodNode);
 
 		readParameters(parent, methodNode.parameters);
@@ -395,6 +390,12 @@ public class AsmXmlFileReader
 			typeConstructorNode = new MethodTypeNode();
 			((MethodTypeNode) typeConstructorNode).returnType = readType(returnElement.element("type"));
 			readParameters(constructorElement, ((MethodTypeNode) typeConstructorNode).parameters);
+		}
+		else if((constructorElement = element.element("multi_type")) != null)
+		{
+			typeConstructorNode = new MultiTypeNode();
+			for(Element variableElement : constructorElement.elements())
+				((MultiTypeNode) typeConstructorNode) .variables.add(readVariable(variableElement));
 		}
 		else if((constructorElement = element.element("type_parameter_value_type")) != null)
 			typeConstructorNode = new TypeParameterValueTypeNode(Name.identifier(constructorElement.attributeValue("name")));

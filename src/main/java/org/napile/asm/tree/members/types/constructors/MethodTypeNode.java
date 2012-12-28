@@ -21,11 +21,13 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.AsmConstants;
+import org.napile.asm.Modifier;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.NodeVisitor;
 import org.napile.asm.tree.members.types.TypeNode;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.util.ArrayUtil;
 import com.intellij.util.Function;
 
 /**
@@ -69,7 +71,13 @@ public class MethodTypeNode implements TypeConstructorNode
 			@Override
 			public String fun(MethodParameterNode methodParameterNode)
 			{
-				return methodParameterNode.name + " : " + methodParameterNode.typeNode;
+				StringBuilder b = new StringBuilder();
+				if(ArrayUtil.contains(Modifier.MUTABLE, methodParameterNode.modifiers))
+					b.append("var ");
+				else
+					b.append("val ");
+				b.append(methodParameterNode.name).append(" : ").append(methodParameterNode.returnType);
+				return b.toString();
 			}
 		}, ", "));
 

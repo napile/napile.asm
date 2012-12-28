@@ -19,6 +19,7 @@ package org.napile.asm.tree.members;
 import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
+import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
@@ -50,6 +51,8 @@ public interface NodeVisitor<A, R>
 	R visitThisTypeNode(ThisTypeNode thisTypeNode, A a2);
 
 	R visitMethodTypeNode(MethodTypeNode methodTypeNode, A a2);
+
+	R visitMultiTypeNode(MultiTypeNode multiTypeNode, A a2);
 
 	R visitTypeParameterValueTypeNode(TypeParameterValueTypeNode typeParameterValueTypeNode, A a2);
 

@@ -5,14 +5,24 @@ import java.util.List;
 import org.napile.asm.AsmConstants;
 import org.napile.asm.Modifier;
 import org.napile.asm.io.AsmWriter;
-import org.napile.asm.tree.members.*;
+import org.napile.asm.tree.members.AbstractMemberNode;
+import org.napile.asm.tree.members.AnnotationNode;
+import org.napile.asm.tree.members.ClassNode;
+import org.napile.asm.tree.members.MacroNode;
+import org.napile.asm.tree.members.MethodNode;
+import org.napile.asm.tree.members.MethodParameterNode;
+import org.napile.asm.tree.members.Node;
+import org.napile.asm.tree.members.TypeParameterNode;
+import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
+import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.util.ArrayUtil;
 import com.intellij.util.Function;
 
 /**
@@ -122,7 +132,7 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 	public StringBuilder visitVariableNode(VariableNode variableNode, StringBuilder a2)
 	{
 		renderModifiers(a2, variableNode.modifiers);
-		if(variableNode.mutable)
+		if(ArrayUtil.contains(Modifier.MUTABLE, variableNode.modifiers))
 			a2.append("var ");
 		else
 			a2.append("val ") ;
@@ -139,7 +149,7 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 
 		a2.append(methodParameterNode.name);
 		a2.append(" : ");
-		methodParameterNode.typeNode.accept(this, a2);
+		methodParameterNode.returnType.accept(this, a2);
 		return a2;
 	}
 
@@ -215,6 +225,15 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 		a2.append(" : ");
 		methodTypeNode.returnType.accept(this, a2);
 		a2.append("}");
+		return a2;
+	}
+
+	@Override
+	public StringBuilder visitMultiTypeNode(MultiTypeNode multiTypeNode, StringBuilder a2)
+	{
+		a2.append("[");
+		a2.append(StringUtil.join(multiTypeNode.variables, (Function<VariableNode, String>) func, ", "));
+		a2.append("]");
 		return a2;
 	}
 

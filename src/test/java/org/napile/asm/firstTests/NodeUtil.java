@@ -33,6 +33,7 @@ import org.napile.asm.tree.members.bytecode.adapter.InstructionAdapter;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
+import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 
 /**
@@ -48,27 +49,31 @@ public class NodeUtil
 		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, Name.identifier("test"), AsmConstants.INT_TYPE), new MethodParameterNode(Modifier.EMPTY, Name.identifier("test2"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.EXCEPTION)))));
 		typeParameterNode.constructors.add(Arrays.asList(new MethodParameterNode(Modifier.EMPTY, Name.identifier("test3"), new TypeNode(true, new ClassTypeNode(NapileLangPackage.EXCEPTION))), new MethodParameterNode(Modifier.EMPTY, Name.identifier("test4"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.STRING)))));
 
-		MethodNode methodNode = new MethodNode(Modifier.list(Modifier.STATIC), Name.identifier("main"));
+		MethodNode methodNode = new MethodNode(Modifier.list(Modifier.STATIC), Name.identifier("main"), new TypeNode(false, new ThisTypeNode()));
 		methodNode.typeParameters.add(new TypeParameterNode(Name.identifier("E")));
 		methodNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.FINAL), Name.identifier("arg"), AsmConstants.ARRAY__STRING__TYPE));
-		methodNode.returnType = new TypeNode(false, new ThisTypeNode());
 
 		InstructionAdapter a = new InstructionAdapter();
 		a.invokeStatic(new MethodRef(NapileLangPackage.ANY.child(Name.identifier("equals")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE), true);
 		methodNode.putInstructions(a);
 		classNode.addMember(methodNode);
 
-		VariableNode variableNode = new VariableNode(Modifier.list(Modifier.NATIVE), Name.identifier("myVar"), true);
-		variableNode.returnType = AsmConstants.INT_TYPE;
+		VariableNode variableNode = new VariableNode(Modifier.list(Modifier.NATIVE), Name.identifier("myVar"), AsmConstants.INT_TYPE);
 		classNode.addMember(variableNode);
 
-		MethodNode methodNode2 = new MethodNode(Modifier.EMPTY, Name.identifier("methodWithParameter"));
 		MethodTypeNode methodTypeNode = new MethodTypeNode();
 		methodTypeNode.parameters.add(new MethodParameterNode(Modifier.EMPTY, Name.identifier("p1"), AsmConstants.BOOL_TYPE));
-		methodNode2.returnType = new TypeNode(false, methodTypeNode);
+
+		MethodNode methodNode2 = new MethodNode(Modifier.EMPTY, Name.identifier("methodWithParameter"), new TypeNode(false, methodTypeNode));
 
 		classNode.addMember(methodNode2);
 
+
+		MultiTypeNode multiTypeNode = new MultiTypeNode();
+		multiTypeNode.variables.add(new VariableNode(Modifier.list(Modifier.MUTABLE), Name.identifier("test"), AsmConstants.INT_TYPE));
+
+		MethodNode methodNode3 = new MethodNode(Modifier.EMPTY, Name.identifier("multiMethod"), new TypeNode(false, multiTypeNode));
+		classNode.addMember(methodNode3);
 
 		return classNode;
 	}

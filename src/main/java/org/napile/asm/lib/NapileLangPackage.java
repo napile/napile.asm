@@ -31,6 +31,8 @@ public interface NapileLangPackage
 
 	FqName METHOD_LINK = PACKAGE.child(Name.identifier("MethodLink"));
 
+	FqName MULTI = PACKAGE.child(Name.identifier("Multi"));
+
 	FqName ARRAY = PACKAGE.child(Name.identifier("Array"));
 
 	FqName NUMBER = PACKAGE.child(Name.identifier("Number"));

@@ -27,6 +27,7 @@ import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.adapter.InstructionAdapter;
 import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
+import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 
 /**
  * @author VISTALL
@@ -39,12 +40,12 @@ public class MethodNode extends AbstractMemberNode<MethodNode>
 
 	public static MethodNode constructor(@NotNull Modifier... modifiers)
 	{
-		return new MethodNode(modifiers, CONSTRUCTOR_NAME);
+		return new MethodNode(modifiers, CONSTRUCTOR_NAME, new TypeNode(false, new ThisTypeNode()));
 	}
 
 	public static MethodNode staticConstructor()
 	{
-		return new MethodNode(new Modifier[]{Modifier.STATIC}, STATIC_CONSTRUCTOR_NAME);
+		return new MethodNode(new Modifier[]{Modifier.STATIC}, STATIC_CONSTRUCTOR_NAME, AsmConstants.NULL_TYPE);
 	}
 
 	/**
@@ -55,7 +56,7 @@ public class MethodNode extends AbstractMemberNode<MethodNode>
 	 * Return type of method
 	 */
 	@NotNull
-	public TypeNode returnType = AsmConstants.NULL_TYPE;
+	public final TypeNode returnType;
 
 	/**
 	 * Parameters of method
@@ -76,10 +77,11 @@ public class MethodNode extends AbstractMemberNode<MethodNode>
 	 */
 	public int maxLocals;
 
-	public MethodNode(@NotNull final Modifier[] modifiers, @NotNull Name name)
+	public MethodNode(@NotNull final Modifier[] modifiers, @NotNull Name name, @NotNull TypeNode returnType)
 	{
 		super(modifiers);
 		this.name = name;
+		this.returnType = returnType;
 	}
 
 	public void putInstructions(InstructionAdapter instructionAdapter)

@@ -4,14 +4,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.napile.asm.AsmConstants;
 import org.napile.asm.Modifier;
-import org.napile.asm.resolve.name.Name;
-import org.napile.asm.tree.members.MethodParameterNode;
-import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
-import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
-import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
-import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.io.text.in.type.TypeNodeUtil;
 import org.napile.asm.lib.NapileLangPackage;
+import org.napile.asm.resolve.name.Name;
+import org.napile.asm.tree.members.MethodParameterNode;
+import org.napile.asm.tree.members.VariableNode;
+import org.napile.asm.tree.members.types.TypeNode;
+import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
+import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
+import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 
 /**
@@ -56,12 +58,24 @@ public class TypeNodeTest
 	public void test5()
 	{
 		MethodTypeNode methodTypeNode = new MethodTypeNode();
-		methodTypeNode.parameters.add(new MethodParameterNode(Modifier.EMPTY, Name.identifier("p1"), AsmConstants.BOOL_TYPE));
+		methodTypeNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.MUTABLE), Name.identifier("p1"), AsmConstants.BOOL_TYPE));
 		methodTypeNode.returnType = AsmConstants.INT_TYPE;
 
 		TypeNode type = new TypeNode(false, methodTypeNode);
 
-		createAndParserCheck(type, "{(p1 : napile.lang.Bool) : napile.lang.Int}");
+		createAndParserCheck(type, "{(var p1 : napile.lang.Bool) : napile.lang.Int}");
+	}
+
+	@Test
+	public void test6()
+	{
+		MultiTypeNode multiTypeNode = new MultiTypeNode();
+		multiTypeNode.variables.add(new VariableNode(Modifier.list(Modifier.MUTABLE), Name.identifier("v1"), new TypeNode(false, new ClassTypeNode(NapileLangPackage.ANY))));
+		multiTypeNode.variables.add(new VariableNode(Modifier.EMPTY, Name.identifier("v2"), new TypeNode(true, new ClassTypeNode(NapileLangPackage.ANY))));
+
+		TypeNode type = new TypeNode(false, multiTypeNode);
+
+		createAndParserCheck(type, "[var v1 : napile.lang.Any, val v2 : napile.lang.Any?]");
 	}
 
 	private static void createAndParserCheck(final TypeNode typeNode, final String type)

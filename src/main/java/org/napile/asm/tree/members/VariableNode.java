@@ -20,6 +20,7 @@ import org.napile.asm.Modifier;
 import org.napile.asm.ModifierType;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.types.TypeNode;
+import com.intellij.openapi.util.Comparing;
 
 /**
  * A node that represents a field.
@@ -34,15 +35,13 @@ public class VariableNode extends AbstractMemberNode<VariableNode>
 	public final Name name;
 
 	@NotNull
-	public TypeNode returnType;
+	public final TypeNode returnType;
 
-	public final boolean mutable;
-
-	public VariableNode(@NotNull Modifier[] modifiers, @NotNull Name name, boolean mutable)
+	public VariableNode(@NotNull Modifier[] modifiers, @NotNull Name name, @NotNull TypeNode returnType)
 	{
 		super(modifiers);
 		this.name = name;
-		this.mutable = mutable;
+		this.returnType = returnType;
 		for(Modifier m : modifiers)
 			if(m.getModifierType() == ModifierType.ACCESS)
 				throw new IllegalArgumentException("Variable cant have access modifier");
@@ -52,6 +51,23 @@ public class VariableNode extends AbstractMemberNode<VariableNode>
 	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
 		return visitor.visitVariableNode(this, arg);
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o == null || o.getClass() != VariableNode.class)
+			return false;
+
+		VariableNode oParam = (VariableNode) o;
+
+		if(!name.equals(oParam.name))
+			return false;
+
+		if(!Comparing.equal(modifiers, oParam.modifiers))
+			return false;
+
+		return returnType.equals(oParam.returnType);
 	}
 
 	@Override

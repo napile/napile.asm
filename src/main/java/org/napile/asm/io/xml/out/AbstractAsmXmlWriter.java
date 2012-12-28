@@ -37,6 +37,7 @@ import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
+import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 import org.napile.asm.util.StringWrapper;
@@ -67,7 +68,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitClassNode(ClassNode classNode, Element a2)
 	{
-		Element element = document.addElement("class");
+		Element element = (a2 == null ? document : a2).addElement("class");
 		fqName = classNode.name;
 
 		element.addAttribute("version", String.valueOf(langVersion.ordinal()));
@@ -147,7 +148,6 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	{
 		final Element temp = a2.addElement("variable");
 		temp.addAttribute("name", variableNode.name.getIdentifier());
-		temp.addAttribute("mutable", Boolean.toString(variableNode.mutable));
 
 		addMemberElements(temp, variableNode);
 
@@ -167,7 +167,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 		ifNotEmptyAdd(methodParameterNode.annotations, "annotations", element);
 
-		methodParameterNode.typeNode.accept(this, temp);
+		methodParameterNode.returnType.accept(this, temp);
 		return temp;
 	}
 
@@ -222,6 +222,16 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 		ifNotEmptyAdd(methodTypeNode.parameters, "parameters", temp);
 
+		return temp;
+	}
+
+	@Override
+	public Element visitMultiTypeNode(MultiTypeNode multiTypeNode, Element a2)
+	{
+		final Element temp = a2.addElement("multi_type");
+
+		for(VariableNode variableNode : multiTypeNode.variables)
+			variableNode.accept(this, temp);
 		return temp;
 	}
 

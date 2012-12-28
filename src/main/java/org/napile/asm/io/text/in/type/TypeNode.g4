@@ -13,7 +13,7 @@ typeNode: typePart arguments? nulled?;
 
 arguments : '<' typeNode (',' typeNode)? '>';
 
-typePart : classType | typeParameterValue | thisType | methodType;
+typePart : classType | typeParameterValue | thisType | methodType | multiType;
 
 // class type
 classType : qualifiedName;
@@ -24,12 +24,19 @@ thisType : 'this';
 // method type
 methodType : '{' '(' methodParameter (',' methodParameter)* ')' ':' returnType '}';
 
-methodParameter : Identifier ':' typeNode;
+methodParameter : varOrVal Identifier ':' typeNode;
 
 returnType : typeNode;
 
+// multi type
+multiType:  '[' multiTypeEntry (',' multiTypeEntry)* ']';
+
+multiTypeEntry : varOrVal Identifier ':' typeNode;
+
 // type parameter value
 typeParameterValue : ':' Identifier ':';
+
+varOrVal : 'var' | 'val';
 
 nulled: '?';
 

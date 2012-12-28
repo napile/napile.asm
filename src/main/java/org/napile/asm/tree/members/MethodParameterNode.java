@@ -31,13 +31,13 @@ public class MethodParameterNode extends AbstractMemberNode<MethodParameterNode>
 	@NotNull
 	public final Name name;
 	@NotNull
-	public final TypeNode typeNode;
+	public final TypeNode returnType;
 
-	public MethodParameterNode(@NotNull Modifier[] modifiers, @NotNull Name name, @NotNull TypeNode typeNode)
+	public MethodParameterNode(@NotNull Modifier[] modifiers, @NotNull Name name, @NotNull TypeNode returnType)
 	{
 		super(modifiers);
 		this.name = name;
-		this.typeNode = typeNode;
+		this.returnType = returnType;
 	}
 
 	@Override
@@ -60,6 +60,6 @@ public class MethodParameterNode extends AbstractMemberNode<MethodParameterNode>
 		if(!Comparing.equal(modifiers, oParam.modifiers))
 			return false;
 
-		return typeNode.equals(oParam.typeNode);
+		return returnType.equals(oParam.returnType);
 	}
 }

@@ -35,6 +35,8 @@ public enum Modifier
 	FINAL(ModifierType.EXTENDING),
 	ABSTRACT(ModifierType.EXTENDING),
 
+	UTIL(ModifierType.ETC),
+	MUTABLE(ModifierType.ETC),
 	NATIVE(ModifierType.ETC),
 	STATIC(ModifierType.ETC);
 

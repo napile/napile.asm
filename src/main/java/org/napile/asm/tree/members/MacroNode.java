@@ -3,6 +3,7 @@ package org.napile.asm.tree.members;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
 import org.napile.asm.resolve.name.Name;
+import org.napile.asm.tree.members.types.TypeNode;
 
 /**
  * @author VISTALL
@@ -10,9 +11,9 @@ import org.napile.asm.resolve.name.Name;
  */
 public class MacroNode extends MethodNode
 {
-	public MacroNode(@NotNull Modifier[] modifiers, @NotNull Name name)
+	public MacroNode(@NotNull Modifier[] modifiers, @NotNull Name name, @NotNull TypeNode returnType)
 	{
-		super(modifiers, name);
+		super(modifiers, name, returnType);
 	}
 
 	@Override

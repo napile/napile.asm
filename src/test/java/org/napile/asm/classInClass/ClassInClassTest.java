@@ -14,29 +14,28 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members;
+package org.napile.asm.classInClass;
 
-import org.jetbrains.annotations.NotNull;
-import org.napile.asm.AsmConstants;
+import org.napile.asm.LangVersion;
 import org.napile.asm.Modifier;
-import org.napile.asm.resolve.name.Name;
+import org.napile.asm.io.xml.out.AsmXmlTextWriter;
+import org.napile.asm.lib.NapileLangPackage;
+import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.tree.members.ClassNode;
 
 /**
  * @author VISTALL
- * @date 0:25/14.08.12
+ * @date 14:54/23.12.12
  */
-public class AnnotationNode extends MethodNode
+public class ClassInClassTest
 {
-	private static final Name NAME = Name.identifier("identifier");
-
-	public AnnotationNode()
+	public static void main(String... arg)
 	{
-		super(Modifier.EMPTY, NAME, AsmConstants.NULL_TYPE);
-	}
+		ClassNode classNode = new ClassNode(Modifier.list(Modifier.STATIC), NapileLangPackage.ANY);
+		classNode.addMember(new ClassNode(Modifier.list(Modifier.STATIC), new FqName("InnerClass")));
 
-	@Override
-	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
-	{
-		return visitor.visitAnnotationNode(this, arg);
+		AsmXmlTextWriter writer = new AsmXmlTextWriter();
+
+		System.out.println(writer.write(LangVersion.CURRENT, classNode));
 	}
 }

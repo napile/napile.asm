@@ -18,20 +18,24 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class TypeNodeParser extends Parser {
 	public static final int
-		T__10=3, T__9=4, T__8=5, T__7=6, T__6=7, T__5=8, T__4=9, T__3=10, T__2=11, 
-		T__1=12, T__0=13, Identifier=14, WS=15, COMMENT=16, LINE_COMMENT=17;
+		T__14=3, T__13=4, T__12=5, T__11=6, T__10=7, T__9=8, T__8=9, T__7=10, 
+		T__6=11, T__5=12, T__4=13, T__3=14, T__2=15, T__1=16, T__0=17, Identifier=18, 
+		WS=19, COMMENT=20, LINE_COMMENT=21;
 	public static final String[] tokenNames = {
 		"<INVALID>", "<INVALID>", "<INVALID>",
-		"'this'", "'>'", "'{'", "')'", "'.'", "','", "'('", "':'", "'<'", "'}'", 
-		"'?'", "Identifier", "WS", "COMMENT", "LINE_COMMENT"
+		"']'", "')'", "'.'", "','", "'['", "':'", "'('", "'<'", "'var'", "'?'", 
+		"'this'", "'{'", "'>'", "'val'", "'}'", "Identifier", "WS", "COMMENT", 
+		"LINE_COMMENT"
 	};
 	public static final int
 		RULE_typeNode = 0, RULE_arguments = 1, RULE_typePart = 2, RULE_classType = 3, 
 		RULE_thisType = 4, RULE_methodType = 5, RULE_methodParameter = 6, RULE_returnType = 7, 
-		RULE_typeParameterValue = 8, RULE_nulled = 9, RULE_qualifiedName = 10;
+		RULE_multiType = 8, RULE_multiTypeEntry = 9, RULE_typeParameterValue = 10, 
+		RULE_varOrVal = 11, RULE_nulled = 12, RULE_qualifiedName = 13;
 	public static final String[] ruleNames = {
 		"typeNode", "arguments", "typePart", "classType", "thisType", "methodType", 
-		"methodParameter", "returnType", "typeParameterValue", "nulled", "qualifiedName"
+		"methodParameter", "returnType", "multiType", "multiTypeEntry", "typeParameterValue", 
+		"varOrVal", "nulled", "qualifiedName"
 	};
 
 	@Override
@@ -81,22 +85,22 @@ public class TypeNodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(22); typePart();
-			setState(26);
+			setState(28); typePart();
+			setState(32);
 			//_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ( _la==11 ) {
+			if ( _la==10 ) {
 				{
-				setState(24); arguments();
+				setState(30); arguments();
 				}
 			}
 
-			setState(30);
+			setState(36);
 			//_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ( _la==13 ) {
+			if ( _la==12 ) {
 				{
-				setState(28); nulled();
+				setState(34); nulled();
 				}
 			}
 
@@ -141,19 +145,19 @@ public class TypeNodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(32); match(11);
-			setState(34); typeNode();
-			setState(40);
+			setState(38); match(10);
+			setState(40); typeNode();
+			setState(46);
 			//_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ( _la==8 ) {
+			if ( _la==6 ) {
 				{
-				setState(36); match(8);
-				setState(38); typeNode();
+				setState(42); match(6);
+				setState(44); typeNode();
 				}
 			}
 
-			setState(42); match(4);
+			setState(48); match(15);
 			}
 		}
 		catch (RecognitionException re) {
@@ -168,6 +172,9 @@ public class TypeNodeParser extends Parser {
 	}
 
 	public static class TypePartContext extends ParserRuleContext<Token> {
+		public MultiTypeContext multiType() {
+		    return getRuleContext(MultiTypeContext.class,0);
+		}
 		public ThisTypeContext thisType() {
 		    return getRuleContext(ThisTypeContext.class,0);
 		}
@@ -198,31 +205,37 @@ public class TypeNodeParser extends Parser {
 		TypePartContext _localctx = new TypePartContext(_ctx, 4);
 		enterRule(_localctx, RULE_typePart);
 		try {
-			setState(52);
+			setState(60);
 			//_errHandler.sync(this);
 			switch ( _input.LA(1) ) {
 				case Identifier:
 					enterOuterAlt(_localctx, 1);
 					{
-					setState(44); classType();
+					setState(50); classType();
 					}
 					break;
-				case 10:
+				case 8:
 					enterOuterAlt(_localctx, 2);
 					{
-					setState(46); typeParameterValue();
+					setState(52); typeParameterValue();
 					}
 					break;
-				case 3:
+				case 13:
 					enterOuterAlt(_localctx, 3);
 					{
-					setState(48); thisType();
+					setState(54); thisType();
 					}
 					break;
-				case 5:
+				case 14:
 					enterOuterAlt(_localctx, 4);
 					{
-					setState(50); methodType();
+					setState(56); methodType();
+					}
+					break;
+				case 7:
+					enterOuterAlt(_localctx, 5);
+					{
+					setState(58); multiType();
 					}
 					break;
 				default :
@@ -264,7 +277,7 @@ public class TypeNodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54); qualifiedName();
+			setState(62); qualifiedName();
 			}
 		}
 		catch (RecognitionException re) {
@@ -299,7 +312,7 @@ public class TypeNodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56); match(3);
+			setState(64); match(13);
 			}
 		}
 		catch (RecognitionException re) {
@@ -344,27 +357,27 @@ public class TypeNodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(58); match(5);
-			setState(60); match(9);
-			setState(62); methodParameter();
-			setState(70);
+			setState(66); match(14);
+			setState(68); match(9);
+			setState(70); methodParameter();
+			setState(78);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ( _la==8 ) {
+			while ( _la==6 ) {
 				{
 				{
-				setState(64); match(8);
-				setState(66); methodParameter();
+				setState(72); match(6);
+				setState(74); methodParameter();
 				}
 				}
-				setState(72);
+				setState(80);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(73); match(6);
-			setState(75); match(10);
-			setState(77); returnType();
-			setState(79); match(12);
+			setState(81); match(4);
+			setState(83); match(8);
+			setState(85); returnType();
+			setState(87); match(17);
 			}
 		}
 		catch (RecognitionException re) {
@@ -381,6 +394,9 @@ public class TypeNodeParser extends Parser {
 	public static class MethodParameterContext extends ParserRuleContext<Token> {
 		public TypeNodeContext typeNode() {
 		    return getRuleContext(TypeNodeContext.class,0);
+		}
+		public VarOrValContext varOrVal() {
+		    return getRuleContext(VarOrValContext.class,0);
 		}
 		public TerminalNode<Token> Identifier() { return getToken(TypeNodeParser.Identifier, 0); }
 		public MethodParameterContext(ParserRuleContext<Token> parent, int state) {
@@ -403,9 +419,10 @@ public class TypeNodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81); match(Identifier);
-			setState(83); match(10);
-			setState(85); typeNode();
+			setState(89); varOrVal();
+			setState(91); match(Identifier);
+			setState(93); match(8);
+			setState(95); typeNode();
 			}
 		}
 		catch (RecognitionException re) {
@@ -443,7 +460,110 @@ public class TypeNodeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87); typeNode();
+			setState(97); typeNode();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class MultiTypeContext extends ParserRuleContext<Token> {
+		public MultiTypeEntryContext multiTypeEntry(int i) {
+		    return getRuleContext(MultiTypeEntryContext.class,i);
+		}
+		public List<? extends MultiTypeEntryContext> multiTypeEntry() {
+		    return getRuleContexts(MultiTypeEntryContext.class);
+		}
+		public MultiTypeContext(ParserRuleContext<Token> parent, int state) {
+			super(parent, state);
+		}
+		@Override public int getRuleIndex() { return RULE_multiType; }
+		@Override
+		public void enterRule(ParseTreeListener<Token> listener) {
+			if ( listener instanceof TypeNodeListener ) ((TypeNodeListener)listener).enterMultiType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener<Token> listener) {
+			if ( listener instanceof TypeNodeListener ) ((TypeNodeListener)listener).exitMultiType(this);
+		}
+	}
+
+	public final MultiTypeContext multiType() throws RecognitionException {
+		MultiTypeContext _localctx = new MultiTypeContext(_ctx, 16);
+		enterRule(_localctx, RULE_multiType);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(99); match(7);
+			setState(101); multiTypeEntry();
+			setState(109);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ( _la==6 ) {
+				{
+				{
+				setState(103); match(6);
+				setState(105); multiTypeEntry();
+				}
+				}
+				setState(111);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(112); match(3);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class MultiTypeEntryContext extends ParserRuleContext<Token> {
+		public TypeNodeContext typeNode() {
+		    return getRuleContext(TypeNodeContext.class,0);
+		}
+		public VarOrValContext varOrVal() {
+		    return getRuleContext(VarOrValContext.class,0);
+		}
+		public TerminalNode<Token> Identifier() { return getToken(TypeNodeParser.Identifier, 0); }
+		public MultiTypeEntryContext(ParserRuleContext<Token> parent, int state) {
+			super(parent, state);
+		}
+		@Override public int getRuleIndex() { return RULE_multiTypeEntry; }
+		@Override
+		public void enterRule(ParseTreeListener<Token> listener) {
+			if ( listener instanceof TypeNodeListener ) ((TypeNodeListener)listener).enterMultiTypeEntry(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener<Token> listener) {
+			if ( listener instanceof TypeNodeListener ) ((TypeNodeListener)listener).exitMultiTypeEntry(this);
+		}
+	}
+
+	public final MultiTypeEntryContext multiTypeEntry() throws RecognitionException {
+		MultiTypeEntryContext _localctx = new MultiTypeEntryContext(_ctx, 18);
+		enterRule(_localctx, RULE_multiTypeEntry);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(114); varOrVal();
+			setState(116); match(Identifier);
+			setState(118); match(8);
+			setState(120); typeNode();
 			}
 		}
 		catch (RecognitionException re) {
@@ -474,14 +594,63 @@ public class TypeNodeParser extends Parser {
 	}
 
 	public final TypeParameterValueContext typeParameterValue() throws RecognitionException {
-		TypeParameterValueContext _localctx = new TypeParameterValueContext(_ctx, 16);
+		TypeParameterValueContext _localctx = new TypeParameterValueContext(_ctx, 20);
 		enterRule(_localctx, RULE_typeParameterValue);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(89); match(10);
-			setState(91); match(Identifier);
-			setState(93); match(10);
+			setState(122); match(8);
+			setState(124); match(Identifier);
+			setState(126); match(8);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class VarOrValContext extends ParserRuleContext<Token> {
+		public VarOrValContext(ParserRuleContext<Token> parent, int state) {
+			super(parent, state);
+		}
+		@Override public int getRuleIndex() { return RULE_varOrVal; }
+		@Override
+		public void enterRule(ParseTreeListener<Token> listener) {
+			if ( listener instanceof TypeNodeListener ) ((TypeNodeListener)listener).enterVarOrVal(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener<Token> listener) {
+			if ( listener instanceof TypeNodeListener ) ((TypeNodeListener)listener).exitVarOrVal(this);
+		}
+	}
+
+	public final VarOrValContext varOrVal() throws RecognitionException {
+		VarOrValContext _localctx = new VarOrValContext(_ctx, 22);
+		enterRule(_localctx, RULE_varOrVal);
+		try {
+			setState(132);
+			//_errHandler.sync(this);
+			switch ( _input.LA(1) ) {
+				case 11:
+					enterOuterAlt(_localctx, 1);
+					{
+					setState(128); match(11);
+					}
+					break;
+				case 16:
+					enterOuterAlt(_localctx, 2);
+					{
+					setState(130); match(16);
+					}
+					break;
+				default :
+					throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -511,12 +680,12 @@ public class TypeNodeParser extends Parser {
 	}
 
 	public final NulledContext nulled() throws RecognitionException {
-		NulledContext _localctx = new NulledContext(_ctx, 18);
+		NulledContext _localctx = new NulledContext(_ctx, 24);
 		enterRule(_localctx, RULE_nulled);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(95); match(13);
+			setState(134); match(12);
 			}
 		}
 		catch (RecognitionException re) {
@@ -550,24 +719,24 @@ public class TypeNodeParser extends Parser {
 	}
 
 	public final QualifiedNameContext qualifiedName() throws RecognitionException {
-		QualifiedNameContext _localctx = new QualifiedNameContext(_ctx, 20);
+		QualifiedNameContext _localctx = new QualifiedNameContext(_ctx, 26);
 		enterRule(_localctx, RULE_qualifiedName);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(97); match(Identifier);
-			setState(105);
+			setState(136); match(Identifier);
+			setState(144);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ( _la==7 ) {
+			while ( _la==5 ) {
 				{
 				{
-				setState(99); match(7);
-				setState(101); match(Identifier);
+				setState(138); match(5);
+				setState(140); match(Identifier);
 				}
 				}
-				setState(107);
+				setState(146);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -585,29 +754,38 @@ public class TypeNodeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\21m\2\0\7\0\2\1\7\1\2\2\7\2\2\3\7\3\2\4\7\4\2\5\7\5\2\6\7\6\2\7\7\7"+
-		"\2\b\7\b\2\t\7\t\2\n\7\n\1\0\0\1\0\0\3\0\b\0\1\0\0\3\0\b\0\1\1\0\1\1\0"+
-		"\1\1\0\1\1\0\3\1\b\1\1\1\1\1\1\2\0\1\2\0\1\2\0\1\2\0\3\2\b\2\1\3\1\3\1"+
-		"\4\1\4\1\5\0\1\5\0\1\5\0\1\5\0\1\5\0\5\5\b\5\n\5\f\5H\t\5\1\5\0\1\5\0"+
-		"\1\5\0\1\5\1\5\1\6\0\1\6\0\1\6\1\6\1\7\1\7\1\b\0\1\b\0\1\b\1\b\1\t\1\t"+
-		"\1\n\0\1\n\0\1\n\0\5\n\b\n\n\n\f\nk\t\n\1\n\13\0\2\4\6\b\n\f\16\20\22"+
-		"\24\0\0^\0\26\1\0\0\0\1(\1\0\0\0\1)\1\0\0\0\1V\1\0\0\0\1X\1\0\0\0\2 \1"+
-		"\0\0\0\3\33\1\0\0\0\4\64\1\0\0\0\5\32\1\0\0\0\6\66\1\0\0\0\7\65\1\0\0"+
-		"\0\b8\1\0\0\0\t\65\1\0\0\0\n:\1\0\0\0\13\65\1\0\0\0\fQ\1\0\0\0\rF\1\0"+
-		"\0\0\rE\1\0\0\0\16W\1\0\0\0\17O\1\0\0\0\20Y\1\0\0\0\21\65\1\0\0\0\22_"+
-		"\1\0\0\0\23\37\1\0\0\0\24a\1\0\0\0\25\67\1\0\0\0\26\32\3\4\2\0\30\33\3"+
-		"\2\1\0\32\30\1\0\0\0\32\33\1\0\0\0\33\36\1\0\0\0\34\37\3\22\t\0\36\34"+
-		"\1\0\0\0\36\37\1\0\0\0\37\1\1\0\0\0 \"\5\13\0\0\"(\3\0\0\0$&\5\b\0\0&"+
-		")\3\0\0\0($\1\0\0\0()\1\0\0\0)*\1\0\0\0*+\5\4\0\0+\3\1\0\0\0,\65\3\6\3"+
-		"\0.\65\3\20\b\0\60\65\3\b\4\0\62\65\3\n\5\0\64,\1\0\0\0\64.\1\0\0\0\64"+
-		"\60\1\0\0\0\64\62\1\0\0\0\65\5\1\0\0\0\66\67\3\24\n\0\67\7\1\0\0\089\5"+
-		"\3\0\09\t\1\0\0\0:<\5\5\0\0<>\5\t\0\0>F\3\f\6\0@B\5\b\0\0BE\3\f\6\0D@"+
-		"\1\0\0\0EH\1\0\0\0FD\1\0\0\0FG\1\0\0\0GI\1\0\0\0HF\1\0\0\0IK\5\6\0\0K"+
-		"M\5\n\0\0MO\3\16\7\0OP\5\f\0\0P\13\1\0\0\0QS\5\16\0\0SU\5\n\0\0UV\3\0"+
-		"\0\0V\r\1\0\0\0WX\3\0\0\0X\17\1\0\0\0Y[\5\n\0\0[]\5\16\0\0]^\5\n\0\0^"+
-		"\21\1\0\0\0_`\5\r\0\0`\23\1\0\0\0ai\5\16\0\0ce\5\7\0\0eh\5\16\0\0gc\1"+
-		"\0\0\0hk\1\0\0\0ig\1\0\0\0ij\1\0\0\0j\25\1\0\0\0ki\1\0\0\0\6\32\1\36\1"+
-		"(\1\64\1F\1i\1";
+		"\3\25\u0094\2\0\7\0\2\1\7\1\2\2\7\2\2\3\7\3\2\4\7\4\2\5\7\5\2\6\7\6\2"+
+		"\7\7\7\2\b\7\b\2\t\7\t\2\n\7\n\2\13\7\13\2\f\7\f\2\r\7\r\1\0\0\1\0\0\3"+
+		"\0\b\0\1\0\0\3\0\b\0\1\1\0\1\1\0\1\1\0\1\1\0\3\1\b\1\1\1\1\1\1\2\0\1\2"+
+		"\0\1\2\0\1\2\0\1\2\0\3\2\b\2\1\3\1\3\1\4\1\4\1\5\0\1\5\0\1\5\0\1\5\0\1"+
+		"\5\0\5\5\b\5\n\5\f\5P\t\5\1\5\0\1\5\0\1\5\0\1\5\1\5\1\6\0\1\6\0\1\6\0"+
+		"\1\6\1\6\1\7\1\7\1\b\0\1\b\0\1\b\0\1\b\0\5\b\b\b\n\b\f\bo\t\b\1\b\1\b"+
+		"\1\t\0\1\t\0\1\t\0\1\t\1\t\1\n\0\1\n\0\1\n\1\n\1\13\0\1\13\0\3\13\b\13"+
+		"\1\f\1\f\1\r\0\1\r\0\1\r\0\5\r\b\r\n\r\f\r\u0092\t\r\1\r\16\0\2\4\6\b"+
+		"\n\f\16\20\22\24\26\30\32\0\0\u0080\0\34\1\0\0\0\1.\1\0\0\0\1/\1\0\0\0"+
+		"\1`\1\0\0\0\1b\1\0\0\0\1y\1\0\0\0\2&\1\0\0\0\3!\1\0\0\0\4<\1\0\0\0\5 "+
+		"\1\0\0\0\6>\1\0\0\0\7=\1\0\0\0\b@\1\0\0\0\t=\1\0\0\0\nB\1\0\0\0\13=\1"+
+		"\0\0\0\fY\1\0\0\0\rN\1\0\0\0\rM\1\0\0\0\16a\1\0\0\0\17W\1\0\0\0\20c\1"+
+		"\0\0\0\21=\1\0\0\0\22r\1\0\0\0\23m\1\0\0\0\23l\1\0\0\0\24z\1\0\0\0\25"+
+		"=\1\0\0\0\26\u0084\1\0\0\0\27[\1\0\0\0\27t\1\0\0\0\30\u0086\1\0\0\0\31"+
+		"%\1\0\0\0\32\u0088\1\0\0\0\33?\1\0\0\0\34 \3\4\2\0\36!\3\2\1\0 \36\1\0"+
+		"\0\0 !\1\0\0\0!$\1\0\0\0\"%\3\30\f\0$\"\1\0\0\0$%\1\0\0\0%\1\1\0\0\0&"+
+		"(\5\n\0\0(.\3\0\0\0*,\5\6\0\0,/\3\0\0\0.*\1\0\0\0./\1\0\0\0/\60\1\0\0"+
+		"\0\60\61\5\17\0\0\61\3\1\0\0\0\62=\3\6\3\0\64=\3\24\n\0\66=\3\b\4\08="+
+		"\3\n\5\0:=\3\20\b\0<\62\1\0\0\0<\64\1\0\0\0<\66\1\0\0\0<8\1\0\0\0<:\1"+
+		"\0\0\0=\5\1\0\0\0>?\3\32\r\0?\7\1\0\0\0@A\5\r\0\0A\t\1\0\0\0BD\5\16\0"+
+		"\0DF\5\t\0\0FN\3\f\6\0HJ\5\6\0\0JM\3\f\6\0LH\1\0\0\0MP\1\0\0\0NL\1\0\0"+
+		"\0NO\1\0\0\0OQ\1\0\0\0PN\1\0\0\0QS\5\4\0\0SU\5\b\0\0UW\3\16\7\0WX\5\21"+
+		"\0\0X\13\1\0\0\0Y[\3\26\13\0[]\5\22\0\0]_\5\b\0\0_`\3\0\0\0`\r\1\0\0\0"+
+		"ab\3\0\0\0b\17\1\0\0\0ce\5\7\0\0em\3\22\t\0gi\5\6\0\0il\3\22\t\0kg\1\0"+
+		"\0\0lo\1\0\0\0mk\1\0\0\0mn\1\0\0\0np\1\0\0\0om\1\0\0\0pq\5\3\0\0q\21\1"+
+		"\0\0\0rt\3\26\13\0tv\5\22\0\0vx\5\b\0\0xy\3\0\0\0y\23\1\0\0\0z|\5\b\0"+
+		"\0|~\5\22\0\0~\177\5\b\0\0\177\25\1\0\0\0\u0080\u0085\5\13\0\0\u0082\u0085"+
+		"\5\20\0\0\u0084\u0080\1\0\0\0\u0084\u0082\1\0\0\0\u0085\27\1\0\0\0\u0086"+
+		"\u0087\5\f\0\0\u0087\31\1\0\0\0\u0088\u0090\5\22\0\0\u008a\u008c\5\5\0"+
+		"\0\u008c\u008f\5\22\0\0\u008e\u008a\1\0\0\0\u008f\u0092\1\0\0\0\u0090"+
+		"\u008e\1\0\0\0\u0090\u0091\1\0\0\0\u0091\33\1\0\0\0\u0092\u0090\1\0\0"+
+		"\0\b \1$\1.\1<\1N\1m\1\u0084\1\u0090\1";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {

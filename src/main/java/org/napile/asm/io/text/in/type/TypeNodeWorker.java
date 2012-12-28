@@ -27,8 +27,10 @@ import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.MethodParameterNode;
+import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
 import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
+import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -96,7 +98,26 @@ public class TypeNodeWorker extends TypeNodeBaseListener
 		TypeNodeWorker worker = new TypeNodeWorker(tokenStream);
 		worker.acceptChild(ctx.typeNode());
 
-		((MethodTypeNode) typeConstructorNode).parameters.add(new MethodParameterNode(Modifier.EMPTY, Name.identifier(ctx.Identifier().getSymbol().getText()), worker.toType()));
+		Modifier[] modifiers = ctx.varOrVal().getText(tokenStream).equals("var") ? Modifier.list(Modifier.MUTABLE) : Modifier.EMPTY;
+		((MethodTypeNode) typeConstructorNode).parameters.add(new MethodParameterNode(modifiers, Name.identifier(ctx.Identifier().getSymbol().getText()), worker.toType()));
+	}
+
+	@Override
+	public void enterMultiType(TypeNodeParser.MultiTypeContext ctx)
+	{
+		typeConstructorNode = new MultiTypeNode();
+
+		acceptChild(ctx);
+	}
+
+	@Override
+	public void enterMultiTypeEntry(TypeNodeParser.MultiTypeEntryContext ctx)
+	{
+		TypeNodeWorker worker = new TypeNodeWorker(tokenStream);
+		worker.acceptChild(ctx.typeNode());
+
+		Modifier[] modifiers = ctx.varOrVal().getText(tokenStream).equals("var") ? Modifier.list(Modifier.MUTABLE) : Modifier.EMPTY;
+		((MultiTypeNode) typeConstructorNode).variables.add(new VariableNode(modifiers, Name.identifier(ctx.Identifier().getSymbol().getText()), worker.toType()));
 	}
 
 	@Override
