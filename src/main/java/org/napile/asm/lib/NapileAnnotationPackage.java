@@ -32,4 +32,8 @@ public interface NapileAnnotationPackage
 	FqName REPEATABLE = PACKAGE.child(Name.identifier("Repeatable"));
 
 	FqName DEPRECATED = PACKAGE.child(Name.identifier("Deprecated"));
+
+	FqName VAR_ARGS = PACKAGE.child(Name.identifier("VarArgs"));
+
+	FqName EXTENSION = PACKAGE.child(Name.identifier("Extension"));
 }

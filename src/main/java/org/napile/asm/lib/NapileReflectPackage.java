@@ -38,4 +38,6 @@ public interface NapileReflectPackage
 	FqName MACRO = PACKAGE.child(Name.identifier("Macro"));
 
 	FqName VARIABLE = PACKAGE.child(Name.identifier("Variable"));
+
+	FqName MODIFIER = PACKAGE.child(Name.identifier("Modifier"));
 }
