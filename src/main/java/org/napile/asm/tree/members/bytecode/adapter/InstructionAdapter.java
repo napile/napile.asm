@@ -255,16 +255,24 @@ public class InstructionAdapter implements Iterable<Instruction>
 		return instructions.size();
 	}
 
-	public void replace(@NotNull Instruction instruction1, @NotNull Instruction instruction2)
+	public InstructionAdapter replace(@NotNull Instruction instruction1)
 	{
-		int i = instructions.indexOf(instruction1);
+		final int i = instructions.indexOf(instruction1);
 		if(i < 0)
 			throw new IndexOutOfBoundsException();
 
-		instructions.set(i, instruction2);
+		return new InstructionAdapter()
+		{
+			@Override
+			protected <T extends Instruction> T add(T newValue)
+			{
+				instructions.set(i, newValue);
+				return newValue;
+			}
+		};
 	}
 
-	private <T extends Instruction> T add(T t)
+	protected <T extends Instruction> T add(T t)
 	{
 		instructions.add(t);
 		return t;

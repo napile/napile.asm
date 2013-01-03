@@ -236,6 +236,7 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 	@Override
 	public Void visitJumpIf(JumpIfInstruction jumpIfInstruction, Integer index2)
 	{
+		pop(2, jumpIfInstruction);
 		return null;
 	}
 
