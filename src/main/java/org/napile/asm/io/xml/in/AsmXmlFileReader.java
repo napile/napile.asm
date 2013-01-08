@@ -31,6 +31,7 @@ import org.napile.asm.Modifier;
 import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.AbstractMemberNode;
+import org.napile.asm.tree.members.AnnotationNode;
 import org.napile.asm.tree.members.ClassNode;
 import org.napile.asm.tree.members.MacroNode;
 import org.napile.asm.tree.members.MethodNode;
@@ -97,6 +98,8 @@ public class AsmXmlFileReader
 
 		readTypeParameters(classElement, classNode);
 
+		readAnnotations(classElement, classNode);
+
 		for(Element child : classElement.elements())
 		{
 			AbstractMemberNode<?> node = null;
@@ -104,9 +107,9 @@ public class AsmXmlFileReader
 			if("variable".equals(child.getName()))
 				node = readVariable(child);
 			else if("method".equals(child.getName()))
-				node = readCode(child, new MethodNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type"))));
+				node = readMethodOrMacro(child, new MethodNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type"))));
 			else if("macro".equals(child.getName()))
-				node = readCode(child, new MacroNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type"))));
+				node = readMethodOrMacro(child, new MacroNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type"))));
 
 			if(node != null)
 				classNode.addMember(node);
@@ -121,6 +124,8 @@ public class AsmXmlFileReader
 
 		readTypeParameters(child, variableNode);
 
+		readAnnotations(child, variableNode);
+
 		return variableNode;
 	}
 
@@ -132,12 +137,53 @@ public class AsmXmlFileReader
 				parameters.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type"))));
 	}
 
-	private MethodNode readCode(@NotNull Element parent, @NotNull MethodNode methodNode)
+	private MethodNode readMethodOrMacro(@NotNull Element parent, @NotNull MethodNode methodNode)
 	{
 		readTypeParameters(parent, methodNode);
 
+		readAnnotations(parent, methodNode);
+
 		readParameters(parent, methodNode.parameters);
 
+		readCode(parent, methodNode);
+
+		Element tryCatchBlocks = parent.element("try_catch_blocks");
+		if(tryCatchBlocks != null)
+		{
+			for(Element tryCatchBlockElement : tryCatchBlocks.elements())
+			{
+				TryBlock tryBlock = null;
+				List<CatchBlock> catchBlocks = new ArrayList<CatchBlock>(0);
+
+				for(Element childTryBlock : tryCatchBlockElement.elements())
+				{
+					String temp = childTryBlock.getName();
+					if("try".equals(temp))
+						tryBlock = new TryBlock(Integer.parseInt(childTryBlock.attributeValue("start_index")), Integer.parseInt( childTryBlock.attributeValue("end_index")));
+					else if("catch".equals(temp))
+					{
+						int startIndex = Integer.parseInt(childTryBlock.attributeValue("start_index"));
+						int endIndex = Integer.parseInt(childTryBlock.attributeValue("end_index"));
+						int variableIndex = Integer.parseInt(childTryBlock.attributeValue("variable_index"));
+						TypeNode typeNode = readType(childTryBlock.element("type"));
+						catchBlocks.add(new CatchBlock(startIndex, endIndex, variableIndex, typeNode));
+					}
+					else
+						throw new UnsupportedOperationException("Unknown element: " + temp);
+				}
+
+				if(tryBlock == null)
+					throw new UnsupportedOperationException("TryCatch Block cant be without 'try' part");
+
+				methodNode.tryCatchBlockNodes.add(new TryCatchBlockNode(tryBlock, catchBlocks));
+			}
+		}
+
+		return methodNode;
+	}
+
+	private MethodNode readCode(@NotNull Element parent, @NotNull MethodNode methodNode)
+	{
 		Element codeElement = parent.element("code");
 		if(codeElement != null)
 		{
@@ -251,38 +297,6 @@ public class AsmXmlFileReader
 			}
 		}
 
-		Element tryCatchBlocks = parent.element("try_catch_blocks");
-		if(tryCatchBlocks != null)
-		{
-			for(Element tryCatchBlockElement : tryCatchBlocks.elements())
-			{
-				TryBlock tryBlock = null;
-				List<CatchBlock> catchBlocks = new ArrayList<CatchBlock>(0);
-
-				for(Element childTryBlock : tryCatchBlockElement.elements())
-				{
-					String temp = childTryBlock.getName();
-					if("try".equals(temp))
-						tryBlock = new TryBlock(Integer.parseInt(childTryBlock.attributeValue("start_index")), Integer.parseInt( childTryBlock.attributeValue("end_index")));
-					else if("catch".equals(temp))
-					{
-						int startIndex = Integer.parseInt(childTryBlock.attributeValue("start_index"));
-						int endIndex = Integer.parseInt(childTryBlock.attributeValue("end_index"));
-						int variableIndex = Integer.parseInt(childTryBlock.attributeValue("variable_index"));
-						TypeNode typeNode = readType(childTryBlock.element("type"));
-						catchBlocks.add(new CatchBlock(startIndex, endIndex, variableIndex, typeNode));
-					}
-					else
-						throw new UnsupportedOperationException("Unknown element: " + temp);
-				}
-
-				if(tryBlock == null)
-					throw new UnsupportedOperationException("TryCatch Block cant be without 'try' part");
-
-				methodNode.tryCatchBlockNodes.add(new TryCatchBlockNode(tryBlock, catchBlocks));
-			}
-		}
-
 		return methodNode;
 	}
 
@@ -369,6 +383,24 @@ public class AsmXmlFileReader
 				}
 
 			node.typeParameters.add(typeParameterNode);
+		}
+	}
+
+	private void readAnnotations(@NotNull Element element, @NotNull AbstractMemberNode<?> node)
+	{
+		Element annotationsElement = element.element("annotations");
+		if(annotationsElement == null)
+			return;
+
+		for(Element child : annotationsElement.elements())
+		{
+			child = throwIfNotExpected(child, "annotation");
+
+			AnnotationNode annotationNode = new AnnotationNode();
+
+			readCode(child, annotationNode);
+
+			node.annotations.add(annotationNode);
 		}
 	}
 
