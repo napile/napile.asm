@@ -70,9 +70,39 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
+	public NewByteInstruction newByte(byte value)
+	{
+		return add(new NewByteInstruction(value));
+	}
+
+	@NotNull
+	public NewShortInstruction newShort(short value)
+	{
+		return add(new NewShortInstruction(value));
+	}
+
+	@NotNull
 	public NewIntInstruction newInt(int value)
 	{
 		return add(new NewIntInstruction(value));
+	}
+
+	@NotNull
+	public NewLongInstruction newLong(long value)
+	{
+		return add(new NewLongInstruction(value));
+	}
+
+	@NotNull
+	public NewFloatInstruction newFloat(long value)
+	{
+		return add(new NewFloatInstruction(value));
+	}
+
+	@NotNull
+	public NewDoubleInstruction newDouble(long value)
+	{
+		return add(new NewDoubleInstruction(value));
 	}
 
 	@NotNull
