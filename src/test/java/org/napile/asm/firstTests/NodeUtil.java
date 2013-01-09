@@ -69,11 +69,14 @@ public class NodeUtil
 		classNode.addMember(methodNode2);
 
 
+		ClassNode inner = new ClassNode(Modifier.list(), NapileLangPackage.LONG);
+		classNode.addMember(inner);
+
 		MultiTypeNode multiTypeNode = new MultiTypeNode();
 		multiTypeNode.variables.add(new VariableNode(Modifier.list(Modifier.MUTABLE), Name.identifier("test"), AsmConstants.INT_TYPE));
 
 		MethodNode methodNode3 = new MethodNode(Modifier.EMPTY, Name.identifier("multiMethod"), new TypeNode(false, multiTypeNode));
-		classNode.addMember(methodNode3);
+		inner.addMember(methodNode3);
 
 		return classNode;
 	}

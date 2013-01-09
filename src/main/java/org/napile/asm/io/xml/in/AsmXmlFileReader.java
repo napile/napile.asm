@@ -22,7 +22,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -66,7 +65,7 @@ public class AsmXmlFileReader
 	{
 		try
 		{
-			return read(reader.read(r));
+			return readClass(reader.read(r).getRootElement());
 		}
 		catch(DocumentException e)
 		{
@@ -78,7 +77,7 @@ public class AsmXmlFileReader
 	{
 		try
 		{
-			return read(reader.read(stream));
+			return readClass(reader.read(stream).getRootElement());
 		}
 		catch(DocumentException e)
 		{
@@ -86,9 +85,9 @@ public class AsmXmlFileReader
 		}
 	}
 
-	private ClassNode read(Document document)
+	private ClassNode readClass(Element element)
 	{
-		Element classElement = throwIfNotExpected(document.getRootElement(), "class");
+		Element classElement = throwIfNotExpected(element, "class");
 
 		FqName fqName = new FqName(classElement.attributeValue("name"));
 		Modifier[] modifiers = readModifiers(classElement);
@@ -110,6 +109,8 @@ public class AsmXmlFileReader
 				node = readMethodOrMacro(child, new MethodNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type"))));
 			else if("macro".equals(child.getName()))
 				node = readMethodOrMacro(child, new MacroNode(readModifiers(child), Name.identifier(child.attributeValue("name")), readType(child.element("return_type").element("type"))));
+			else if("class".equals(child.getName()))
+				node = readClass(child);
 
 			if(node != null)
 				classNode.addMember(node);

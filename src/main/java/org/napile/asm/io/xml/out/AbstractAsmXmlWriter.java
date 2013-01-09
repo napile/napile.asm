@@ -68,8 +68,14 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitClassNode(ClassNode classNode, Element a2)
 	{
-		Element element = (a2 == null ? document : a2).addElement("class");
-		fqName = classNode.name;
+		Element element;
+		if(a2 == null)
+		{
+			element = document.addElement("class");
+			fqName = classNode.name;
+		}
+		else
+			element = a2.addElement("class");
 
 		element.addAttribute("version", String.valueOf(langVersion.ordinal()));
 		element.addAttribute("name", classNode.name.getFqName());
