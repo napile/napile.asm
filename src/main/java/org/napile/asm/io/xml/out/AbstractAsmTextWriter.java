@@ -45,6 +45,8 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 	private final Function<? extends Node, String> func = new NodeAcceptorFunction();
 	protected StringBuilder builder;
 
+	private int indent;
+
 	@Override
 	protected void start()
 	{
@@ -64,6 +66,7 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 		if(!shortName.contains(AsmConstants.ANONYM_SPLITTER))
 			builder.append("package ").append(classNode.name.parent().getFqName()).append("\n\n");
 
+		builder.append(StringUtil.repeat("\t", indent));
 		renderModifiers(builder, classNode.modifiers);
 		builder.append("class ");
 
@@ -78,21 +81,27 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 			builder.append(StringUtil.join(classNode.supers, (Function<TypeNode,String>) func, ", "));
 		}
 
-		builder.append("\n").append("{").append("\n");
-
+		builder.append("\n");
+		builder.append(StringUtil.repeat("\t", indent));
+		builder.append("{").append("\n");
+		indent ++;
 		builder.append(StringUtil.join(classNode.getMembers(), new Function<AbstractMemberNode, String>()
 		{
 			@Override
 			public String fun(AbstractMemberNode abstractMemberNode)
 			{
 				StringBuilder b = new StringBuilder();
-				b.append("\t");
+				b.append(StringUtil.repeat("\t", indent));
 				abstractMemberNode.accept(AbstractAsmTextWriter.this, b);
 				return b.toString();
 			}
 		}, "\n\n"));
 
-		builder.append("\n}");
+		indent --;
+
+		builder.append("\n");
+		builder.append(StringUtil.repeat("\t", indent));
+		builder.append("}");
 		return builder;
 	}
 
@@ -104,8 +113,7 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 		a2.append(methodNode.name);
 		renderTypeParameters(a2, methodNode);
 		a2.append("(");
-		for(MethodParameterNode m : methodNode.parameters)
-			m.accept(this, a2);
+		a2.append(StringUtil.join(methodNode.parameters, (Function<MethodParameterNode,String>) func, ", "));
 		a2.append(")");
 		a2.append(" : ");
 		a2.append(methodNode.returnType);
@@ -120,8 +128,7 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 		a2.append(methodNode.name);
 		renderTypeParameters(a2, methodNode);
 		a2.append("(");
-		for(MethodParameterNode m : methodNode.parameters)
-			m.accept(this, a2);
+		a2.append(StringUtil.join(methodNode.parameters, (Function<MethodParameterNode,String>) func, ", "));
 		a2.append(")");
 		a2.append(" : ");
 		a2.append(methodNode.returnType);
@@ -146,7 +153,10 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 	public StringBuilder visitMethodParameterNode(MethodParameterNode methodParameterNode, StringBuilder a2)
 	{
 		renderModifiers(a2, methodParameterNode.modifiers);
-
+		if(ArrayUtil.contains(Modifier.MUTABLE, methodParameterNode.modifiers))
+			a2.append("var ");
+		else
+			a2.append("val ") ;
 		a2.append(methodParameterNode.name);
 		a2.append(" : ");
 		methodParameterNode.returnType.accept(this, a2);
@@ -262,6 +272,7 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 	private static void renderModifiers(StringBuilder b, Modifier[] modifiers)
 	{
 		for(Modifier m : modifiers)
-			b.append(m.name().toLowerCase()).append(" ");
+			if(m != Modifier.MUTABLE)
+				b.append(m.name().toLowerCase()).append(" ");
 	}
 }
