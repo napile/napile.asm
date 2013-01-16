@@ -36,4 +36,10 @@ public interface NapileAnnotationPackage
 	FqName VAR_ARGS = PACKAGE.child(Name.identifier("VarArgs"));
 
 	FqName EXTENSION = PACKAGE.child(Name.identifier("Extension"));
+
+	FqName IMMUTABLE = PACKAGE.child(Name.identifier("Immutable"));
+
+	FqName IMMUTABLE_TARGET = PACKAGE.child(Name.identifier("ImmutableTarget"));
+
+	FqName INHERIT_IMMUTABLE = PACKAGE.child(Name.identifier("InheritImmutable"));
 }
