@@ -24,7 +24,7 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  * @author VISTALL
  * @date 13:29/02.09.12
  */
-public class NewStringInstruction implements Instruction
+public class NewStringInstruction extends Instruction
 {
 	@NotNull
 	public final String value;
@@ -38,11 +38,5 @@ public class NewStringInstruction implements Instruction
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		return visitor.visitNewString(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "new_string: " + value;
 	}
 }

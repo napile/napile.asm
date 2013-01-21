@@ -15,17 +15,11 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  * - target
  * - o
  */
-public class Dup1x1Instruction implements Instruction
+public class Dup1x1Instruction extends Instruction
 {
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		return visitor.visitDup1x1(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "dup1x1";
 	}
 }

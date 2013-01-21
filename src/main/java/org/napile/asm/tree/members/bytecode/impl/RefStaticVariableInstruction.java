@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 napile.org
+ * Copyright 2010-2013 napile.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +19,25 @@ package org.napile.asm.tree.members.bytecode.impl;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
+import org.napile.asm.tree.members.bytecode.VariableRef;
 
 /**
  * @author VISTALL
- * @date 22:26/31.08.12
+ * @date 17:25/19.01.13
  */
-public class LoadInstruction implements Instruction
+public class RefStaticVariableInstruction extends Instruction
 {
-	public final int varIndex;
+	@NotNull
+	public final VariableRef variableRef;
 
-	public LoadInstruction(int varIndex)
+	public RefStaticVariableInstruction(@NotNull VariableRef variableRef)
 	{
-		this.varIndex = varIndex;
+		this.variableRef = variableRef;
 	}
 
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitLoad(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "load: " + varIndex;
+		return visitor.visitRefStaticVariable(this, a2);
 	}
 }

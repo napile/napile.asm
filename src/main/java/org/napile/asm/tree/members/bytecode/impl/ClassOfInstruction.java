@@ -25,7 +25,7 @@ import org.napile.asm.tree.members.types.TypeNode;
  * @author VISTALL
  * @date 11:32/04.10.12
  */
-public class ClassOfInstruction implements Instruction
+public class ClassOfInstruction extends Instruction
 {
 	@NotNull
 	public final TypeNode value;
@@ -41,9 +41,4 @@ public class ClassOfInstruction implements Instruction
 		return visitor.visitClassOf(this, a2);
 	}
 
-	@Override
-	public String toString()
-	{
-		return "class_of: " + value;
-	}
 }

@@ -24,10 +24,4 @@ public class InvokeAnonymInstruction extends InvokeInstruction
 	{
 		return visitor.visitInvokeAnonym(this, a2);
 	}
-
-	@Override
-	public String getShortName()
-	{
-		return "invoke_anonym";
-	}
 }

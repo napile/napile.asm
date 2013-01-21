@@ -27,7 +27,7 @@ import org.napile.asm.tree.members.types.TypeNode;
  * @author VISTALL
  * @date 13:21/02.09.12
  */
-public class NewObjectInstruction implements Instruction
+public class NewObjectInstruction extends Instruction
 {
 	@NotNull
 	public final TypeNode value;
@@ -44,11 +44,5 @@ public class NewObjectInstruction implements Instruction
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		return visitor.visitNewObject(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "new_object: " + value + ", parameters: " + parameters;
 	}
 }

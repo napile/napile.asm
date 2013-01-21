@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 napile.org
+ * Copyright 2010-2013 napile.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,20 +21,20 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 
 /**
  * @author VISTALL
- * @date 13:28/02.09.12
+ * @date 22:29/31.08.12
  */
-public class NewCharInstruction extends Instruction
+public class LocalPutInstruction extends Instruction
 {
-	public final char value;
+	public final int varIndex;
 
-	public NewCharInstruction(char value)
+	public LocalPutInstruction(int varIndex)
 	{
-		this.value = value;
+		this.varIndex = varIndex;
 	}
 
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitNewChar(this, a2);
+		return visitor.visitLocalPut(this, a2);
 	}
 }

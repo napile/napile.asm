@@ -27,11 +27,13 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.Modifier;
+import org.napile.asm.io.xml.InstructionNameUtil;
 import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.AbstractMemberNode;
 import org.napile.asm.tree.members.AnnotationNode;
 import org.napile.asm.tree.members.ClassNode;
+import org.napile.asm.tree.members.CodeInfo;
 import org.napile.asm.tree.members.MacroNode;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
@@ -146,159 +148,170 @@ public class AsmXmlFileReader
 
 		readParameters(parent, methodNode.parameters);
 
-		readCode(parent, methodNode);
-
-		Element tryCatchBlocks = parent.element("try_catch_blocks");
-		if(tryCatchBlocks != null)
-		{
-			for(Element tryCatchBlockElement : tryCatchBlocks.elements())
-			{
-				TryBlock tryBlock = null;
-				List<CatchBlock> catchBlocks = new ArrayList<CatchBlock>(0);
-
-				for(Element childTryBlock : tryCatchBlockElement.elements())
-				{
-					String temp = childTryBlock.getName();
-					if("try".equals(temp))
-						tryBlock = new TryBlock(Integer.parseInt(childTryBlock.attributeValue("start_index")), Integer.parseInt( childTryBlock.attributeValue("end_index")));
-					else if("catch".equals(temp))
-					{
-						int startIndex = Integer.parseInt(childTryBlock.attributeValue("start_index"));
-						int endIndex = Integer.parseInt(childTryBlock.attributeValue("end_index"));
-						int variableIndex = Integer.parseInt(childTryBlock.attributeValue("variable_index"));
-						TypeNode typeNode = readType(childTryBlock.element("type"));
-						catchBlocks.add(new CatchBlock(startIndex, endIndex, variableIndex, typeNode));
-					}
-					else
-						throw new UnsupportedOperationException("Unknown element: " + temp);
-				}
-
-				if(tryBlock == null)
-					throw new UnsupportedOperationException("TryCatch Block cant be without 'try' part");
-
-				methodNode.tryCatchBlockNodes.add(new TryCatchBlockNode(tryBlock, catchBlocks));
-			}
-		}
+		methodNode.code = readCode(parent);
 
 		return methodNode;
 	}
 
-	private MethodNode readCode(@NotNull Element parent, @NotNull MethodNode methodNode)
+	private CodeInfo readCode(@NotNull Element p)
 	{
-		Element codeElement = parent.element("code");
+		Element codeElement = p.element("code");
 		if(codeElement != null)
 		{
-			methodNode.maxLocals = Integer.parseInt(codeElement.attributeValue("max_locals"));
+			CodeInfo codeInfo = new CodeInfo();
+			codeInfo.maxLocals = Integer.parseInt(codeElement.attributeValue("max-locals"));
 
-			for(Element instructionElement : codeElement.elements())
+			Element instructionsElement = codeElement.element("instructions");
+			if(instructionsElement != null)
+				for(Element instructionElement : instructionsElement.elements())
+				{
+					Instruction instruction = null;
+					Class<?> clazz = InstructionNameUtil.fromXmlTag(instructionElement.getName());
+					String instructionName = instructionElement.getName();
+
+					if(clazz == NewByteInstruction.class)
+						instruction = new NewByteInstruction(Byte.parseByte(instructionElement.attributeValue("val")));
+					else if(clazz == NewShortInstruction.class)
+						instruction = new NewShortInstruction(Short.parseShort(instructionElement.attributeValue("val")));
+					else if(clazz == NewIntInstruction.class)
+						instruction = new NewIntInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
+					else if(clazz == NewLongInstruction.class)
+						instruction = new NewLongInstruction(Long.parseLong(instructionElement.attributeValue("val")));
+					else if(clazz == NewCharInstruction.class)
+						instruction = new NewCharInstruction(instructionElement.attributeValue("val").charAt(0));
+					else if(clazz == NewFloatInstruction.class)
+						instruction = new NewFloatInstruction(Float.parseFloat(instructionElement.attributeValue("val")));
+					else if(clazz == NewDoubleInstruction.class)
+						instruction = new NewDoubleInstruction(Double.parseDouble(instructionElement.attributeValue("val")));
+					else if(clazz == NewStringInstruction.class)
+						instruction = new NewStringInstruction(StringWrapper.unwrapFromXml(instructionElement.attributeValue("val")));
+					else if(clazz == NewObjectInstruction.class)
+					{
+						List<TypeNode> parameters = new ArrayList<TypeNode>(0);
+						Element typeArgumentsElement = instructionElement.element("parameters");
+						if(typeArgumentsElement != null)
+							for(Element typeArgumentElement : typeArgumentsElement.elements())
+								parameters.add(readType(typeArgumentElement));
+						instruction = new NewObjectInstruction(readType(instructionElement.element("type")), parameters);
+					}
+					else if(clazz == LocalPutInstruction.class)
+						instruction = new LocalPutInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
+					else if(clazz == LocalGetInstruction.class)
+						instruction = new LocalGetInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
+					else if(clazz == LocalRefInstruction.class)
+						instruction = new LocalRefInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
+					else if(clazz == DupInstruction.class)
+						instruction = new DupInstruction();
+					else if(clazz == Dup1x1Instruction.class)
+						instruction = new Dup1x1Instruction();
+					else if(clazz == PopInstruction.class)
+						instruction = new PopInstruction();
+					else if(clazz == SwapInstruction.class)
+						instruction = new SwapInstruction();
+					else if(clazz == ReturnInstruction.class)
+						instruction = new ReturnInstruction();
+					else if(clazz == ThrowInstruction.class)
+						instruction = new ThrowInstruction();
+					else if(clazz == InvokeStaticInstruction.class)
+						instruction = new InvokeStaticInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
+					else if(clazz == InvokeSpecialInstruction.class)
+						instruction = new InvokeSpecialInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
+					else if(clazz == InvokeVirtualInstruction.class)
+						instruction = new InvokeVirtualInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
+					else if(clazz == MacroStaticJumpInstruction.class)
+						instruction = new MacroStaticJumpInstruction(readMethodRef(instructionElement));
+					else if(clazz == MacroJumpInstruction.class)
+						instruction = new MacroJumpInstruction(readMethodRef(instructionElement));
+					else if(clazz == InvokeAnonymInstruction.class)
+					{
+						Element element = instructionElement.element("method");
+
+						Element returnElement = element.element("return_type");
+
+						TypeNode returnType = readType(returnElement.element("type"));
+
+						List<TypeNode> parameterTypes = new ArrayList<TypeNode>();
+						Element parametersElement = element.element("parameters");
+						if(parametersElement != null)
+							for(Element parameterElement : parametersElement.elements())
+								parameterTypes.add(readType(parameterElement));
+
+						List<TypeNode> typeArguments = new ArrayList<TypeNode>();
+						Element typeArgumentsElement = element.element("type_arguments");
+						if(typeArgumentsElement != null)
+							for(Element typeArgumentElement : typeArgumentsElement.elements())
+								typeArguments.add(readType(typeArgumentElement));
+
+						instruction = new InvokeAnonymInstruction(parameterTypes, typeArguments, returnType, instructionElement.element("nullable") != null);
+					}
+					else if(clazz == RefVariableInstruction.class)
+						instruction = new RefVariableInstruction(readVariableRef(instructionElement));
+					else if(clazz == RefStaticVariableInstruction.class)
+						instruction = new RefStaticVariableInstruction(readVariableRef(instructionElement));
+					else if(clazz == PutToVariableInstruction.class)
+						instruction = new PutToVariableInstruction(readVariableRef(instructionElement));
+					else if(clazz == PutToStaticVariableInstruction.class)
+						instruction = new PutToStaticVariableInstruction(readVariableRef(instructionElement));
+					else if(clazz == GetVariableInstruction.class)
+						instruction = new GetVariableInstruction(readVariableRef(instructionElement));
+					else if(clazz == GetStaticVariableInstruction.class)
+						instruction = new GetStaticVariableInstruction(readVariableRef(instructionElement));
+					else if(clazz == JumpIfInstruction.class)
+						instruction = new JumpIfInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
+					else if(clazz == JumpInstruction.class)
+						instruction = new JumpInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
+					else if(clazz == ClassOfInstruction.class)
+						instruction = new ClassOfInstruction(readType(instructionElement.element("type")));
+					else if(clazz == TypeOfInstruction.class)
+						instruction = new TypeOfInstruction(readType(instructionElement.element("type")));
+					else if(clazz == IsInstruction.class)
+						instruction = new IsInstruction(readType(instructionElement.element("type")));
+					else if(clazz == PutAnonymInstruction.class)
+						instruction = new PutAnonymInstruction(Integer.parseInt(instructionElement.attributeValue("require")), readCode(instructionElement));
+
+					if(instruction.getClass() != clazz)
+						throw new IllegalArgumentException("Wrong element clazz and object clazz: " + clazz.getSimpleName() + "/" + instruction.getClass().getSimpleName());
+					if(instruction != null)
+						codeInfo.instructions.add(instruction);
+					else
+						throw new IllegalArgumentException("Unknown instruction: " + instructionName);
+				}
+
+			Element tryCatchBlocks = codeElement.element("try_catch_blocks");
+			if(tryCatchBlocks != null)
 			{
-				Instruction instruction = null;
-				String instructionName = instructionElement.getName();
-
-				if("new_byte".equals(instructionName))
-					instruction = new NewByteInstruction(Byte.parseByte(instructionElement.attributeValue("val")));
-				else if("new_short".equals(instructionName))
-					instruction = new NewShortInstruction(Short.parseShort(instructionElement.attributeValue("val")));
-				else if("new_int".equals(instructionName))
-					instruction = new NewIntInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
-				else if("new_long".equals(instructionName))
-					instruction = new NewLongInstruction(Long.parseLong(instructionElement.attributeValue("val")));
-				else if("new_char".equals(instructionName))
-					instruction = new NewCharInstruction(instructionElement.attributeValue("val").charAt(0));
-				else if("new_float".equals(instructionName))
-					instruction = new NewFloatInstruction(Float.parseFloat(instructionElement.attributeValue("val")));
-				else if("new_double".equals(instructionName))
-					instruction = new NewDoubleInstruction(Double.parseDouble(instructionElement.attributeValue("val")));
-				else if("new_string".equals(instructionName))
-					instruction = new NewStringInstruction(StringWrapper.unwrapFromXml(instructionElement.attributeValue("val")));
-				else if("new_object".equals(instructionName))
+				for(Element tryCatchBlockElement : tryCatchBlocks.elements())
 				{
-					List<TypeNode> parameters = new ArrayList<TypeNode>(0);
-					Element typeArgumentsElement = instructionElement.element("parameters");
-					if(typeArgumentsElement != null)
-						for(Element typeArgumentElement : typeArgumentsElement.elements())
-							parameters.add(readType(typeArgumentElement));
-					instruction = new NewObjectInstruction(readType(instructionElement.element("type")), parameters);
+					TryBlock tryBlock = null;
+					List<CatchBlock> catchBlocks = new ArrayList<CatchBlock>(0);
+
+					for(Element childTryBlock : tryCatchBlockElement.elements())
+					{
+						String temp = childTryBlock.getName();
+						if("try".equals(temp))
+							tryBlock = new TryBlock(Integer.parseInt(childTryBlock.attributeValue("start_index")), Integer.parseInt( childTryBlock.attributeValue("end_index")));
+						else if("catch".equals(temp))
+						{
+							int startIndex = Integer.parseInt(childTryBlock.attributeValue("start_index"));
+							int endIndex = Integer.parseInt(childTryBlock.attributeValue("end_index"));
+							int variableIndex = Integer.parseInt(childTryBlock.attributeValue("variable_index"));
+							TypeNode typeNode = readType(childTryBlock.element("type"));
+							catchBlocks.add(new CatchBlock(startIndex, endIndex, variableIndex, typeNode));
+						}
+						else
+							throw new UnsupportedOperationException("Unknown element: " + temp);
+					}
+
+					if(tryBlock == null)
+						throw new UnsupportedOperationException("TryCatch Block cant be without 'try' part");
+
+					codeInfo.tryCatchBlockNodes.add(new TryCatchBlockNode(tryBlock, catchBlocks));
 				}
-				else if("store".equals(instructionName))
-					instruction = new StoreInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
-				else if("load".equals(instructionName))
-					instruction = new LoadInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
-				else if("dup".equals(instructionName))
-					instruction = new DupInstruction();
-				else if("dup1x1".equals(instructionName))
-					instruction = new Dup1x1Instruction();
-				else if("pop".equals(instructionName))
-					instruction = new PopInstruction();
-				else if("swap".equals(instructionName))
-					instruction = new SwapInstruction();
-				else if("return".equals(instructionName))
-					instruction = new ReturnInstruction();
-				else if("throw".equals(instructionName))
-					instruction = new ThrowInstruction();
-				else if("invoke_static".equals(instructionName))
-					instruction = new InvokeStaticInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
-				else if("invoke_special".equals(instructionName))
-					instruction = new InvokeSpecialInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
-				else if("invoke_virtual".equals(instructionName))
-					instruction = new InvokeVirtualInstruction(readMethodRef(instructionElement), instructionElement.element("nullable") != null);
-				else if("macro_static_jump".equals(instructionName))
-					instruction = new MacroStaticJumpInstruction(readMethodRef(instructionElement));
-				else if("macro_jump".equals(instructionName))
-					instruction = new MacroJumpInstruction(readMethodRef(instructionElement));
-				else if("invoke_anonym".equals(instructionName))
-				{
-					Element element = instructionElement.element("method");
-
-					Element returnElement = element.element("return_type");
-
-					TypeNode returnType = readType(returnElement.element("type"));
-
-					List<TypeNode> parameterTypes = new ArrayList<TypeNode>();
-					Element parametersElement = element.element("parameters");
-					if(parametersElement != null)
-						for(Element parameterElement : parametersElement.elements())
-							parameterTypes.add(readType(parameterElement));
-
-					List<TypeNode> typeArguments = new ArrayList<TypeNode>();
-					Element typeArgumentsElement = element.element("type_arguments");
-					if(typeArgumentsElement != null)
-						for(Element typeArgumentElement : typeArgumentsElement.elements())
-							typeArguments.add(readType(typeArgumentElement));
-
-					instruction = new InvokeAnonymInstruction(parameterTypes, typeArguments, returnType, instructionElement.element("nullable") != null);
-				}
-				else if("link_method".equals(instructionName))
-					instruction = new LinkMethodInstruction(readMethodRef(instructionElement));
-				else if("link_static_method".equals(instructionName))
-					instruction = new LinkStaticMethodInstruction(readMethodRef(instructionElement));
-				else if("put_to_variable".equals(instructionName))
-					instruction = new PutToVariableInstruction(readVariableRef(instructionElement));
-				else if("put_to_static_variable".equals(instructionName))
-					instruction = new PutToStaticVariableInstruction(readVariableRef(instructionElement));
-				else if("get_variable".equals(instructionName))
-					instruction = new GetVariableInstruction(readVariableRef(instructionElement));
-				else if("get_static_variable".equals(instructionName))
-					instruction = new GetStaticVariableInstruction(readVariableRef(instructionElement));
-				else if("jump_if".equals(instructionName))
-					instruction = new JumpIfInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
-				else if("jump".equals(instructionName))
-					instruction = new JumpInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
-				else if("class_of".equals(instructionName))
-					instruction = new ClassOfInstruction(readType(instructionElement.element("type")));
-				else if("type_of".equals(instructionName))
-					instruction = new TypeOfInstruction(readType(instructionElement.element("type")));
-				else if("is".equals(instructionName))
-					instruction = new IsInstruction(readType(instructionElement.element("type")));
-
-				if(instruction != null)
-					methodNode.instructions.add(instruction);
-				else
-					throw new IllegalArgumentException("Unknown instruction: " + instructionName);
 			}
+			return codeInfo;
 		}
 
-		return methodNode;
+		return null;
 	}
 
 	private VariableRef readVariableRef(@NotNull Element child)
@@ -397,9 +410,7 @@ public class AsmXmlFileReader
 		{
 			child = throwIfNotExpected(child, "annotation");
 
-			AnnotationNode annotationNode = new AnnotationNode();
-
-			readCode(child, annotationNode);
+			AnnotationNode annotationNode = new AnnotationNode(readCode(child));
 
 			node.annotations.add(annotationNode);
 		}

@@ -39,22 +39,51 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 	}
 
 	@Override
-	public Void visitLoad(LoadInstruction instruction, Integer index)
+	public Void visitPutAnonym(PutAnonymInstruction instruction, Integer index)
+	{
+		pop(instruction.require, instruction);
+		push(new EvaluatorObject(index, instruction, AsmConstants.NULL_TYPE));
+		return null;
+	}
+
+	@Override
+	public Void visitLocalGet(LocalGetInstruction instruction, Integer index)
 	{
 		if(instruction.varIndex >= evaluator.locals)
-			throw new EvaluatorException("Wrong local index (" + instruction.varIndex + ") max (" + evaluator.locals + ") instruction: " + instruction + ". Method: " + evaluator.methodNode);
+			throw new EvaluatorException("Wrong local index (" + instruction.varIndex + ") max (" + evaluator.locals + ") instruction: " + instruction);
 
 		push(new EvaluatorObject(index, instruction, AsmConstants.ANY_TYPE));
 		return null;
 	}
 
 	@Override
-	public Void visitStore(StoreInstruction instruction, Integer index)
+	public Void visitLocalPut(LocalPutInstruction instruction, Integer index)
 	{
 		if(instruction.varIndex >= evaluator.locals)
-			throw new EvaluatorException("Wrong local index (" + instruction.varIndex + ") max (" + evaluator.locals + ") instruction: " + instruction + ". Method: " + evaluator.methodNode);
+			throw new EvaluatorException("Wrong local index (" + instruction.varIndex + ") max (" + evaluator.locals + ") instruction: " + instruction);
 
 		pop(1, instruction);
+		return null;
+	}
+
+	@Override
+	public Void visitLocalRef(LocalRefInstruction instruction, Integer a)
+	{
+		return null;
+	}
+
+	@Override
+	public Void visitRefVariable(RefVariableInstruction instruction, Integer index)
+	{
+		pop(1, instruction);
+		push(new EvaluatorObject(index, instruction, AsmConstants.NULL_TYPE));
+		return null;
+	}
+
+	@Override
+	public Void visitRefStaticVariable(RefStaticVariableInstruction instruction, Integer index)
+	{
+		push(new EvaluatorObject(index, instruction, AsmConstants.NULL_TYPE));
 		return null;
 	}
 
@@ -279,22 +308,6 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 		return null;
 	}
 
-	@Override
-	public Void visitLinkMethod(LinkMethodInstruction instruction, Integer index)
-	{
-		pop(1, instruction);
-
-		push(new EvaluatorObject(index, instruction, AsmConstants.METHOD_LINK_TYPE));
-		return null;
-	}
-
-	@Override
-	public Void visitLinkStaticMethod(LinkStaticMethodInstruction instruction, Integer index)
-	{
-		push(new EvaluatorObject(index, instruction, AsmConstants.METHOD_LINK_TYPE));
-		return null;
-	}
-
 	private void push(EvaluatorObject e)
 	{
 		stack.add(e);
@@ -306,7 +319,7 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 		if(size == 0)
 			return Collections.emptyList();
 		if(stack.size() < size)
-			throw new EvaluatorException("Require (" + size +  ") objects but found (" + stack.size() + ") for instruction: " + instruction + ". Method: " + evaluator.methodNode);
+			throw new EvaluatorException("Require (" + size +  ") objects but found (" + stack.size() + ") for instruction: " + instruction);
 
 		List<EvaluatorObject> objects = new ArrayList<EvaluatorObject>(size);
 		for(int i = 0; i < size; i++)

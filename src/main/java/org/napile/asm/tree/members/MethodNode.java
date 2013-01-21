@@ -20,12 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.napile.asm.AsmConstants;
 import org.napile.asm.Modifier;
 import org.napile.asm.resolve.name.Name;
-import org.napile.asm.tree.members.bytecode.Instruction;
-import org.napile.asm.tree.members.bytecode.adapter.InstructionAdapter;
-import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 
@@ -63,32 +61,15 @@ public class MethodNode extends AbstractMemberNode<MethodNode>
 	 */
 	@NotNull
 	public final List<MethodParameterNode> parameters = new ArrayList<MethodParameterNode>(0);
-	/**
-	 * Code instruction
-	 */
-	@NotNull
-	public final List<Instruction> instructions = new ArrayList<Instruction>(0);
 
-	@NotNull
-	public final List<TryCatchBlockNode> tryCatchBlockNodes = new ArrayList<TryCatchBlockNode>(0);
-
-	/**
-	 * The maximum number of local variables of this method.
-	 */
-	public int maxLocals;
+	@Nullable
+	public CodeInfo code;
 
 	public MethodNode(@NotNull final Modifier[] modifiers, @NotNull Name name, @NotNull TypeNode returnType)
 	{
 		super(modifiers);
 		this.name = name;
 		this.returnType = returnType;
-	}
-
-	public void putInstructions(InstructionAdapter instructionAdapter)
-	{
-		instructions.addAll(instructionAdapter.getInstructions());
-
-		maxLocals = instructionAdapter.getMaxLocals();
 	}
 
 	@Override
@@ -103,8 +84,11 @@ public class MethodNode extends AbstractMemberNode<MethodNode>
 		StringBuilder b = new StringBuilder();
 		b.append(getClass().getSimpleName()).append(":");
 		if(parent != null)
+		{
 			b.append(parent.name);
-		b.append(".").append(name);
+			b.append(".");
+		}
+		b.append(name);
 		return b.toString();
 	}
 }

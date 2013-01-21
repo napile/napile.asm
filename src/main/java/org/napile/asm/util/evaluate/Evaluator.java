@@ -1,8 +1,10 @@
 package org.napile.asm.util.evaluate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.napile.asm.tree.members.CodeInfo;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 
@@ -12,7 +14,6 @@ import org.napile.asm.tree.members.bytecode.Instruction;
  */
 public class Evaluator
 {
-	public final MethodNode methodNode;
 	public final int locals;
 	private final List<Instruction> instructions;
 
@@ -20,9 +21,13 @@ public class Evaluator
 
 	public Evaluator(MethodNode methodNode)
 	{
-		this.methodNode = methodNode;
-		locals = methodNode.maxLocals;
-		instructions = new ArrayList<Instruction>(methodNode.instructions);
+		this(methodNode.code);
+	}
+
+	public Evaluator(CodeInfo codeInfo)
+	{
+		locals = codeInfo == null ? 0 : codeInfo.maxLocals;
+		instructions = codeInfo == null ? Collections.<Instruction>emptyList() : new ArrayList<Instruction>(codeInfo.instructions);
 
 		visitor = new EvaluatorInstructionVisitor(this);
 	}

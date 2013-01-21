@@ -16,7 +16,6 @@
 
 package org.napile.asm.tree.members.bytecode.impl;
 
-import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 
@@ -24,7 +23,7 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  * @author VISTALL
  * @date 13:22/02.09.12
  */
-public class NewByteInstruction implements Instruction
+public class NewByteInstruction extends Instruction
 {
 	public final byte value;
 
@@ -37,11 +36,5 @@ public class NewByteInstruction implements Instruction
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		return visitor.visitNewByte(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "new_byte: " + value;
 	}
 }

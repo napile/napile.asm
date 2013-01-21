@@ -44,7 +44,7 @@ public class EvaluatorTest extends org.junit.Assert
 
 		InstructionAdapter adapter = new InstructionAdapter();
 		adapter.visitLocalVariable("");
-		adapter.load(0);
+		adapter.localGet(0);
 		adapter.returnVal();
 		methodNode.putInstructions(adapter);
 
@@ -58,7 +58,7 @@ public class EvaluatorTest extends org.junit.Assert
 
 		InstructionAdapter adapter = new InstructionAdapter();
 		adapter.visitLocalVariable("");
-		adapter.load(0);
+		adapter.localGet(0);
 		adapter.returnVal();
 		methodNode.putInstructions(adapter);
 
@@ -72,8 +72,8 @@ public class EvaluatorTest extends org.junit.Assert
 
 		InstructionAdapter adapter = new InstructionAdapter();
 		adapter.visitLocalVariable("");
-		adapter.load(0);
-		adapter.store(0);
+		adapter.localGet(0);
+		adapter.localPut(0);
 		methodNode.putInstructions(adapter);
 
 		assertSame(new Evaluator(methodNode).testIt(), null);

@@ -25,7 +25,7 @@ import org.napile.asm.tree.members.bytecode.MethodRef;
  * @author VISTALL
  * @date 21:13/18.11.12
  */
-public class MacroStaticJumpInstruction implements Instruction
+public class MacroStaticJumpInstruction extends Instruction
 {
 	@NotNull
 	public final MethodRef methodRef;
@@ -39,11 +39,5 @@ public class MacroStaticJumpInstruction implements Instruction
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		return visitor.visitMacroStaticJump(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "macro_static_jump: " + methodRef;
 	}
 }

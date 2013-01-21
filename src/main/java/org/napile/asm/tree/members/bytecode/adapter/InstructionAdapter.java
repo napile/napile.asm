@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.napile.asm.AsmConstants;
 import org.napile.asm.lib.NapileLangPackage;
 import org.napile.asm.resolve.name.Name;
+import org.napile.asm.tree.members.CodeInfo;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.VariableRef;
@@ -58,15 +59,21 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public LoadInstruction load(int index)
+	public LocalGetInstruction localGet(int index)
 	{
-		return add(new LoadInstruction(index));
+		return add(new LocalGetInstruction(index));
 	}
 
 	@NotNull
-	public StoreInstruction store(int index)
+	public LocalPutInstruction localPut(int index)
 	{
-		return add(new StoreInstruction(index));
+		return add(new LocalPutInstruction(index));
+	}
+
+	@NotNull
+	public LocalRefInstruction localRef(int index)
+	{
+		return add(new LocalRefInstruction(index));
 	}
 
 	@NotNull
@@ -136,12 +143,6 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public LinkMethodInstruction linkMethod(@NotNull MethodRef methodRef)
-	{
-		return add(new LinkMethodInstruction(methodRef));
-	}
-
-	@NotNull
 	public MacroStaticJumpInstruction macroStaticJump(@NotNull MethodRef methodRef)
 	{
 		return add(new MacroStaticJumpInstruction(methodRef));
@@ -151,11 +152,6 @@ public class InstructionAdapter implements Iterable<Instruction>
 	public MacroJumpInstruction macroJump(@NotNull MethodRef methodRef)
 	{
 		return add(new MacroJumpInstruction(methodRef));
-	}
-
-	public LinkStaticMethodInstruction linkStaticMethod(@NotNull MethodRef methodRef)
-	{
-		return add(new LinkStaticMethodInstruction(methodRef));
 	}
 
 	@NotNull
@@ -186,6 +182,24 @@ public class InstructionAdapter implements Iterable<Instruction>
 	public NewObjectInstruction newObject(@NotNull TypeNode typeNode, @NotNull List<TypeNode> parameters)
 	{
 		return add(new NewObjectInstruction(typeNode, parameters));
+	}
+
+	@NotNull
+	public PutAnonymInstruction putAnonym(int require, CodeInfo codeInfo)
+	{
+		return add(new PutAnonymInstruction(require, codeInfo));
+	}
+
+	@NotNull
+	public RefVariableInstruction refVariable(VariableRef variableRef)
+	{
+		return add(new RefVariableInstruction(variableRef));
+	}
+
+	@NotNull
+	public RefStaticVariableInstruction refStaticVariable(VariableRef variableRef)
+	{
+		return add(new RefStaticVariableInstruction(variableRef));
 	}
 
 	@NotNull

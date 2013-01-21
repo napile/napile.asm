@@ -36,10 +36,4 @@ public class InvokeStaticInstruction extends InvokeInstruction
 	{
 		return visitor.visitInvokeStatic(this, a2);
 	}
-
-	@Override
-	public String getShortName()
-	{
-		return "invoke_static";
-	}
 }

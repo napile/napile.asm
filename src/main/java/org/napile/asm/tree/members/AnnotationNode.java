@@ -17,21 +17,18 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
-import org.napile.asm.AsmConstants;
-import org.napile.asm.Modifier;
-import org.napile.asm.resolve.name.Name;
 
 /**
  * @author VISTALL
  * @date 0:25/14.08.12
  */
-public class AnnotationNode extends MethodNode
+public class AnnotationNode implements Node
 {
-	private static final Name NAME = Name.identifier("identifier");
+	public final CodeInfo code;
 
-	public AnnotationNode()
+	public AnnotationNode(CodeInfo code)
 	{
-		super(Modifier.EMPTY, NAME, AsmConstants.NULL_TYPE);
+		this.code = code;
 	}
 
 	@Override

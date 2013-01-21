@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 napile.org
+ * Copyright 2010-2013 napile.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,28 @@
 
 package org.napile.asm.tree.members.bytecode.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
+import org.napile.asm.tree.members.bytecode.VariableRef;
 
 /**
  * @author VISTALL
- * @date 13:28/02.09.12
+ * @date 17:25/19.01.13
  */
-public class NewCharInstruction extends Instruction
+public class RefVariableInstruction extends Instruction
 {
-	public final char value;
+	@NotNull
+	public final VariableRef variableRef;
 
-	public NewCharInstruction(char value)
+	public RefVariableInstruction(@NotNull VariableRef variableRef)
 	{
-		this.value = value;
+		this.variableRef = variableRef;
 	}
 
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
-		return visitor.visitNewChar(this, a2);
+		return visitor.visitRefVariable(this, a2);
 	}
 }

@@ -25,7 +25,7 @@ import org.napile.asm.tree.members.bytecode.VariableRef;
  * @author VISTALL
  * @date 22:50/07.09.12
  */
-public class GetVariableInstruction implements Instruction
+public class GetVariableInstruction extends Instruction
 {
 	@NotNull
 	public final VariableRef variableRef;
@@ -39,11 +39,5 @@ public class GetVariableInstruction implements Instruction
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		return visitor.visitGetVariable(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "get_variable: " + variableRef;
 	}
 }

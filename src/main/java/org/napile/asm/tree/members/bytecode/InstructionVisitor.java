@@ -26,9 +26,17 @@ public interface InstructionVisitor<T, R>
 {
 	R visitDup(DupInstruction instruction, T a);
 
-	R visitLoad(LoadInstruction instruction, T a);
+	R visitPutAnonym(PutAnonymInstruction instruction, T a);
 
-	R visitStore(StoreInstruction instruction, T a);
+	R visitLocalGet(LocalGetInstruction instruction, T a);
+
+	R visitLocalPut(LocalPutInstruction instruction, T a);
+
+	R visitLocalRef(LocalRefInstruction instruction, T a);
+
+	R visitRefVariable(RefVariableInstruction instruction, T a2);
+
+	R visitRefStaticVariable(RefStaticVariableInstruction instruction, T a2);
 
 	R visitNewObject(NewObjectInstruction instruction, T a);
 
@@ -87,8 +95,4 @@ public interface InstructionVisitor<T, R>
 	R visitIs(IsInstruction isInstruction, T a2);
 
 	R visitDup1x1(Dup1x1Instruction instruction, T a2);
-
-	R visitLinkMethod(LinkMethodInstruction instruction, T a2);
-
-	R visitLinkStaticMethod(LinkStaticMethodInstruction instruction, T a2);
 }

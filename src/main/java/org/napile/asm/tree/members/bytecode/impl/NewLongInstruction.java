@@ -16,7 +16,6 @@
 
 package org.napile.asm.tree.members.bytecode.impl;
 
-import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 
@@ -24,7 +23,7 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  * @author VISTALL
  * @date 13:26/02.09.12
  */
-public class NewLongInstruction implements Instruction
+public class NewLongInstruction extends Instruction
 {
 	public final long value;
 
@@ -37,11 +36,5 @@ public class NewLongInstruction implements Instruction
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		return visitor.visitNewLong(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "new_long: " + value;
 	}
 }

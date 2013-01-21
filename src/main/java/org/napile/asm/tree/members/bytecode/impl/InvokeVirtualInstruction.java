@@ -36,10 +36,4 @@ public class InvokeVirtualInstruction extends InvokeInstruction
 	{
 		return visitor.visitInvokeVirtual(this, a2);
 	}
-
-	@Override
-	public String getShortName()
-	{
-		return "invoke_virtual";
-	}
 }

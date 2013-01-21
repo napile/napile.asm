@@ -8,7 +8,7 @@ import org.napile.asm.tree.members.bytecode.MethodRef;
  * @author VISTALL
  * @date 8:48/29.11.12
  */
-public abstract class InvokeInstruction implements Instruction
+public abstract class InvokeInstruction extends Instruction
 {
 	@NotNull
 	public final MethodRef methodRef;
@@ -19,13 +19,5 @@ public abstract class InvokeInstruction implements Instruction
 	{
 		this.methodRef = methodRef;
 		this.nullable = nullable;
-	}
-
-	public abstract String getShortName();
-
-	@Override
-	public String toString()
-	{
-		return getShortName() + ": " + methodRef + ", nullable: " + nullable;
 	}
 }

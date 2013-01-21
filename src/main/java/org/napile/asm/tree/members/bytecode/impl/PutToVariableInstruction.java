@@ -25,7 +25,7 @@ import org.napile.asm.tree.members.bytecode.VariableRef;
  * @author VISTALL
  * @date 13:50/02.09.12
  */
-public class PutToVariableInstruction implements Instruction
+public class PutToVariableInstruction extends Instruction
 {
 	@NotNull
 	public final VariableRef variableRef;
@@ -39,11 +39,5 @@ public class PutToVariableInstruction implements Instruction
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{
 		return visitor.visitPutToVariable(this, a2);
-	}
-
-	@Override
-	public String toString()
-	{
-		return "put_to_variable: " + variableRef;
 	}
 }

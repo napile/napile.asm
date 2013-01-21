@@ -36,10 +36,4 @@ public class InvokeSpecialInstruction extends InvokeInstruction
 	{
 		return visitor.visitInvokeSpecial(this, a2);
 	}
-
-	@Override
-	public String getShortName()
-	{
-		return "invoke_special";
-	}
 }
