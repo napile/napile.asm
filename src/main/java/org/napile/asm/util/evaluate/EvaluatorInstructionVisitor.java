@@ -8,12 +8,15 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.AsmConstants;
+import org.napile.asm.Modifier;
 import org.napile.asm.lib.NapileReflectPackage;
+import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import com.intellij.util.ArrayUtil;
 
 /**
  * @author VISTALL
@@ -134,7 +137,7 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 	@Override
 	public Void visitReturn(ReturnInstruction instruction, Integer index)
 	{
-		pop(1, instruction);
+		pop(instruction.count, instruction);
 		return null;
 	}
 
@@ -144,6 +147,14 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 		pop(instruction.methodRef.parameters.size(), instruction);
 
 		push(new EvaluatorObject(index, instruction, instruction.methodRef.returnType));
+
+		for(MethodParameterNode parameterNode : instruction.methodRef.parameters)
+		{
+			if(ArrayUtil.contains(Modifier.REF, parameterNode.modifiers))
+			{
+				push(new EvaluatorObject(index, instruction, parameterNode.returnType));
+			}
+		}
 		return null;
 	}
 
@@ -154,6 +165,14 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 
 		push(new EvaluatorObject(index, instruction, instruction.methodRef.returnType));
 
+		for(MethodParameterNode parameterNode : instruction.methodRef.parameters)
+		{
+			if(ArrayUtil.contains(Modifier.REF, parameterNode.modifiers))
+			{
+				push(new EvaluatorObject(index, instruction, parameterNode.returnType));
+			}
+		}
+
 		return null;
 	}
 
@@ -163,6 +182,14 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 		pop(instruction.methodRef.parameters.size() + 1, instruction);
 
 		push(new EvaluatorObject(index, instruction, instruction.methodRef.returnType));
+
+		for(MethodParameterNode parameterNode : instruction.methodRef.parameters)
+		{
+			if(ArrayUtil.contains(Modifier.REF, parameterNode.modifiers))
+			{
+				push(new EvaluatorObject(index, instruction, parameterNode.returnType));
+			}
+		}
 
 		return null;
 	}
@@ -185,6 +212,14 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 		pop(instruction.methodRef.parameters.size(), instruction);
 
 		push(new EvaluatorObject(index, instruction, instruction.methodRef.returnType));
+
+		for(MethodParameterNode parameterNode : instruction.methodRef.parameters)
+		{
+			if(ArrayUtil.contains(Modifier.REF, parameterNode.modifiers))
+			{
+				push(new EvaluatorObject(index, instruction, parameterNode.returnType));
+			}
+		}
 
 		return null;
 	}

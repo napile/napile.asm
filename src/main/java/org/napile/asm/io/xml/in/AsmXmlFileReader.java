@@ -132,12 +132,13 @@ public class AsmXmlFileReader
 		return variableNode;
 	}
 
-	private void readParameters(@NotNull Element parent, List<MethodParameterNode> parameters)
+	private List<MethodParameterNode> readParameters(@NotNull Element parent, List<MethodParameterNode> parameters)
 	{
 		Element parametersElement = parent.element("parameters");
 		if(parametersElement != null)
 			for(Element parameterElement : parametersElement.elements())
 				parameters.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type"))));
+		return parameters;
 	}
 
 	private MethodNode readMethodOrMacro(@NotNull Element parent, @NotNull MethodNode methodNode)
@@ -207,7 +208,7 @@ public class AsmXmlFileReader
 					else if(clazz == SwapInstruction.class)
 						instruction = new SwapInstruction();
 					else if(clazz == ReturnInstruction.class)
-						instruction = new ReturnInstruction();
+						instruction = new ReturnInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 					else if(clazz == ThrowInstruction.class)
 						instruction = new ThrowInstruction();
 					else if(clazz == InvokeStaticInstruction.class)
@@ -228,19 +229,13 @@ public class AsmXmlFileReader
 
 						TypeNode returnType = readType(returnElement.element("type"));
 
-						List<TypeNode> parameterTypes = new ArrayList<TypeNode>();
-						Element parametersElement = element.element("parameters");
-						if(parametersElement != null)
-							for(Element parameterElement : parametersElement.elements())
-								parameterTypes.add(readType(parameterElement));
-
 						List<TypeNode> typeArguments = new ArrayList<TypeNode>();
 						Element typeArgumentsElement = element.element("type_arguments");
 						if(typeArgumentsElement != null)
 							for(Element typeArgumentElement : typeArgumentsElement.elements())
 								typeArguments.add(readType(typeArgumentElement));
 
-						instruction = new InvokeAnonymInstruction(parameterTypes, typeArguments, returnType, instructionElement.element("nullable") != null);
+						instruction = new InvokeAnonymInstruction(readParameters(element, new ArrayList<MethodParameterNode>()), typeArguments, returnType, instructionElement.element("nullable") != null);
 					}
 					else if(clazz == PutToVariableInstruction.class)
 						instruction = new PutToVariableInstruction(readVariableRef(instructionElement));
@@ -325,19 +320,13 @@ public class AsmXmlFileReader
 
 		TypeNode returnType = readType(returnElement.element("type"));
 
-		List<TypeNode> parameterTypes = new ArrayList<TypeNode>();
-		Element parametersElement = element.element("parameters");
-		if(parametersElement != null)
-			for(Element parameterElement : parametersElement.elements())
-				parameterTypes.add(readType(parameterElement));
-
 		List<TypeNode> typeArguments = new ArrayList<TypeNode>();
 		Element typeArgumentsElement = element.element("type_arguments");
 		if(typeArgumentsElement != null)
 			for(Element typeArgumentElement : typeArgumentsElement.elements())
 				typeArguments.add(readType(typeArgumentElement));
 
-		return new MethodRef(fqName, parameterTypes, typeArguments, returnType);
+		return new MethodRef(fqName, readParameters(element, new ArrayList<MethodParameterNode>()), typeArguments, returnType);
 	}
 
 	private void readSupers(@NotNull Element element, @NotNull List<TypeNode> list)

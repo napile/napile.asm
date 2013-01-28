@@ -25,6 +25,13 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  */
 public class ReturnInstruction extends Instruction
 {
+	public final int count;
+
+	public ReturnInstruction(int count)
+	{
+		this.count = count;
+	}
+
 	@Override
 	public <T, R> R accept(InstructionVisitor<T, R> visitor, T a2)
 	{

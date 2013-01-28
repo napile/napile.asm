@@ -1,6 +1,7 @@
 package org.napile.asm.evaluator;
 
 import org.junit.Test;
+import org.napile.asm.tree.members.CodeInfo;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.bytecode.adapter.InstructionAdapter;
 import org.napile.asm.util.evaluate.Evaluator;
@@ -18,8 +19,8 @@ public class EvaluatorTest extends org.junit.Assert
 
 		InstructionAdapter adapter = new InstructionAdapter();
 		adapter.newInt(1);
-		adapter.returnVal();
-		methodNode.putInstructions(adapter);
+		adapter.returnValues(1);
+		methodNode.code = new CodeInfo(adapter);
 
 		assertSame(new Evaluator(methodNode).testIt(), null);
 	}
@@ -31,8 +32,8 @@ public class EvaluatorTest extends org.junit.Assert
 
 		InstructionAdapter adapter = new InstructionAdapter();
 		adapter.putTrue();
-		adapter.returnVal();
-		methodNode.putInstructions(adapter);
+		adapter.returnValues(1);
+		methodNode.code = new CodeInfo(adapter);
 
 		assertSame(new Evaluator(methodNode).testIt(), null);
 	}
@@ -45,8 +46,8 @@ public class EvaluatorTest extends org.junit.Assert
 		InstructionAdapter adapter = new InstructionAdapter();
 		adapter.visitLocalVariable("");
 		adapter.localGet(0);
-		adapter.returnVal();
-		methodNode.putInstructions(adapter);
+		adapter.returnValues(1);
+		methodNode.code = new CodeInfo(adapter);
 
 		assertSame(new Evaluator(methodNode).testIt(), null);
 	}
@@ -59,8 +60,8 @@ public class EvaluatorTest extends org.junit.Assert
 		InstructionAdapter adapter = new InstructionAdapter();
 		adapter.visitLocalVariable("");
 		adapter.localGet(0);
-		adapter.returnVal();
-		methodNode.putInstructions(adapter);
+		adapter.returnValues(1);
+		methodNode.code = new CodeInfo(adapter);
 
 		assertSame(new Evaluator(methodNode).testIt(), null);
 	}
@@ -74,7 +75,7 @@ public class EvaluatorTest extends org.junit.Assert
 		adapter.visitLocalVariable("");
 		adapter.localGet(0);
 		adapter.localPut(0);
-		methodNode.putInstructions(adapter);
+		methodNode.code = new CodeInfo(adapter);
 
 		assertSame(new Evaluator(methodNode).testIt(), null);
 	}

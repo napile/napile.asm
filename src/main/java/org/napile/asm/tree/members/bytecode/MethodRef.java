@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.resolve.name.FqName;
 import com.intellij.openapi.util.text.StringUtil;
@@ -35,11 +36,11 @@ public class MethodRef
 	@NotNull
 	public final TypeNode returnType;
 	@NotNull
-	public final List<TypeNode> parameters;
+	public final List<MethodParameterNode> parameters;
 	@NotNull
 	public final List<TypeNode> typeArguments;
 
-	public MethodRef(@NotNull FqName method, @NotNull List<TypeNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType)
+	public MethodRef(@NotNull FqName method, @NotNull List<MethodParameterNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType)
 	{
 		this.method = method;
 		this.returnType = returnType;

@@ -27,6 +27,7 @@ import org.napile.asm.AsmConstants;
 import org.napile.asm.lib.NapileLangPackage;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.CodeInfo;
+import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.VariableRef;
@@ -40,11 +41,11 @@ import org.napile.asm.tree.members.types.TypeNode;
  */
 public class InstructionAdapter implements Iterable<Instruction>
 {
-	private static final MethodRef BOOL_TRUE = new MethodRef(NapileLangPackage.BOOL.child(Name.identifier("TRUE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE);
+	private static final MethodRef BOOL_TRUE = new MethodRef(NapileLangPackage.BOOL.child(Name.identifier("TRUE$get")), Collections.<MethodParameterNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE);
 
-	private static final MethodRef BOOL_FALSE = new MethodRef(NapileLangPackage.BOOL.child(Name.identifier("FALSE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE);
+	private static final MethodRef BOOL_FALSE = new MethodRef(NapileLangPackage.BOOL.child(Name.identifier("FALSE$get")), Collections.<MethodParameterNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE);
 
-	private static final MethodRef NULL = new MethodRef(NapileLangPackage.NULL.child(Name.identifier("INSTANCE$get")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.NULL_TYPE);
+	private static final MethodRef NULL = new MethodRef(NapileLangPackage.NULL.child(Name.identifier("INSTANCE$get")), Collections.<MethodParameterNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.NULL_TYPE);
 
 	@NotNull
 	private final List<Instruction> instructions = new ArrayList<Instruction>();
@@ -131,7 +132,7 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public InvokeAnonymInstruction invokeAnonym(@NotNull List<TypeNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType, boolean nullable)
+	public InvokeAnonymInstruction invokeAnonym(@NotNull List<MethodParameterNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType, boolean nullable)
 	{
 		return add(new InvokeAnonymInstruction(parameters, typeArguments, returnType, nullable));
 	}
@@ -185,9 +186,9 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public ReturnInstruction returnVal()
+	public ReturnInstruction returnValues(int count)
 	{
-		return add(new ReturnInstruction());
+		return add(new ReturnInstruction(count));
 	}
 
 	@NotNull

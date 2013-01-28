@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -14,7 +15,7 @@ import org.napile.asm.tree.members.types.TypeNode;
  */
 public class InvokeAnonymInstruction extends InvokeInstruction
 {
-	public InvokeAnonymInstruction(@NotNull List<TypeNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType, boolean nullable)
+	public InvokeAnonymInstruction(@NotNull List<MethodParameterNode> parameters, @NotNull List<TypeNode> typeArguments, @NotNull TypeNode returnType, boolean nullable)
 	{
 		super(new MethodRef(FqName.ROOT, parameters, typeArguments, returnType), nullable);
 	}

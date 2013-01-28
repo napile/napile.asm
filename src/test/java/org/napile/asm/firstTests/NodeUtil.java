@@ -24,6 +24,7 @@ import org.napile.asm.Modifier;
 import org.napile.asm.lib.NapileLangPackage;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.ClassNode;
+import org.napile.asm.tree.members.CodeInfo;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
@@ -54,8 +55,8 @@ public class NodeUtil
 		methodNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.FINAL), Name.identifier("arg"), AsmConstants.ARRAY__STRING__TYPE));
 
 		InstructionAdapter a = new InstructionAdapter();
-		a.invokeStatic(new MethodRef(NapileLangPackage.ANY.child(Name.identifier("equals")), Collections.<TypeNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE), true);
-		methodNode.putInstructions(a);
+		a.invokeStatic(new MethodRef(NapileLangPackage.ANY.child(Name.identifier("equals")), Collections.<MethodParameterNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE), true);
+		methodNode.code = new CodeInfo(a);
 		classNode.addMember(methodNode);
 
 		VariableNode variableNode = new VariableNode(Modifier.list(Modifier.NATIVE), Name.identifier("myVar"), AsmConstants.INT_TYPE);

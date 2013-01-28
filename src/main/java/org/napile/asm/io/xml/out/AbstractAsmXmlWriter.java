@@ -412,7 +412,9 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitReturn(ReturnInstruction instruction, Element a)
 	{
-		return addElement(a, instruction);
+		Element element = addElement(a, instruction);
+		element.addAttribute("val", String.valueOf(instruction.count));
+		return element;
 	}
 
 	@Override
