@@ -67,27 +67,6 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 	}
 
 	@Override
-	public Void visitLocalRef(LocalRefInstruction instruction, Integer a)
-	{
-		return null;
-	}
-
-	@Override
-	public Void visitRefVariable(RefVariableInstruction instruction, Integer index)
-	{
-		pop(1, instruction);
-		push(new EvaluatorObject(index, instruction, AsmConstants.NULL_TYPE));
-		return null;
-	}
-
-	@Override
-	public Void visitRefStaticVariable(RefStaticVariableInstruction instruction, Integer index)
-	{
-		push(new EvaluatorObject(index, instruction, AsmConstants.NULL_TYPE));
-		return null;
-	}
-
-	@Override
 	public Void visitNewObject(NewObjectInstruction instruction, Integer index)
 	{
 		pop(instruction.parameters.size(), instruction);

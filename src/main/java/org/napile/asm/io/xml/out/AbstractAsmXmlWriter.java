@@ -337,36 +337,6 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	}
 
 	@Override
-	public Element visitLocalRef(LocalRefInstruction instruction, Element a)
-	{
-		Element element = addElement(a, instruction);
-		element.addAttribute("val", String.valueOf(instruction.varIndex));
-		return element;
-	}
-
-	@Override
-	public Element visitRefVariable(RefVariableInstruction instruction, Element a)
-	{
-		final Element temp = addElement(a, instruction);
-		Element temp2 = temp.addElement("variable");
-		VariableRef variableRef = instruction.variableRef;
-		temp2.addAttribute("name", variableRef.variable.toString());
-		variableRef.returnType.accept(this, temp2);
-		return temp;
-	}
-
-	@Override
-	public Element visitRefStaticVariable(RefStaticVariableInstruction instruction, Element a)
-	{
-		final Element temp = addElement(a, instruction);
-		Element temp2 = temp.addElement("variable");
-		VariableRef variableRef = instruction.variableRef;
-		temp2.addAttribute("name", variableRef.variable.toString());
-		variableRef.returnType.accept(this, temp2);
-		return temp;
-	}
-
-	@Override
 	public Element visitNewObject(NewObjectInstruction instruction, Element a)
 	{
 		Element element = addElement(a, instruction);

@@ -198,8 +198,6 @@ public class AsmXmlFileReader
 						instruction = new LocalPutInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 					else if(clazz == LocalGetInstruction.class)
 						instruction = new LocalGetInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
-					else if(clazz == LocalRefInstruction.class)
-						instruction = new LocalRefInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 					else if(clazz == DupInstruction.class)
 						instruction = new DupInstruction();
 					else if(clazz == Dup1x1Instruction.class)
@@ -244,10 +242,6 @@ public class AsmXmlFileReader
 
 						instruction = new InvokeAnonymInstruction(parameterTypes, typeArguments, returnType, instructionElement.element("nullable") != null);
 					}
-					else if(clazz == RefVariableInstruction.class)
-						instruction = new RefVariableInstruction(readVariableRef(instructionElement));
-					else if(clazz == RefStaticVariableInstruction.class)
-						instruction = new RefStaticVariableInstruction(readVariableRef(instructionElement));
 					else if(clazz == PutToVariableInstruction.class)
 						instruction = new PutToVariableInstruction(readVariableRef(instructionElement));
 					else if(clazz == PutToStaticVariableInstruction.class)

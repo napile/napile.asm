@@ -71,12 +71,6 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public LocalRefInstruction localRef(int index)
-	{
-		return add(new LocalRefInstruction(index));
-	}
-
-	@NotNull
 	public NewByteInstruction newByte(byte value)
 	{
 		return add(new NewByteInstruction(value));
@@ -188,18 +182,6 @@ public class InstructionAdapter implements Iterable<Instruction>
 	public PutAnonymInstruction putAnonym(int require, CodeInfo codeInfo)
 	{
 		return add(new PutAnonymInstruction(require, codeInfo));
-	}
-
-	@NotNull
-	public RefVariableInstruction refVariable(VariableRef variableRef)
-	{
-		return add(new RefVariableInstruction(variableRef));
-	}
-
-	@NotNull
-	public RefStaticVariableInstruction refStaticVariable(VariableRef variableRef)
-	{
-		return add(new RefStaticVariableInstruction(variableRef));
 	}
 
 	@NotNull

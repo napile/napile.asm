@@ -32,12 +32,6 @@ public interface InstructionVisitor<T, R>
 
 	R visitLocalPut(LocalPutInstruction instruction, T a);
 
-	R visitLocalRef(LocalRefInstruction instruction, T a);
-
-	R visitRefVariable(RefVariableInstruction instruction, T a2);
-
-	R visitRefStaticVariable(RefStaticVariableInstruction instruction, T a2);
-
 	R visitNewObject(NewObjectInstruction instruction, T a);
 
 	R visitNewByte(NewByteInstruction instruction, T a);
