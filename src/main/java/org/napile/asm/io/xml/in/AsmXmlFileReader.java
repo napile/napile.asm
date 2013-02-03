@@ -53,6 +53,7 @@ import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
+import org.napile.asm.util.IntIntPair;
 import org.napile.asm.util.StringWrapper;
 
 /**
@@ -256,7 +257,15 @@ public class AsmXmlFileReader
 					else if(clazz == IsInstruction.class)
 						instruction = new IsInstruction(readType(instructionElement.element("type")));
 					else if(clazz == PutAnonymInstruction.class)
-						instruction = new PutAnonymInstruction(Integer.parseInt(instructionElement.attributeValue("require")), readCode(instructionElement));
+					{
+						Element require = instructionElement.element("require");
+						List<IntIntPair> requireList = new ArrayList<IntIntPair>();
+						for(Element e : require.elements())
+						{
+							requireList.add(new IntIntPair(Integer.parseInt(e.attributeValue("from")), Integer.parseInt(e.attributeValue("to"))));
+						}
+						instruction = new PutAnonymInstruction(requireList, readCode(instructionElement));
+					}
 
 					if(instruction.getClass() != clazz)
 						throw new IllegalArgumentException("Wrong element clazz and object clazz: " + clazz.getSimpleName() + "/" + instruction.getClass().getSimpleName());

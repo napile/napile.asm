@@ -34,6 +34,7 @@ import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
 import org.napile.asm.tree.members.bytecode.tryCatch.TryCatchBlockNode;
 import org.napile.asm.tree.members.types.TypeNode;
+import org.napile.asm.util.IntIntPair;
 
 /**
  * @author VISTALL
@@ -180,7 +181,7 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public PutAnonymInstruction putAnonym(int require, CodeInfo codeInfo)
+	public PutAnonymInstruction putAnonym(@NotNull List<IntIntPair> require, CodeInfo codeInfo)
 	{
 		return add(new PutAnonymInstruction(require, codeInfo));
 	}

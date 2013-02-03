@@ -43,6 +43,7 @@ import org.napile.asm.tree.members.types.constructors.MethodTypeNode;
 import org.napile.asm.tree.members.types.constructors.MultiTypeNode;
 import org.napile.asm.tree.members.types.constructors.ThisTypeNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
+import org.napile.asm.util.IntIntPair;
 import org.napile.asm.util.StringWrapper;
 
 /**
@@ -317,7 +318,13 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	public Element visitPutAnonym(PutAnonymInstruction instruction, Element a)
 	{
 		Element element = addElement(a, instruction);
-		element.addAttribute("require", String.valueOf(instruction.require));
+		Element require = element.addElement("require");
+		for(IntIntPair pair : instruction.require)
+		{
+			Element localElement = require.addElement("local");
+			localElement.addAttribute("from", String.valueOf(pair.a));
+			localElement.addAttribute("to", String.valueOf(pair.b));
+		}
 		visitCode(element, instruction.code);
 		return element;
 	}

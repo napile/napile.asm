@@ -16,9 +16,13 @@
 
 package org.napile.asm.tree.members.bytecode.impl;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.napile.asm.tree.members.CodeInfo;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
+import org.napile.asm.util.IntIntPair;
 
 /**
  * @author VISTALL
@@ -26,13 +30,13 @@ import org.napile.asm.tree.members.bytecode.InstructionVisitor;
  */
 public class PutAnonymInstruction extends Instruction
 {
-	public final int require;
+	public final List<IntIntPair> require;
 
 	public final CodeInfo code;
 
-	public PutAnonymInstruction(int require, CodeInfo code)
+	public PutAnonymInstruction(List<IntIntPair> require, CodeInfo code)
 	{
-		this.require = require;
+		this.require = Collections.unmodifiableList(require);
 		this.code = code;
 	}
 

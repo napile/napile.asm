@@ -44,7 +44,6 @@ public class EvaluatorInstructionVisitor implements InstructionVisitor<Integer, 
 	@Override
 	public Void visitPutAnonym(PutAnonymInstruction instruction, Integer index)
 	{
-		pop(instruction.require, instruction);
 		push(new EvaluatorObject(index, instruction, AsmConstants.NULL_TYPE));
 		return null;
 	}
