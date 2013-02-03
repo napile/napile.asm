@@ -97,13 +97,13 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public NewFloatInstruction newFloat(long value)
+	public NewFloatInstruction newFloat(float value)
 	{
 		return add(new NewFloatInstruction(value));
 	}
 
 	@NotNull
-	public NewDoubleInstruction newDouble(long value)
+	public NewDoubleInstruction newDouble(double value)
 	{
 		return add(new NewDoubleInstruction(value));
 	}
