@@ -109,6 +109,12 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
+	public NewCharInstruction newChar(char value)
+	{
+		return add(new NewCharInstruction(value));
+	}
+
+	@NotNull
 	public NewStringInstruction newString(@NotNull String value)
 	{
 		return add(new NewStringInstruction(value));
