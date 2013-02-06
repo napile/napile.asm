@@ -20,10 +20,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.types.TypeNode;
-import org.napile.asm.resolve.name.FqName;
-import com.intellij.openapi.util.text.StringUtil;
 
 /**
  * @author VISTALL
@@ -48,22 +47,16 @@ public class MethodRef
 		this.typeArguments = Collections.unmodifiableList(typeArguments);
 	}
 
+	@Override
 	public String toString()
 	{
-		StringBuilder b = new StringBuilder();
-		b.append("meth ");
-		b.append(method.getFqName()).append(" ");
-		if(!typeArguments.isEmpty())
-		{
-			b.append("<");
-			b.append(StringUtil.join(typeArguments, ", "));
-			b.append(">");
-		}
-		b.append("(");
-		b.append(StringUtil.join(parameters, ", "));
-		b.append(")");
-		b.append(" : ");
-		b.append(returnType);
-		return b.toString();
+		final StringBuilder sb = new StringBuilder();
+		sb.append("MethodRef");
+		sb.append("{method=").append(method);
+		sb.append(", returnType=").append(returnType);
+		sb.append(", parameters=").append(parameters);
+		sb.append(", typeArguments=").append(typeArguments);
+		sb.append('}');
+		return sb.toString();
 	}
 }

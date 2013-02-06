@@ -13,7 +13,6 @@ public abstract class InvokeInstruction extends Instruction
 	@NotNull
 	public final MethodRef methodRef;
 
-	@Deprecated
 	public boolean nullable;
 
 	public InvokeInstruction(@NotNull MethodRef methodRef, boolean nullable)

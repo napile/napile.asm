@@ -31,6 +31,7 @@ import org.napile.asm.io.xml.InstructionNameUtil;
 import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.bytecode.InstructionInCodePosition;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.VariableRef;
@@ -303,7 +304,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitLocalGet(LocalGetInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.varIndex));
 		return element;
 	}
@@ -311,13 +312,13 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitDup(DupInstruction instruction, Element a)
 	{
-		return addElement(a, instruction);
+		return addInstructionToElement(a, instruction);
 	}
 
 	@Override
 	public Element visitPutAnonym(PutAnonymInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		Element require = element.addElement("require");
 		for(IntIntPair pair : instruction.require)
 		{
@@ -332,13 +333,13 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitDup1x1(Dup1x1Instruction instruction, Element a)
 	{
-		return addElement(a, instruction);
+		return addInstructionToElement(a, instruction);
 	}
 
 	@Override
 	public Element visitLocalPut(LocalPutInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.varIndex));
 		return element;
 	}
@@ -346,7 +347,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewObject(NewObjectInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		instruction.value.accept(this, element);
 		ifNotEmptyAdd(instruction.parameters, "parameters", element);
 		return element;
@@ -355,7 +356,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewByte(NewByteInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -363,7 +364,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewShort(NewShortInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -371,7 +372,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewInt(NewIntInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -379,7 +380,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewLong(NewLongInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -387,7 +388,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewFloat(NewFloatInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -395,7 +396,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewDouble(NewDoubleInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -403,7 +404,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewChar(NewCharInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -411,7 +412,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitNewString(NewStringInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", StringWrapper.wrapToXml(instruction.value));
 		return element;
 	}
@@ -419,7 +420,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitReturn(ReturnInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.count));
 		return element;
 	}
@@ -427,25 +428,25 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitThrow(ThrowInstruction instruction, Element a)
 	{
-		return addElement(a, instruction);
+		return addInstructionToElement(a, instruction);
 	}
 
 	@Override
 	public Element visitSwap(SwapInstruction instruction, Element a)
 	{
-		return addElement(a, instruction);
+		return addInstructionToElement(a, instruction);
 	}
 
 	@Override
 	public Element visitPop(PopInstruction instruction, Element a)
 	{
-		return addElement(a, instruction);
+		return addInstructionToElement(a, instruction);
 	}
 
 	@Override
 	public Element visitJumpIf(JumpIfInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -453,7 +454,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitJump(JumpInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		element.addAttribute("val", String.valueOf(instruction.value));
 		return element;
 	}
@@ -461,7 +462,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitTypeOf(TypeOfInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		instruction.value.accept(this, element);
 		return element;
 	}
@@ -469,7 +470,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitClassOf(ClassOfInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		instruction.value.accept(this, element);
 		return element;
 	}
@@ -477,7 +478,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitIs(IsInstruction instruction, Element a)
 	{
-		Element element = addElement(a, instruction);
+		Element element = addInstructionToElement(a, instruction);
 		instruction.value.accept(this, element);
 		return element;
 	}
@@ -508,7 +509,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 
 	private Element visitInvoke(InvokeInstruction instruction, Element a)
 	{
-		final Element temp = addElement(a, instruction);
+		final Element temp = addInstructionToElement(a, instruction);
 		if(instruction.nullable)
 			temp.addElement("nullable");
 
@@ -527,7 +528,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitMacroJump(MacroJumpInstruction instruction, Element a)
 	{
-		final Element temp = addElement(a, instruction);
+		final Element temp = addInstructionToElement(a, instruction);
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
 		temp2.addAttribute("name", methodRef.method.toString());
@@ -540,7 +541,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitMacroStaticJump(MacroStaticJumpInstruction instruction, Element a)
 	{
-		final Element temp =addElement(a, instruction);
+		final Element temp = addInstructionToElement(a, instruction);
 		Element temp2 = temp.addElement("method");
 		MethodRef methodRef = instruction.methodRef;
 		temp2.addAttribute("name", methodRef.method.toString());
@@ -553,7 +554,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitPutToVariable(PutToVariableInstruction instruction, Element a)
 	{
-		final Element temp = addElement(a, instruction);
+		final Element temp = addInstructionToElement(a, instruction);
 		Element temp2 = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
 		temp2.addAttribute("name", variableRef.variable.toString());
@@ -564,7 +565,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitPutToStaticVariable(PutToStaticVariableInstruction instruction, Element a)
 	{
-		final Element temp = addElement(a, instruction);
+		final Element temp = addInstructionToElement(a, instruction);
 		Element temp2 = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
 		temp2.addAttribute("name", variableRef.variable.toString());
@@ -575,7 +576,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitGetVariable(GetVariableInstruction instruction, Element a)
 	{
-		final Element temp = addElement(a, instruction);
+		final Element temp = addInstructionToElement(a, instruction);
 		Element temp2 = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
 		temp2.addAttribute("name", variableRef.variable.toString());
@@ -586,7 +587,7 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	@Override
 	public Element visitGetStaticVariable(GetStaticVariableInstruction instruction, Element a)
 	{
-		final Element temp = addElement(a, instruction);
+		final Element temp = addInstructionToElement(a, instruction);
 		Element temp2 = temp.addElement("variable");
 		VariableRef variableRef = instruction.variableRef;
 		temp2.addAttribute("name", variableRef.variable.toString());
@@ -594,8 +595,16 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		return temp;
 	}
 
-	private Element addElement(Element element, Instruction instruction)
+	private Element addInstructionToElement(Element element, Instruction instruction)
 	{
-		return element.addElement(InstructionNameUtil.toXmlTag(instruction.getClass()));
+		Element instructionElement = element.addElement(InstructionNameUtil.toXmlTag(instruction.getClass()));
+		if(instruction.position != InstructionInCodePosition.EMPTY_POSITION)
+		{
+			Element positionElement = instructionElement.addElement("position");
+			positionElement.addAttribute("line", String.valueOf(instruction.position.getLine()));
+			positionElement.addAttribute("column", String.valueOf(instruction.position.getColumn()));
+			positionElement.addAttribute("file", String.valueOf(instruction.position.getFile()));
+		}
+		return instructionElement;
 	}
 }

@@ -40,6 +40,7 @@ import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
 import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.bytecode.InstructionInCodePosition;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.VariableRef;
 import org.napile.asm.tree.members.bytecode.impl.*;
@@ -270,7 +271,14 @@ public class AsmXmlFileReader
 					if(instruction.getClass() != clazz)
 						throw new IllegalArgumentException("Wrong element clazz and object clazz: " + clazz.getSimpleName() + "/" + instruction.getClass().getSimpleName());
 					if(instruction != null)
+					{
+						Element positionElement = instructionElement.element("position");
+						if(positionElement != null)
+						{
+							instruction.position = new InstructionInCodePosition(positionElement.attributeValue("file"), Integer.parseInt(positionElement.attributeValue("line")), Integer.parseInt(positionElement.attributeValue("column")));
+						}
 						codeInfo.instructions.add(instruction);
+					}
 					else
 						throw new IllegalArgumentException("Unknown instruction: " + instructionName);
 				}

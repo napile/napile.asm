@@ -36,4 +36,15 @@ public class VariableRef
 		this.variable = variable;
 		this.returnType = returnType;
 	}
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append("VariableRef");
+		sb.append("{variable=").append(variable);
+		sb.append(", returnType=").append(returnType);
+		sb.append('}');
+		return sb.toString();
+	}
 }

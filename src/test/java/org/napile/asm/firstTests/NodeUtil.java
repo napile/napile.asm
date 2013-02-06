@@ -29,6 +29,8 @@ import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.TypeParameterNode;
 import org.napile.asm.tree.members.VariableNode;
+import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.bytecode.InstructionInCodePosition;
 import org.napile.asm.tree.members.bytecode.MethodRef;
 import org.napile.asm.tree.members.bytecode.adapter.InstructionAdapter;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -55,7 +57,7 @@ public class NodeUtil
 		methodNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.FINAL), Name.identifier("arg"), AsmConstants.ARRAY__STRING__TYPE));
 
 		InstructionAdapter a = new InstructionAdapter();
-		a.invokeStatic(new MethodRef(NapileLangPackage.ANY.child(Name.identifier("equals")), Collections.<MethodParameterNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE), true);
+		setPosition(a.invokeStatic(new MethodRef(NapileLangPackage.ANY.child(Name.identifier("equals")), Collections.<MethodParameterNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE), true));
 		methodNode.code = new CodeInfo(a);
 		classNode.addMember(methodNode);
 
@@ -80,5 +82,10 @@ public class NodeUtil
 		inner.addMember(methodNode3);
 
 		return classNode;
+	}
+
+	private static void setPosition(Instruction instruction)
+	{
+		instruction.position = new InstructionInCodePosition("Test.ns", 1, 2);
 	}
 }

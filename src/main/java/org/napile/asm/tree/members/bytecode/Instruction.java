@@ -26,6 +26,8 @@ import org.napile.asm.io.xml.InstructionNameUtil;
  */
 public abstract class Instruction
 {
+	public InstructionInCodePosition position = InstructionInCodePosition.EMPTY_POSITION;
+
 	public abstract <T, R> R accept(InstructionVisitor<T, R> visitor, T a2);
 
 	@Override
