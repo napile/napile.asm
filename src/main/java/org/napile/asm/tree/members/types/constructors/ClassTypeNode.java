@@ -19,13 +19,18 @@ package org.napile.asm.tree.members.types.constructors;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.tree.members.NodeVisitor;
 import org.napile.asm.resolve.name.FqName;
+import org.napile.asm.util.convertors.FqNameValueConverter;
+import org.napile.java2napile.runtime.vm.ToNapileClass;
+import org.napile.java2napile.runtime.vm.ToNapileVariable;
 
 /**
  * @author VISTALL
  * @date 0:07/14.08.12
  */
+@ToNapileClass("napile.asm.members.typeConstructor.AsmClassType")
 public class ClassTypeNode implements TypeConstructorNode
 {
+	@ToNapileVariable(value = "qualifiedName", converter = FqNameValueConverter.class)
 	@NotNull
 	public final FqName className;
 

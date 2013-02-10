@@ -17,11 +17,13 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.java2napile.runtime.vm.ToNapileClass;
 
 /**
  * @author VISTALL
  * @date 0:25/14.08.12
  */
+@ToNapileClass("napile.asm.members.AsmAnnotation")
 public class AnnotationNode implements Node
 {
 	public final CodeInfo code;

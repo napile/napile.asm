@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2012 napile.org
+ * Copyright 2010-2013 napile.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package org.napile.asm.tree.members;
+package org.napile.asm.util.convertors;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.napile.asm.util.convertors.ListAnnotationToArrayAnnotationValueConverter;
-import org.napile.java2napile.runtime.vm.ToNapileVariable;
+import org.napile.asm.tree.members.types.TypeNode;
+import org.napile.java2napile.runtime.vm.ValueConverter;
 
 /**
  * @author VISTALL
- * @date 0:30/14.08.12
+ * @date 16:45/09.02.13
  */
-public abstract class AnnotableNode<T extends AnnotableNode<?>> implements Node
+public class ListTypeToArrayTypeValueConverter implements ValueConverter<List<TypeNode>>
 {
-	@ToNapileVariable(converter = ListAnnotationToArrayAnnotationValueConverter.class)
-	public final List<AnnotationNode> annotations = new ArrayList<AnnotationNode>(0);
+	@Override
+	public Object convert(List<TypeNode> another)
+	{
+		return another.toArray(new TypeNode[another.size()]);
+	}
 }

@@ -29,7 +29,7 @@ public interface NapileLangPackage
 
 	FqName ANY = PACKAGE.child(Name.identifier("Any"));
 
-	FqName METHOD_LINK = PACKAGE.child(Name.identifier("MethodLink"));
+	FqName ANONYM_CONTEXT = PACKAGE.child(Name.identifier("AnonymContext"));
 
 	FqName MULTI = PACKAGE.child(Name.identifier("Multi"));
 

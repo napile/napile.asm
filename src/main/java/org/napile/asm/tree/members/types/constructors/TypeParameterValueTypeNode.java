@@ -19,13 +19,18 @@ package org.napile.asm.tree.members.types.constructors;
 import org.jetbrains.annotations.NotNull;
 import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.NodeVisitor;
+import org.napile.asm.util.convertors.NameValueConverter;
+import org.napile.java2napile.runtime.vm.ToNapileClass;
+import org.napile.java2napile.runtime.vm.ToNapileVariable;
 
 /**
  * @author VISTALL
  * @date 15:20/20.09.12
  */
+@ToNapileClass("napile.asm.members.typeConstructor.AsmTypeParameterType")
 public class TypeParameterValueTypeNode implements TypeConstructorNode
 {
+	@ToNapileVariable(converter = NameValueConverter.class)
 	@NotNull
 	public final Name name;
 

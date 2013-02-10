@@ -28,7 +28,10 @@ import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.tree.MemberAddListener;
 import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.asm.tree.members.types.constructors.ClassTypeNode;
+import org.napile.asm.util.convertors.FqNameValueConverter;
 import org.napile.asm.util.evaluate.MethodEvaluatorListener;
+import org.napile.java2napile.runtime.vm.ToNapileClass;
+import org.napile.java2napile.runtime.vm.ToNapileVariable;
 
 /**
  * A node that represents a class.
@@ -37,14 +40,18 @@ import org.napile.asm.util.evaluate.MethodEvaluatorListener;
  *
  * base idea was get from ObjectWeb Asm
  */
+@ToNapileClass("napile.asm.members.AsmClass")
 public class ClassNode extends AbstractMemberNode<ClassNode>
 {
+	@ToNapileVariable(converter = FqNameValueConverter.class)
 	public final FqName name;
 
 	@NotNull
+	@ToNapileVariable
 	private List<AbstractMemberNode> members = new ArrayList<AbstractMemberNode>();
 
 	@NotNull
+	@ToNapileVariable
 	public final List<TypeNode> supers = new ArrayList<TypeNode>(1);
 
 	@NotNull

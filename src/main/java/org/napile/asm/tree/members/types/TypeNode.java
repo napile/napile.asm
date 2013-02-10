@@ -24,18 +24,26 @@ import org.napile.asm.tree.members.AnnotableNode;
 import org.napile.asm.tree.members.NodeVisitor;
 import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.util.Comparing2;
+import org.napile.asm.util.convertors.ListTypeToArrayTypeValueConverter;
+import org.napile.java2napile.runtime.vm.ToNapileClass;
+import org.napile.java2napile.runtime.vm.ToNapileVariable;
 import com.intellij.openapi.util.text.StringUtil;
 
 /**
  * @author VISTALL
  * @date 0:18/14.08.12
  */
+@ToNapileClass("napile.asm.members.AsmType")
 public class TypeNode extends AnnotableNode<TypeNode>
 {
+	@ToNapileVariable
 	public final boolean nullable;
+
+	@ToNapileVariable("constructor")
 	@NotNull
 	public final TypeConstructorNode typeConstructorNode;
 
+	@ToNapileVariable(value = "parameters", converter = ListTypeToArrayTypeValueConverter.class)
 	public List<TypeNode> arguments = new ArrayList<TypeNode>(0);
 
 	public TypeNode(boolean nullable, @NotNull TypeConstructorNode typeConstructorNode)
