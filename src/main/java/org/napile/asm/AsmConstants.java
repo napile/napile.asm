@@ -32,8 +32,6 @@ public interface AsmConstants
 
 	TypeNode STRING_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.STRING));
 
-	TypeNode METHOD_LINK_TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.METHOD_LINK));
-
 	TypeNode ARRAY__STRING__TYPE = new TypeNode(false, new ClassTypeNode(NapileLangPackage.ARRAY)).visitArgument(STRING_TYPE);
 
 	String ANONYM_SPLITTER = "$";

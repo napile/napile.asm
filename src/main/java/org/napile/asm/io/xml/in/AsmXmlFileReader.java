@@ -30,15 +30,7 @@ import org.napile.asm.Modifier;
 import org.napile.asm.io.xml.InstructionNameUtil;
 import org.napile.asm.resolve.name.FqName;
 import org.napile.asm.resolve.name.Name;
-import org.napile.asm.tree.members.AbstractMemberNode;
-import org.napile.asm.tree.members.AnnotationNode;
-import org.napile.asm.tree.members.ClassNode;
-import org.napile.asm.tree.members.CodeInfo;
-import org.napile.asm.tree.members.MacroNode;
-import org.napile.asm.tree.members.MethodNode;
-import org.napile.asm.tree.members.MethodParameterNode;
-import org.napile.asm.tree.members.TypeParameterNode;
-import org.napile.asm.tree.members.VariableNode;
+import org.napile.asm.tree.members.*;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionInCodePosition;
 import org.napile.asm.tree.members.bytecode.MethodRef;
@@ -400,7 +392,7 @@ public class AsmXmlFileReader
 		}
 	}
 
-	private void readAnnotations(@NotNull Element element, @NotNull AbstractMemberNode<?> node)
+	private void readAnnotations(@NotNull Element element, @NotNull AnnotableNode<?> node)
 	{
 		Element annotationsElement = element.element("annotations");
 		if(annotationsElement == null)
@@ -453,6 +445,8 @@ public class AsmXmlFileReader
 		if(argumentsElement != null)
 			for(Element child : argumentsElement.elements())
 				typeNode.arguments.add(readType(child));
+
+		readAnnotations(element, typeNode);
 
 		return typeNode;
 	}

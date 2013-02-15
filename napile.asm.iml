@@ -28,6 +28,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="java2napile.runtime" level="project" />
   </component>
 </module>
 
