@@ -48,6 +48,7 @@ import org.napile.asm.tree.members.types.constructors.TypeConstructorNode;
 import org.napile.asm.tree.members.types.constructors.TypeParameterValueTypeNode;
 import org.napile.asm.util.IntIntPair;
 import org.napile.asm.util.StringWrapper;
+import com.intellij.util.ArrayUtil;
 
 /**
  * @author VISTALL
@@ -131,7 +132,12 @@ public class AsmXmlFileReader
 		Element parametersElement = parent.element("parameters");
 		if(parametersElement != null)
 			for(Element parameterElement : parametersElement.elements())
-				parameters.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type"))));
+			{
+				Element defaultValue = parameterElement.element("default-value");
+
+				parameters.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type")), defaultValue != null ? defaultValue.getText() : null));
+
+			}
 		return parameters;
 	}
 
@@ -383,7 +389,7 @@ public class AsmXmlFileReader
 				{
 					List<MethodParameterNode> parameterNodes = new ArrayList<MethodParameterNode>();
 					for(Element parameterElement : constructorElement.elements())
-						parameterNodes.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type"))));
+						parameterNodes.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type")), parameterElement.getText()));
 
 					typeParameterNode.constructors.add(parameterNodes);
 				}
@@ -402,7 +408,18 @@ public class AsmXmlFileReader
 		{
 			child = throwIfNotExpected(child, "annotation");
 
-			AnnotationNode annotationNode = new AnnotationNode(readCode(child));
+			String[] array = ArrayUtil.EMPTY_STRING_ARRAY;
+			Element parametersElement = child.element("parameters");
+			if(parametersElement != null)
+			{
+				List<String> list = new ArrayList<String>();
+				for(Element e : parametersElement.elements())
+					list.add(e.getText());
+				array = list.toArray(new String[list.size()]);
+			}
+
+			AnnotationNode annotationNode = new AnnotationNode(readCode(child), array);
+
 
 			node.annotations.add(annotationNode);
 		}

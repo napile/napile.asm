@@ -35,9 +35,11 @@ public enum Modifier
 	FINAL(ModifierType.EXTENDING),
 	ABSTRACT(ModifierType.EXTENDING),
 
+	REF(ModifierType.VAR_TYPE),
+	MUTABLE(ModifierType.VAR_TYPE),
+	ENUM(ModifierType.VAR_TYPE),
+
 	UTIL(ModifierType.ETC),
-	REF(ModifierType.ETC),
-	MUTABLE(ModifierType.ETC),
 	NATIVE(ModifierType.ETC),
 	STATIC(ModifierType.ETC);
 

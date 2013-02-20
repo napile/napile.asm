@@ -29,8 +29,8 @@ public interface TypeNodeListener extends ParseTreeListener<Token> {
 	void exitTypeParameterValue(TypeNodeParser.TypeParameterValueContext ctx);
 	void enterArguments(TypeNodeParser.ArgumentsContext ctx);
 	void exitArguments(TypeNodeParser.ArgumentsContext ctx);
-	void enterVarOrVal(TypeNodeParser.VarOrValContext ctx);
-	void exitVarOrVal(TypeNodeParser.VarOrValContext ctx);
+	void enterVarOrValOrRef(TypeNodeParser.VarOrValOrRefContext ctx);
+	void exitVarOrValOrRef(TypeNodeParser.VarOrValOrRefContext ctx);
 	void enterNulled(TypeNodeParser.NulledContext ctx);
 	void exitNulled(TypeNodeParser.NulledContext ctx);
 }

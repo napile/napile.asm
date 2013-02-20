@@ -98,8 +98,21 @@ public class TypeNodeWorker extends TypeNodeBaseListener
 		TypeNodeWorker worker = new TypeNodeWorker(tokenStream);
 		worker.acceptChild(ctx.typeNode());
 
-		Modifier[] modifiers = ctx.varOrVal().getText(tokenStream).equals("var") ? Modifier.list(Modifier.MUTABLE) : Modifier.EMPTY;
-		((MethodTypeNode) typeConstructorNode).parameters.add(new MethodParameterNode(modifiers, Name.identifier(ctx.Identifier().getSymbol().getText()), worker.toType()));
+		final String text = ctx.varOrValOrRef().getText(tokenStream);
+		Modifier[] modifiers;
+		if(text.equals("var"))
+		{
+			modifiers = Modifier.list(Modifier.MUTABLE);
+		}
+		else if(text.equals("ref"))
+		{
+			modifiers = Modifier.list(Modifier.REF);
+		}
+		else
+		{
+			modifiers = Modifier.EMPTY;
+		}
+		((MethodTypeNode) typeConstructorNode).parameters.add(new MethodParameterNode(modifiers, Name.identifier(ctx.Identifier().getSymbol().getText()), worker.toType(), null));
 	}
 
 	@Override
@@ -116,7 +129,20 @@ public class TypeNodeWorker extends TypeNodeBaseListener
 		TypeNodeWorker worker = new TypeNodeWorker(tokenStream);
 		worker.acceptChild(ctx.typeNode());
 
-		Modifier[] modifiers = ctx.varOrVal().getText(tokenStream).equals("var") ? Modifier.list(Modifier.MUTABLE) : Modifier.EMPTY;
+		final String text = ctx.varOrValOrRef().getText(tokenStream);
+		Modifier[] modifiers;
+		if(text.equals("var"))
+		{
+			modifiers = Modifier.list(Modifier.MUTABLE);
+		}
+		else if(text.equals("ref"))
+		{
+			modifiers = Modifier.list(Modifier.REF);
+		}
+		else
+		{
+			modifiers = Modifier.EMPTY;
+		}
 		((MultiTypeNode) typeConstructorNode).variables.add(new VariableNode(modifiers, Name.identifier(ctx.Identifier().getSymbol().getText()), worker.toType()));
 	}
 

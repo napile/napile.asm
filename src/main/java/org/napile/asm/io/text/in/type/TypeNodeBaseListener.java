@@ -31,8 +31,8 @@ public class TypeNodeBaseListener implements TypeNodeListener {
 	@Override public void exitTypeParameterValue(TypeNodeParser.TypeParameterValueContext ctx) { }
 	@Override public void enterArguments(TypeNodeParser.ArgumentsContext ctx) { }
 	@Override public void exitArguments(TypeNodeParser.ArgumentsContext ctx) { }
-	@Override public void enterVarOrVal(TypeNodeParser.VarOrValContext ctx) { }
-	@Override public void exitVarOrVal(TypeNodeParser.VarOrValContext ctx) { }
+	@Override public void enterVarOrValOrRef(TypeNodeParser.VarOrValOrRefContext ctx) { }
+	@Override public void exitVarOrValOrRef(TypeNodeParser.VarOrValOrRefContext ctx) { }
 	@Override public void enterNulled(TypeNodeParser.NulledContext ctx) { }
 	@Override public void exitNulled(TypeNodeParser.NulledContext ctx) { }
 

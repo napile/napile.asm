@@ -67,6 +67,14 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	{
 		final Element temp = o.addElement("annotation");
 		visitCode(temp, annotationNode.code);
+
+		if(annotationNode.parameters.length > 0)
+		{
+			Element parametersElement = o.addElement("parameters");
+
+			for(String p : annotationNode.parameters)
+				parametersElement.addElement("parameter").setText(p);
+		}
 		return temp;
 	}
 
@@ -183,6 +191,9 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		ifNotEmptyAdd(methodParameterNode.annotations, "annotations", element);
 
 		methodParameterNode.returnType.accept(this, temp);
+
+		if(methodParameterNode.defaultValue != null)
+			temp.addElement("default-value").setText(methodParameterNode.defaultValue);
 		return temp;
 	}
 

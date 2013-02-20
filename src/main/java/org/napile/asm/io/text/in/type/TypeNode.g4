@@ -24,19 +24,19 @@ thisType : 'this';
 // method type
 methodType : '{' '(' methodParameter (',' methodParameter)* ')' ':' returnType '}';
 
-methodParameter : varOrVal Identifier ':' typeNode;
+methodParameter : varOrValOrRef Identifier ':' typeNode;
 
 returnType : typeNode;
 
 // multi type
 multiType:  '[' multiTypeEntry (',' multiTypeEntry)* ']';
 
-multiTypeEntry : varOrVal Identifier ':' typeNode;
+multiTypeEntry : varOrValOrRef Identifier ':' typeNode;
 
 // type parameter value
 typeParameterValue : ':' Identifier ':';
 
-varOrVal : 'var' | 'val';
+varOrValOrRef : 'var' | 'val' | 'ref';
 
 nulled: '?';
 

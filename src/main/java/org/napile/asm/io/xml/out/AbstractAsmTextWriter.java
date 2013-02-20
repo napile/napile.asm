@@ -160,6 +160,10 @@ public abstract class AbstractAsmTextWriter<A> extends AsmWriter<StringBuilder, 
 		a2.append(methodParameterNode.name);
 		a2.append(" : ");
 		methodParameterNode.returnType.accept(this, a2);
+		if(methodParameterNode.defaultValue != null)
+		{
+			a2.append(" = ").append(methodParameterNode.defaultValue);
+		}
 		return a2;
 	}
 

@@ -54,7 +54,7 @@ public class NodeUtil
 
 		MethodNode methodNode = new MethodNode(Modifier.list(Modifier.STATIC), Name.identifier("main"), new TypeNode(false, new ThisTypeNode()));
 		methodNode.typeParameters.add(new TypeParameterNode(Name.identifier("E")));
-		methodNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.FINAL), Name.identifier("arg"), AsmConstants.ARRAY__STRING__TYPE));
+		methodNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.FINAL), Name.identifier("arg"), AsmConstants.ARRAY__STRING__TYPE, "napile.util.ArrayUtil.EMPTY"));
 
 		InstructionAdapter a = new InstructionAdapter();
 		setPosition(a.invokeStatic(new MethodRef(NapileLangPackage.ANY.child(Name.identifier("equals")), Collections.<MethodParameterNode>emptyList(), Collections.<TypeNode>emptyList(), AsmConstants.BOOL_TYPE), true));

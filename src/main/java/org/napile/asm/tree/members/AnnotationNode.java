@@ -27,10 +27,12 @@ import org.napile.java2napile.runtime.vm.ToNapileClass;
 public class AnnotationNode implements Node
 {
 	public final CodeInfo code;
+	public final String[] parameters;
 
-	public AnnotationNode(CodeInfo code)
+	public AnnotationNode(CodeInfo code, String[] parameters)
 	{
 		this.code = code;
+		this.parameters = parameters;
 	}
 
 	@Override

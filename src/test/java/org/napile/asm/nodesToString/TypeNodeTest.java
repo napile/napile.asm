@@ -58,7 +58,7 @@ public class TypeNodeTest
 	public void test5()
 	{
 		MethodTypeNode methodTypeNode = new MethodTypeNode();
-		methodTypeNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.MUTABLE), Name.identifier("p1"), AsmConstants.BOOL_TYPE));
+		methodTypeNode.parameters.add(new MethodParameterNode(Modifier.list(Modifier.MUTABLE), Name.identifier("p1"), AsmConstants.BOOL_TYPE, null));
 		methodTypeNode.returnType = AsmConstants.INT_TYPE;
 
 		TypeNode type = new TypeNode(false, methodTypeNode);
