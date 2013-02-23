@@ -371,28 +371,22 @@ public class AsmXmlFileReader
 
 	private void readTypeParameters(@NotNull Element element, @NotNull AbstractMemberNode<?> node)
 	{
-		Element typeParametersElement = element.element("type_parameters");
+		Element typeParametersElement = element.element("type-parameters");
 		if(typeParametersElement == null)
 			return;
 
 		for(Element child : typeParametersElement.elements())
 		{
-			child = throwIfNotExpected(child, "type_parameter");
+			child = throwIfNotExpected(child, "type-parameter");
 
 			TypeParameterNode typeParameterNode = new TypeParameterNode(Name.identifier(child.attributeValue("name")));
 
 			readSupers(child, typeParameterNode.supers);
 
-			Element constructorsElement = child.element("type_parameter_constructors");
-			if(constructorsElement != null)
-				for(Element constructorElement : constructorsElement.elements())
-				{
-					List<MethodParameterNode> parameterNodes = new ArrayList<MethodParameterNode>();
-					for(Element parameterElement : constructorElement.elements())
-						parameterNodes.add(new MethodParameterNode(readModifiers(parameterElement), Name.identifier(parameterElement.attributeValue("name")), readType(parameterElement.element("type")), parameterElement.getText()));
-
-					typeParameterNode.constructors.add(parameterNodes);
-				}
+			for(Element constructorElement : child.elements("constructor"))
+			{
+				typeParameterNode.constructors.add(readParameters(constructorElement, new ArrayList<MethodParameterNode>()));
+			}
 
 			node.typeParameters.add(typeParameterNode);
 		}
