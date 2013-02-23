@@ -17,6 +17,9 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.tree.members.bytecode.Instruction;
+import org.napile.asm.tree.members.bytecode.impl.NewObjectInstruction;
+import org.napile.asm.tree.members.types.TypeNode;
 import org.napile.java2napile.runtime.vm.ToNapileClass;
 
 /**
@@ -35,9 +38,47 @@ public class AnnotationNode implements Node
 		this.parameters = parameters;
 	}
 
+	public TypeNode getType()
+	{
+		if(code == null)
+			throw new IllegalArgumentException("code is null");
+
+		final Instruction[] instructions = code.instructions.toArray(new Instruction[code.instructions.size()]);
+
+		return ((NewObjectInstruction) instructions[instructions.length - 1]).value;
+	}
+
 	@Override
 	public <T, R> R accept(@NotNull NodeVisitor<T, R> visitor, T arg)
 	{
 		return visitor.visitAnnotationNode(this, arg);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "@" + getType().toString();
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o)
+		{
+			return true;
+		}
+		if(o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+
+		AnnotationNode that = (AnnotationNode) o;
+
+		if(!getType().equals(that.getType()))
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -79,7 +79,7 @@ public class TypeNode extends AnnotableNode<TypeNode>
 		if(!typeNode.typeConstructorNode.equals(typeConstructorNode))
 			return false;
 
-		if(!Comparing2.equal(typeNode.annotations, annotations))
+		if(!Comparing2.equal(typeNode.arguments, arguments))
 			return false;
 
 		return typeNode.nullable == nullable;
@@ -90,6 +90,10 @@ public class TypeNode extends AnnotableNode<TypeNode>
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append(StringUtil.join(annotations, " "));
+		if(!annotations.isEmpty())
+		{
+			builder.append(" ");
+		}
 
 		builder.append(typeConstructorNode.toString());
 
