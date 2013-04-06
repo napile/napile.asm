@@ -187,14 +187,7 @@ public class AsmXmlFileReader
 					else if(clazz == NewStringInstruction.class)
 						instruction = new NewStringInstruction(StringWrapper.unwrapFromXml(instructionElement.attributeValue("val")));
 					else if(clazz == NewObjectInstruction.class)
-					{
-						List<TypeNode> parameters = new ArrayList<TypeNode>(0);
-						Element typeArgumentsElement = instructionElement.element("parameters");
-						if(typeArgumentsElement != null)
-							for(Element typeArgumentElement : typeArgumentsElement.elements())
-								parameters.add(readType(typeArgumentElement));
-						instruction = new NewObjectInstruction(readType(instructionElement.element("type")), parameters);
-					}
+						instruction = new NewObjectInstruction(readType(instructionElement.element("type")), readParameters(instructionElement, new ArrayList<MethodParameterNode>()));
 					else if(clazz == LocalPutInstruction.class)
 						instruction = new LocalPutInstruction(Integer.parseInt(instructionElement.attributeValue("val")));
 					else if(clazz == LocalGetInstruction.class)

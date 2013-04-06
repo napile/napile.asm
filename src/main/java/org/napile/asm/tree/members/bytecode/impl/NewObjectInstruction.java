@@ -19,6 +19,7 @@ package org.napile.asm.tree.members.bytecode.impl;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import org.napile.asm.tree.members.bytecode.InstructionVisitor;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -32,9 +33,9 @@ public class NewObjectInstruction extends Instruction
 	@NotNull
 	public final TypeNode value;
 	@NotNull
-	public final List<TypeNode> parameters;
+	public final List<MethodParameterNode> parameters;
 
-	public NewObjectInstruction(@NotNull TypeNode value, @NotNull List<TypeNode> parameters)
+	public NewObjectInstruction(@NotNull TypeNode value, @NotNull List<MethodParameterNode> parameters)
 	{
 		this.value = value;
 		this.parameters = parameters;

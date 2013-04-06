@@ -181,7 +181,7 @@ public class InstructionAdapter implements Iterable<Instruction>
 	}
 
 	@NotNull
-	public NewObjectInstruction newObject(@NotNull TypeNode typeNode, @NotNull List<TypeNode> parameters)
+	public NewObjectInstruction newObject(@NotNull TypeNode typeNode, @NotNull List<MethodParameterNode> parameters)
 	{
 		return add(new NewObjectInstruction(typeNode, parameters));
 	}
