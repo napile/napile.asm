@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.napile.asm.AsmConstants;
 import org.napile.asm.Modifier;
+import org.napile.asm.resolve.name.Name;
 import org.napile.asm.tree.members.MethodParameterNode;
 import org.napile.asm.tree.members.NodeVisitor;
 import org.napile.asm.tree.members.types.TypeNode;
@@ -36,6 +38,9 @@ import com.intellij.util.Function;
  */
 public class MethodTypeNode implements TypeConstructorNode
 {
+	@Nullable
+	public Name name;
+
 	@NotNull
 	public TypeNode returnType = AsmConstants.NULL_TYPE;
 
@@ -65,7 +70,12 @@ public class MethodTypeNode implements TypeConstructorNode
 	public String toString()
 	{
 		StringBuilder b = new StringBuilder();
-		b.append("{(");
+		b.append("{");
+		if(name != null)
+		{
+			b.append(name);
+		}
+		b.append("(");
 		b.append(StringUtil.join(parameters, new Function<MethodParameterNode, String>()
 		{
 			@Override

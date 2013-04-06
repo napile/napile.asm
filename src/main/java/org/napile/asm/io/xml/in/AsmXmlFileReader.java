@@ -434,9 +434,13 @@ public class AsmXmlFileReader
 		{
 			Element returnElement = constructorElement.element("return_type");
 
-			typeConstructorNode = new MethodTypeNode();
-			((MethodTypeNode) typeConstructorNode).returnType = readType(returnElement.element("type"));
-			readParameters(constructorElement, ((MethodTypeNode) typeConstructorNode).parameters);
+			final MethodTypeNode methodTypeNode = new MethodTypeNode();
+			typeConstructorNode = methodTypeNode;
+
+			final String name = returnElement.attributeValue("name", null);
+			methodTypeNode.name = name == null ? null : Name.identifier(name);
+			methodTypeNode.returnType = readType(returnElement.element("type"));
+			readParameters(constructorElement, methodTypeNode.parameters);
 		}
 		else if((constructorElement = element.element("multi_type")) != null)
 		{

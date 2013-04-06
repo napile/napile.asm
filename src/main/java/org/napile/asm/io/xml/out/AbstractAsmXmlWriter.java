@@ -242,6 +242,10 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 	public Element visitMethodTypeNode(MethodTypeNode methodTypeNode, Element a2)
 	{
 		final Element temp = a2.addElement("method_type");
+		if(methodTypeNode.name != null)
+		{
+			temp.addAttribute("name", methodTypeNode.name.toString());
+		}
 
 		methodTypeNode.returnType.accept(this, temp.addElement("return_type"));
 
