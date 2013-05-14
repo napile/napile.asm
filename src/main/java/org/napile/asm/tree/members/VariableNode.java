@@ -16,6 +16,7 @@
 package org.napile.asm.tree.members;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.napile.asm.Modifier;
 import org.napile.asm.ModifierType;
 import org.napile.asm.resolve.name.Name;
@@ -36,6 +37,9 @@ public class VariableNode extends AbstractMemberNode<VariableNode>
 
 	@NotNull
 	public final TypeNode returnType;
+
+	@Nullable
+	public CodeInfo code;
 
 	public VariableNode(@NotNull Modifier[] modifiers, @NotNull Name name, @NotNull TypeNode returnType)
 	{

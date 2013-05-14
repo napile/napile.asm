@@ -8,6 +8,7 @@ import org.napile.asm.Modifier;
 import org.napile.asm.tree.members.CodeInfo;
 import org.napile.asm.tree.members.MethodNode;
 import org.napile.asm.tree.members.MethodParameterNode;
+import org.napile.asm.tree.members.VariableNode;
 import org.napile.asm.tree.members.bytecode.Instruction;
 import com.intellij.util.ArrayUtil;
 
@@ -23,6 +24,11 @@ public class Evaluator
 	private EvaluatorInstructionVisitor visitor;
 
 	public int returnObjectCount;
+
+	public Evaluator(VariableNode variableNode)
+	{
+		this(variableNode.code);
+	}
 
 	public Evaluator(MethodNode methodNode)
 	{

@@ -124,6 +124,8 @@ public class AsmXmlFileReader
 
 		readAnnotations(child, variableNode);
 
+		variableNode.code = readCode(child);
+
 		return variableNode;
 	}
 

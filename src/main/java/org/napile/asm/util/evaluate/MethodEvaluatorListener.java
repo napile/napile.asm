@@ -4,6 +4,7 @@ import org.napile.asm.tree.MemberAddListener;
 import org.napile.asm.tree.members.AbstractMemberNode;
 import org.napile.asm.tree.members.ClassNode;
 import org.napile.asm.tree.members.MethodNode;
+import org.napile.asm.tree.members.VariableNode;
 
 /**
  * @author VISTALL
@@ -15,6 +16,12 @@ public class MethodEvaluatorListener implements MemberAddListener
 	public void onMemberAdd(ClassNode c, AbstractMemberNode<?> memberNode)
 	{
 		if(memberNode instanceof MethodNode)
+		{
 			new Evaluator((MethodNode) memberNode).testIt();
+		}
+		else if(memberNode instanceof VariableNode)
+		{
+			new Evaluator((VariableNode) memberNode).testIt();
+		}
 	}
 }

@@ -177,6 +177,8 @@ public abstract class AbstractAsmXmlWriter<A> extends AsmWriter<Element, Element
 		ifNotEmptyAdd(variableNode.annotations, "annotations", temp);
 
 		variableNode.returnType.accept(this, temp.addElement("return_type"));
+
+		visitCode(temp, variableNode.code);
 		return temp;
 	}
 
